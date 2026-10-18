@@ -1,0 +1,573 @@
+﻿\ufeff<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Meus Favoritos — v1.4</title>
+<style>
+:root{font-family:Arial,Helvetica,sans-serif;color:#202b3c;background:#f5f7fb}*{box-sizing:border-box}html,body,button,input,textarea,select,option{font-family:Arial,Helvetica,sans-serif!important;font-variant:normal!important}body{margin:0}button{cursor:pointer}button:disabled{opacity:.5;cursor:not-allowed}.wrap{max-width:1190px;margin:auto;padding:32px 18px 70px}.top,.flex{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#6554d9;font-weight:800}h1{font-size:clamp(29px,4vw,40px);margin:8px 0}p{color:#667085}.count{background:#ece9ff;color:#4d3fbb;border-radius:99px;padding:11px 16px;font-weight:bold}.panel{background:#fff;border:1px solid #e4e9f3;border-radius:20px;padding:24px;margin-top:22px;box-shadow:0 7px 25px #1d294408}h2{font-size:19px;margin:0 0 18px}h3{margin:0;font-size:17px;overflow-wrap:anywhere}.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.field{display:flex;flex-direction:column;gap:7px}.wide{grid-column:1/-1}label{font-size:13px;font-weight:bold}input,select,textarea{border:1px solid #d5ddeb;border-radius:10px;padding:11px 12px;background:white;color:#202b3c;outline:none;min-width:0;width:100%}input:focus,select:focus,textarea:focus{border-color:#6554d9;box-shadow:0 0 0 3px #6554d91b}textarea{resize:vertical;min-height:75px}.actions,.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.actions{margin-top:18px}.btn{border:1px solid #dce2ec;border-radius:10px;background:white;color:#344054;padding:10px 14px;font-weight:700;font-size:13px}.btn:hover{background:#f1f0ff}.primary{background:#6554d9;color:white;border-color:#6554d9}.primary:hover{background:#5544c7}.danger{color:#b42338}.hidden{display:none!important}.hint{font-size:12px;color:#667085}.toolbar{margin-top:15px}.toolbar input[type=search]{flex:1;min-width:200px}.toolbar select{width:auto;max-width:100%}.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(275px,1fr));gap:14px;margin-top:20px}.site{border:1px solid #e4e9f3;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0;background:white}.site-head{display:flex;justify-content:space-between;gap:10px;align-items:start}.date{font-size:12px;color:#98a2b3;white-space:nowrap}.url{color:#5b4bcc;font-size:13px;overflow-wrap:anywhere}.description{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;color:#475467}.notes{background:#f7f8fc;padding:10px;border-radius:8px;font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere;color:#667085}.site-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:auto}.site-actions .btn{padding:8px 10px}.tags{display:flex;gap:5px;flex-wrap:wrap}.chip{font-size:12px;background:#f0edff;color:#5849b5;border-radius:999px;padding:5px 9px}.chip.category{background:#e8f4ff;color:#215b8d}.star{border:0;background:transparent;font-size:24px;color:#c0c5cf;padding:0 5px;line-height:1}.star.active{color:#e2a300}.empty{border:1px dashed #cdd5e1;border-radius:15px;padding:35px 15px;text-align:center;color:#667085;margin-top:20px}.manage{display:flex;gap:10px;align-items:end;flex-wrap:wrap}.manage .field{flex:1;min-width:210px}.category-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.category-item{display:flex;align-items:center;gap:6px;background:#f7f8fc;border:1px solid #e6e9f0;border-radius:12px;padding:6px 8px}.category-item span{font-size:13px}.category-item button{border:0;background:transparent;color:#5b4bcc;padding:5px;font-weight:bold}.category-item button:last-child{color:#b42338}.table-wrap{overflow-x:auto;margin-top:20px;border:1px solid #e5e9f2;border-radius:14px}table{border-collapse:collapse;width:100%;min-width:760px;font-size:13px}th,td{padding:12px;text-align:left;border-bottom:1px solid #e9edf4;vertical-align:top}th{background:#f7f8fc;color:#475467}tr:last-child td{border-bottom:0}td .actions{margin:0;gap:5px}td .btn{padding:6px 8px}.toggle{display:flex;gap:3px;border:1px solid #dce2ec;border-radius:10px;padding:3px}.toggle button{border:0;background:transparent;border-radius:7px;padding:8px 10px;color:#475467;font-weight:bold}.toggle button.active{background:#6554d9;color:white}.message{margin-top:12px;font-size:13px;color:#b42338}.summary{font-size:13px;color:#667085}.site-title{display:flex;align-items:center;gap:6px}.site-title h3{flex:1}@media(max-width:650px){.wrap{padding:22px 12px 45px}.panel{padding:17px}.fields{grid-template-columns:1fr}.toolbar select{width:100%}.toggle{width:100%}.toggle button{flex:1}}
+
+.preview-table{max-height:310px;overflow:auto;border:1px solid #e5e9f2;border-radius:10px;margin:12px 0}.preview-table table{min-width:620px}.preview-note{font-size:13px;line-height:1.6}.preview-error{color:#b42338}.preview-ok{color:#027a48}.preview-modal{position:fixed;inset:0;background:#111827aa;z-index:50;display:flex;align-items:center;justify-content:center;padding:14px}.preview-dialog{background:white;border-radius:18px;padding:24px;max-width:960px;width:100%;max-height:92vh;overflow:auto;box-shadow:0 20px 70px #0003}.preview-dialog h2{margin-bottom:8px}
+
+/* Tema escuro, seleção em massa e indicadores */
+body.dark{background:#101827;color:#e7edf7}body.dark .panel,body.dark .site,body.dark .preview-dialog{background:#1c293b;border-color:#35455b}body.dark input,body.dark select,body.dark textarea,body.dark .btn,body.dark .toggle{background:#26364a;color:#edf2fc;border-color:#46566e}body.dark .primary{background:#7565ed;color:white}body.dark .notes,body.dark .category-item,body.dark th,body.dark .stat{background:#26364a;color:#d8e3f3}body.dark p,body.dark .hint,body.dark .summary,body.dark .description{color:#bdc9da}body.dark .chip{background:#403d6c;color:#eceaff}body.dark .chip.category{background:#234c66;color:#d9f1ff}body.dark .count{background:#403d6c;color:#eeeaff}body.dark td,body.dark th{border-color:#35455b}body.dark .url{color:#b1a8ff}body.dark .preview-table,body.dark .table-wrap{border-color:#35455b}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.stat{background:#f7f8fc;padding:15px;border-radius:12px}.stat strong{font-size:25px;display:block}.stat span{font-size:12px;color:#667085}.batchbar{background:#f5f3ff;border:1px solid #d8d1ff;border-radius:13px;padding:14px;margin:12px 0}.batchbar .toolbar{margin:0}.select-favorite{width:18px;height:18px;flex-shrink:0;accent-color:#6554d9}.batch-check{display:flex;align-items:center;gap:7px}.notice{border:1px solid #e5e9f2;border-radius:10px;padding:12px;margin:12px 0}.audit-item{display:flex;justify-content:space-between;gap:10px;padding:10px;border-bottom:1px solid #e4e9f3;flex-wrap:wrap}.small{font-size:12px}.pill{background:#ece9ff;border-radius:9px;padding:5px 9px}.dark .batchbar{background:#28244a;border-color:#544a84}.dark .stat span{color:#b7c4d8}@media(max-width:650px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.app-layout{max-width:1440px;display:grid;grid-template-columns:225px minmax(0,1fr);gap:22px;align-items:start}
+.app-nav{position:sticky;top:20px;background:#fff;border:1px solid #e4e9f3;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:8px;margin-top:22px}
+.nav-brand{padding:12px 6px 18px;font-size:16px}.nav-link{border:0;text-align:left;border-radius:10px;padding:13px 12px;background:transparent;color:#344054;font-size:14px;font-weight:700}
+.nav-link.active{background:#edeaff;color:#5142bc}.nav-link:hover{background:#f4f2ff}
+.app-content{min-width:0}.app-page{display:none}.app-page.page-active{display:block}
+.pill{background:#e6e0ff;color:#382b91;font-weight:800;border:1px solid #b8aef6}
+.dark .pill{background:#3d346c;color:#fff;border-color:#7868ba}
+.select-all-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:18px}
+.batchbar .toolbar{align-items:center}.batch-field{display:flex;flex-direction:column;gap:6px;min-width:160px}
+.batch-field select,.batch-field input{width:100%}.batchbar .btn{min-height:41px}
+body.dark .app-nav{background:#1c293b;border-color:#35455b}body.dark .nav-link{color:#e7edf7}body.dark .nav-link.active{background:#403d6c;color:#fff}body.dark .nav-link:hover{background:#2c3952}
+.editing-modal{position:fixed!important;inset:0;z-index:80;background:#111827b3!important;border:0!important;margin:0!important;padding:16px!important;border-radius:0!important;overflow-y:auto;display:flex!important;align-items:flex-start;justify-content:center}
+.editing-modal #siteForm{width:100%;max-width:900px;background:white;padding:22px;border-radius:16px}
+.editing-modal #formTitle{position:absolute;left:-9999px}
+body.dark .editing-modal #siteForm{background:#1c293b}
+@media(max-width:850px){.app-layout{display:block}.app-nav{position:static;flex-direction:row;overflow:auto;margin-top:0}.nav-brand{display:none}.nav-link{white-space:nowrap;font-size:12px}.wrap{padding:12px}.app-page{margin-top:14px}}
+.tag-tabs{display:flex;gap:10px;margin:0 0 18px}.tag-manager{display:grid;gap:8px;margin-top:16px}.tag-entry{display:flex;gap:8px;align-items:center;border:1px solid #dce2ec;border-radius:12px;padding:10px}.tag-info{flex:1;display:flex;flex-direction:column;gap:4px;min-width:0;overflow-wrap:anywhere}.tag-picker{display:flex;gap:8px}.tag-picker select{flex:1}.tag-picker button{white-space:nowrap}.dark .tag-entry{border-color:#40516a}@media(max-width:550px){.tag-picker{flex-wrap:wrap}.tag-entry{flex-wrap:wrap}} 
+#batchExistingTags{min-width:195px;max-width:260px;height:112px;padding:6px}#batchExistingTags option{padding:7px;border-radius:5px;background-color:#fff;color:#202b3c}body.dark #batchExistingTags option{background-color:#26364a;color:#edf2fc}body.dark #batchExistingTags option:checked{background:#6755db!important;color:white!important}#batchExistingTags option:checked{background:#6755db!important;color:white!important}.batch-field .hint{font-size:11px}
+/* Correção pontual: alinhamento e dimensão dos controles de edição em lote. */
+#batchBar>.toolbar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:end;gap:12px}
+#batchBar>.toolbar>*{min-width:0;max-width:none;width:100%;margin:0}
+#batchBar>.toolbar>.batch-field{align-self:stretch;display:flex;flex-direction:column;justify-content:flex-end;gap:6px}
+#batchBar>.toolbar>.batch-field select,#batchBar>.toolbar>.batch-field input{max-width:none!important;width:100%;box-sizing:border-box}
+#batchBar>.toolbar>.batch-field .hint{font-size:11px;line-height:1.35}
+#batchExistingTags{height:76px!important;min-width:0!important;max-width:none!important}
+#batchBar>.toolbar>.btn,#batchBar>.toolbar>.pill{align-self:end;min-height:40px;display:flex;align-items:center;justify-content:center}
+#batchBar>.toolbar>.pill{background:#3d346c;color:white;border-color:#7868ba}
+#batchTagsEmptyHelp{display:block;margin-top:5px;color:#f5d48c}
+#batchTagsEmptyHelp.hidden{display:none}
+@media(max-width:1100px){#batchBar>.toolbar{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:720px){#batchBar>.toolbar{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:430px){#batchBar>.toolbar{grid-template-columns:1fr}}
+</style></head><body><main class="wrap app-layout"><nav class="app-nav" aria-label="Seções"><strong class="nav-brand">★ Meus Favoritos</strong><button type="button" class="nav-link active" data-page="sites">🔖 Meus favoritos</button><button type="button" class="nav-link" data-page="form">＋ Adicionar site</button><button type="button" class="nav-link" data-page="categories">▤ Categorias e tags</button><button type="button" class="nav-link" data-page="files">⇅ Importar / Exportar</button><button type="button" class="nav-link" data-page="stats">▥ Estatísticas</button></nav><div class="app-content">
+<header class="top"><div><div class="eyebrow">Sua biblioteca de links · Versão 1.4.1</div><h1>Meus Favoritos</h1><p>Organize, encontre e acesse seus sites em um só lugar.</p></div><div class="actions"><button class="btn" id="themeBtn" type="button">🌙 Modo escuro</button><button class="btn" id="undoBtn" type="button" disabled>↶ Desfazer</button><span id="count" class="count">0 favoritos</span></div></header>
+<section class="panel app-page" data-section="stats"><h2>Visão geral</h2><div id="stats" class="stats"></div><div id="topCategories" class="hint" style="margin-top:12px"></div></section><section class="panel app-page" data-section="form" id="formPanel"><h2 id="formTitle">Adicionar novo site</h2><form id="siteForm"><div class="fields">
+<div class="field"><label for="name">Nome do site *</label><input id="name" required maxlength="120" placeholder="Ex.: MDN Web Docs"></div>
+<div class="field"><label for="url">URL *</label><input id="url" required placeholder="https://exemplo.com"></div>
+<div class="field wide"><label for="description">Descrição / finalidade *</label><textarea id="description" required maxlength="1000" placeholder="Para que serve este site?"></textarea></div>
+<div class="field"><label for="category">Categoria</label><select id="category"></select></div>
+<div class="field"><label for="tags">Etiquetas (separadas por vírgula)</label><input id="tags" maxlength="500" placeholder="Ex.: Python, aulas, gratuito"><label for="existingTagSelect">Adicionar uma etiqueta existente</label><div class="tag-picker"><select id="existingTagSelect"><option value="">Escolha uma etiqueta...</option></select><button class="btn" id="addExistingTag" type="button">Adicionar etiqueta</button></div></div>
+<div class="field"><label for="date">Data de cadastro</label><input id="date" type="date" readonly></div>
+<div class="field"><label for="notes">Observações</label><textarea id="notes" maxlength="3000" placeholder="Anotações, dicas e lembretes..."></textarea></div>
+<div class="field wide"><label><input id="priority" type="checkbox" style="width:auto;margin-right:8px">Marcar como favorito prioritário ★</label></div>
+</div><div id="duplicateWarning" class="message hidden" role="alert"></div><div class="actions"><button type="submit" id="saveBtn" class="btn primary">Salvar favorito</button><button type="button" id="cancelBtn" class="btn hidden">Cancelar edição</button></div></form></section>
+<section class="panel app-page" data-section="categories"><h2>Categorias e etiquetas</h2>
+<div class="tag-tabs" role="tablist" aria-label="Gerenciamento"><button class="btn primary" id="tabCategories" type="button" role="tab">Categorias</button><button class="btn" id="tabTags" type="button" role="tab">Etiquetas (tags)</button></div>
+<div id="categoriesPane"><p class="hint">Cada favorito pertence a uma categoria principal.</p><div class="manage"><div class="field"><label for="newCategory">Nova categoria</label><input id="newCategory" maxlength="60" placeholder="Ex.: Pesquisa Acadêmica"></div><button class="btn primary" id="addCategory" type="button">Adicionar categoria</button></div><div id="categoryList" class="category-list"></div></div>
+<div id="tagsPane" class="hidden"><p class="hint">Uma etiqueta pode ser associada a vários favoritos. Renomear ou excluir uma etiqueta atualiza os sites vinculados, sem excluí-los.</p><div class="manage"><div class="field"><label for="newTag">Nova etiqueta</label><input id="newTag" maxlength="80" placeholder="Ex.: Python, Hardware, Games"></div><button class="btn primary" id="addTag" type="button">Adicionar etiqueta</button></div><div id="tagList" class="tag-manager"></div></div></section>
+<section class="panel app-page" data-section="files"><h2>Importar e exportar</h2><p class="hint">Faça um backup JSON antes de importar ou atualizar muitos registros. CSV e XLSX são aceitos na importação de planilhas.</p><div class="actions" style="margin:0"><button class="btn" id="exportBtn">Exportar JSON</button><button class="btn" id="importBtn">Importar JSON</button><button class="btn" id="exportCsvBtn">Exportar planilha CSV</button><button class="btn primary" id="importCsvBtn">Importar CSV / Excel</button><button class="btn" id="auditBtn">Auditar duplicados</button><input class="hidden" id="importCsvFile" type="file" accept=".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"><input class="hidden" id="importFile" type="file" accept=".json,application/json"></div><h3>Histórico de importações JSON</h3><div id="backupHistory"></div></section>
+<section class="panel app-page" data-section="sites"><div class="top"><h2>Sites cadastrados</h2></div>
+<div class="toolbar"><input id="search" type="search" placeholder="Pesquisar nome, descrição, tags e observações..." aria-label="Pesquisar"><select id="filterCategory" aria-label="Filtrar categoria"></select><select id="filterPriority" aria-label="Filtrar prioridade"><option value="all">Todos os favoritos</option><option value="yes">Somente prioritários</option></select><select id="sort" aria-label="Ordenar"><option value="recent">Mais recentes</option><option value="old">Mais antigos</option><option value="az">Nome A–Z</option><option value="za">Nome Z–A</option></select><div class="toggle" aria-label="Modo de visualização"><button type="button" id="viewCards">Cards</button><button type="button" id="viewTable">Tabela</button></div></div>
+<div class="toolbar"><input id="filterTag" placeholder="Filtrar por tag (exata)" aria-label="Filtrar tag"><select id="filterMissing" aria-label="Estado do cadastro"><option value="all">Todas as descrições</option><option value="missing">Sem descrição informativa</option><option value="categorized">Com categoria</option><option value="uncategorized">Sem categoria</option></select><button class="btn" id="clearFilters">Limpar filtros</button></div><div class="select-all-row"><label class="batch-check"><input type="checkbox" id="selectVisible" class="select-favorite"> Selecionar resultados filtrados</label><span class="hint">Marque os sites para mostrar as ações em lote.</span></div><div class="batchbar hidden" id="batchBar"><div class="toolbar"><span id="selectedCount" class="pill">0 selecionados</span><button class="btn" id="clearSelection">Limpar seleção</button><label class="batch-field">Categoria a aplicar <select id="batchCategory" aria-label="Categoria em lote"></select></label><button class="btn" id="applyCategory">Aplicar categoria</button><label class="batch-field">Selecionar tags cadastradas <select id="batchExistingTags" multiple size="3" aria-label="Etiquetas cadastradas para aplicar em lote"></select><span class="hint">Ctrl + clique para escolher várias tags. <span id="batchTagsEmptyHelp" class="hidden">Não há etiquetas neste armazenamento. Cadastre-as em Categorias e tags ou digite uma nova etiqueta ao lado.</span></span></label><label class="batch-field">Ou digitar novas tags <input id="batchTags" placeholder="Ex.: programação, aulas" style="max-width:230px"></label><label class="batch-field">Ação nas etiquetas <select id="batchTagMode" aria-label="Operação nas etiquetas"><option value="add">Adicionar tags</option><option value="remove">Remover tags</option></select></label><button class="btn" id="applyTags">Aplicar tags</button><label class="batch-field">Prioridade <select id="batchPriority" aria-label="Prioridade em lote"><option value="yes">Marcar prioritários</option><option value="no">Remover prioridade</option></select></label><button class="btn" id="applyPriority">Aplicar prioridade</button><button class="btn danger" id="batchDelete">Excluir selecionados</button></div><p class="hint">Para tags: escolha uma ou várias etiquetas cadastradas (Ctrl + clique), selecione Adicionar ou Remover e clique em Aplicar tags. Para categorias, use Aplicar categoria. É possível desfazer alterações em lote.</p></div><p class="hint">Planilhas: use CSV UTF-8. Se o nome estiver vazio, será gerado a partir do domínio. CSV e XLSX (primeira aba) podem ser importados diretamente; mantenha as colunas Nome do Site e URL. Ao importar, os registros existentes são preservados e URLs repetidas são ignoradas.</p><p class="summary" id="results"></p><div id="cards" class="cards"></div><div id="tableArea" class="table-wrap hidden"><table><thead><tr><th>Selecionar</th><th>Site</th><th>Descrição</th><th>Categoria / etiquetas</th><th>Cadastro</th><th>Ações</th></tr></thead><tbody id="tableBody"></tbody></table></div><div id="empty" class="empty hidden"></div><p class="hint">Os dados ficam armazenados neste navegador. Faça backups JSON ou CSV regularmente. Abrir este arquivo em outro navegador ou em outro endereço pode acessar um armazenamento diferente.</p></section></div></main>
+<div id="backupPreview" class="preview-modal hidden" role="dialog" aria-modal="true" aria-labelledby="backupPreviewTitle"><div class="preview-dialog">
+<h2 id="backupPreviewTitle">Conferir backup JSON</h2><p id="backupSummary" class="preview-note" style="white-space:pre-line"></p>
+<label for="backupMode">Modo de importação</label><select id="backupMode"><option value="merge">Mesclar sem apagar favoritos existentes</option><option value="restore">Restaurar backup completo (substituir)</option></select>
+<p id="backupWarning" class="preview-note"></p><div class="actions"><button class="btn primary" id="confirmBackup">Confirmar importação JSON</button><button class="btn" id="cancelBackup">Cancelar</button></div></div></div><div id="csvPreview" class="preview-modal hidden" role="dialog" aria-modal="true" aria-labelledby="previewTitle"><div class="preview-dialog"><h2 id="previewTitle">Conferir importação da planilha</h2><p id="previewSummary" class="preview-note"></p><div id="previewIssues" class="preview-note"></div><div class="preview-table"><table><thead><tr><th>Linha</th><th>Nome identificado</th><th>URL</th><th>Situação</th></tr></thead><tbody id="previewRows"></tbody></table></div><div class="toolbar"><label><input type="checkbox" id="updateExisting" style="width:auto"> Atualizar registros existentes por URL (apenas campos preenchidos)</label></div><div class="actions"><button class="btn primary" id="confirmCsv">Confirmar importação</button><button class="btn" id="cancelCsv">Cancelar</button></div></div></div><div id="auditModal" class="preview-modal hidden" role="dialog" aria-modal="true"><div class="preview-dialog"><h2>Auditoria de duplicados existentes</h2><p class="hint">A auditoria não apaga nada automaticamente. Selecione qual registro deseja manter.</p><div id="auditList"></div><div class="actions"><button class="btn" id="closeAudit">Fechar</button></div></div></div>
+<script>
+
+// Navegação em seções: somente a seção ativa fica visível; dados e filtros permanecem.
+let currentPage='sites';
+function showPage(page){
+ currentPage=page;
+ document.querySelectorAll('.app-page').forEach(n=>n.classList.toggle('page-active',n.dataset.section===page));
+ document.querySelectorAll('.nav-link').forEach(n=>{const active=n.dataset.page===page;n.classList.toggle('active',active);n.setAttribute('aria-current',active?'page':'false')});
+}
+document.querySelectorAll('.nav-link').forEach(n=>n.addEventListener('click',()=>{
+ if(editingId && n.dataset.page!=='form'){if(!confirm('Sair da edição sem salvar?'))return;resetForm()}
+ showPage(n.dataset.page);
+}));
+showPage('sites');
+
+'use strict';
+// Compatibilidade: mantém exatamente a chave de armazenamento da versão anterior.
+const STORAGE_KEY='gerenciador_favoritos_v1';
+const SETTINGS_KEY='gerenciador_favoritos_config_v1_1';
+const $=id=>document.getElementById(id);
+const uid=()=>typeof crypto!=='undefined'&&typeof crypto.randomUUID==='function'?crypto.randomUUID():Date.now().toString(36)+'-'+Math.random().toString(36).slice(2);
+const cleanText=s=>String(s||'').trim();
+const normalizeTags=value=>[...new Set((Array.isArray(value)?value:cleanText(value).split(',')).map(v=>cleanText(v)).filter(Boolean))].slice(0,25);
+function normalizeUrl(value){let raw=cleanText(value);const candidate=/^[a-zA-Z][a-zA-Z\d+.-]*:/.test(raw)?raw:'https://'+raw;try{const u=new URL(candidate);if(!['http:','https:'].includes(u.protocol)||!u.hostname||!u.hostname.includes('.')||u.username||u.password)return null;return u.href}catch{return null}}
+// A chave de comparação ignora www, barra final e fragmento; mantém query strings relevantes.
+function urlKey(url){try{const u=new URL(url);const host=u.hostname.toLowerCase().replace(/^www\./,'');const path=u.pathname.replace(/\/+$/,'')||'/';const params=[...u.searchParams.entries()].filter(([k])=>!/^utm_|^(fbclid|gclid|msclkid|igshid|mc_cid|mc_eid)$/i.test(k)).sort(([a,av],[b,bv])=>a.localeCompare(b)||av.localeCompare(bv));return host+path+(params.length?'?'+new URLSearchParams(params).toString():'')}catch{return cleanText(url).toLowerCase()}}
+function validFavorite(f){return f&&typeof f==='object'&&typeof f.id==='string'&&typeof f.name==='string'&&typeof f.url==='string'&&typeof f.description==='string'&&typeof f.createdAt==='string'&&(f.notes===undefined||typeof f.notes==='string')}
+function upgrade(f){return {...f,notes:f.notes||'',category:typeof f.category==='string'?f.category:'',tags:normalizeTags(f.tags),priority:f.priority===true}}
+function readJSON(key,fallback){try{const value=localStorage.getItem(key);return value===null?fallback:JSON.parse(value)}catch{return fallback}}
+let favorites=(Array.isArray(readJSON(STORAGE_KEY,[]))?readJSON(STORAGE_KEY,[]):[]).filter(validFavorite).map(upgrade);
+const storedSettings=readJSON(SETTINGS_KEY,{});
+const TAGS_KEY='gerenciador_favoritos_tags_v1_5_1';
+let managedTags=Array.isArray(readJSON(TAGS_KEY,[]))?readJSON(TAGS_KEY,[]).filter(x=>typeof x==='string'&&x.trim()).map(x=>x.trim().slice(0,80)):[];
+function tagId(t){return cleanText(t).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('pt-BR')}
+function allTags(){const m=new Map();for(const t of [...managedTags,...favorites.flatMap(f=>f.tags)])if(!m.has(tagId(t)))m.set(tagId(t),t);return [...m.values()].sort((a,b)=>a.localeCompare(b,'pt-BR'))}
+function persistTags(next){try{localStorage.setItem(TAGS_KEY,JSON.stringify(next));managedTags=next;return true}catch{alert('Não foi possível salvar etiquetas.');return false}}
+
+let categories=Array.isArray(storedSettings.categories)?[...new Set(storedSettings.categories.filter(c=>typeof c==='string'&&c.trim()).map(c=>c.trim()))]:[];
+for(const f of favorites){if(f.category&&!categories.some(c=>c.toLowerCase()===f.category.toLowerCase()))categories.push(f.category)}
+let view=storedSettings.view==='table'?'table':'cards';let editingId=null;let selectedIds=new Set(),visibleIds=[],undoState=null;const UNDO_KEY='gerenciador_favoritos_undo_v1_4';
+function saveFavorites(next){try{const seen=new Map();for(const f of next){const key=urlKey(f.url);if(seen.has(key)){const previous=seen.get(key);const wasExisting=favorites.some(x=>x.id===f.id&&urlKey(x.url)===key)&&favorites.some(x=>x.id===previous.id&&urlKey(x.url)===key);if(!wasExisting){alert('Operação bloqueada: URL duplicada.');return false}}else seen.set(key,f)}localStorage.setItem(STORAGE_KEY,JSON.stringify(next));favorites=next;return true}catch{alert('Não foi possível salvar. Verifique o armazenamento disponível no navegador.');return false}}
+function saveSettings(nextCategories=categories,nextView=view){try{localStorage.setItem(SETTINGS_KEY,JSON.stringify({categories:nextCategories,view:nextView}));categories=nextCategories;view=nextView;return true}catch{alert('Não foi possível salvar as preferências.');return false}}
+function dateForInput(iso){const d=new Date(iso);return Number.isNaN(d.getTime())?'':[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')}
+function localDate(iso){const d=new Date(iso);return Number.isNaN(d.getTime())?'Data indisponível':d.toLocaleDateString('pt-BR')}
+function el(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n}
+function action(text,cls,fn){const b=el('button','btn '+(cls||''),text);b.type='button';b.addEventListener('click',fn);return b}
+function resetForm(){$('formPanel').classList.remove('editing-modal');editingId=null;$('siteForm').reset();$('date').value=dateForInput(new Date().toISOString());$('formTitle').textContent='Adicionar novo site';$('saveBtn').textContent='Salvar favorito';$('cancelBtn').classList.add('hidden');checkDuplicate()}
+function duplicateFor(url,id){return favorites.find(f=>f.id!==id&&urlKey(f.url)===urlKey(url))}
+function checkDuplicate(){const url=normalizeUrl($('url').value);const match=url?duplicateFor(url,editingId):null;$('duplicateWarning').classList.toggle('hidden',!match);$('duplicateWarning').textContent=match?'Atenção: este endereço já está cadastrado como “'+match.name+'”. Não será permitido duplicá-lo.':'';return match}
+$('url').addEventListener('input',checkDuplicate);
+$('siteForm').addEventListener('submit',event=>{event.preventDefault();const url=normalizeUrl($('url').value);if(!url){alert('Informe uma URL HTTP ou HTTPS válida.');$('url').focus();return}if(checkDuplicate()){alert('Este site já está cadastrado. Edite o registro existente.');$('url').focus();return}const name=cleanText($('name').value),description=cleanText($('description').value);if(!name||!description){alert('Preencha nome e descrição.');return}const values={name,url,description,notes:cleanText($('notes').value),category:$('category').value,tags:normalizeTags($('tags').value),priority:$('priority').checked};const next=editingId?favorites.map(f=>f.id===editingId?{...f,...values}:f):[{id:uid(),createdAt:new Date().toISOString(),...values},...favorites];if(saveFavorites(next)){resetForm();render();showPage('sites')}});
+$('cancelBtn').addEventListener('click',()=>{resetForm();showPage('sites')});
+function editFavorite(id){const f=favorites.find(x=>x.id===id);if(!f)return;editingId=id;$('name').value=f.name;$('url').value=f.url;$('description').value=f.description;$('notes').value=f.notes;$('category').value=f.category;$('tags').value=f.tags.join(', ');$('priority').checked=f.priority;$('date').value=dateForInput(f.createdAt);$('formTitle').textContent='Editar favorito';$('saveBtn').textContent='Salvar alterações';$('cancelBtn').classList.remove('hidden');checkDuplicate();showPage('form');$('formPanel').classList.add('editing-modal');$('name').focus({preventScroll:true})}
+function deleteFavorite(id){const f=favorites.find(x=>x.id===id);if(!f||!confirm('Excluir o favorito “'+f.name+'”?'))return;if(saveFavorites(favorites.filter(x=>x.id!==id))){if(editingId===id)resetForm();render()}}
+function togglePriority(id){if(saveFavorites(favorites.map(f=>f.id===id?{...f,priority:!f.priority}:f)))render()}
+function openSite(url){window.open(url,'_blank','noopener,noreferrer')}
+async function copyUrl(url){try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(url)}else{const input=document.createElement('textarea');input.value=url;input.style.position='fixed';input.style.opacity='0';document.body.append(input);input.select();if(!document.execCommand('copy'))throw Error('Falha ao copiar');input.remove()}alert('URL copiada!')}catch{prompt('Copie o endereço:',url)}}
+function controls(f){const wrap=el('div','site-actions');wrap.append(action('Abrir','primary',()=>openSite(f.url)),action('Copiar URL','',()=>copyUrl(f.url)),action('Editar','',()=>editFavorite(f.id)),action('Excluir','danger',()=>deleteFavorite(f.id)));return wrap}
+function star(f){const b=el('button','star'+(f.priority?' active':''),f.priority?'★':'☆');b.type='button';b.title=f.priority?'Remover prioridade':'Marcar como prioritário';b.setAttribute('aria-label',b.title);b.addEventListener('click',()=>togglePriority(f.id));return b}
+function badges(f){const wrap=el('div','tags');if(f.category)wrap.append(el('span','chip category',f.category));for(const tag of f.tags)wrap.append(el('span','chip','#'+tag));return wrap}
+function selectionBox(f){const c=el('input','select-favorite');c.type='checkbox';c.checked=selectedIds.has(f.id);c.setAttribute('aria-label','Selecionar '+f.name);c.addEventListener('change',()=>{if(c.checked)selectedIds.add(f.id);else selectedIds.delete(f.id);render()});return c}
+function cardFor(f){const card=el('article','site'),head=el('div','site-head'),title=el('div','site-title');title.append(selectionBox(f),star(f),el('h3','',f.name));head.append(title,el('span','date',localDate(f.createdAt)));const link=el('a','url',f.url);link.href=f.url;link.target='_blank';link.rel='noopener noreferrer';card.append(head,link,el('p','description',f.description),badges(f));if(f.notes)card.append(el('div','notes',f.notes));card.append(controls(f));return card}
+function rowFor(f){const tr=el('tr'),site=el('td'),title=el('div','site-title');title.append(star(f),el('strong','',f.name));const link=el('a','url',f.url);link.href=f.url;link.target='_blank';link.rel='noopener noreferrer';site.append(title,link);const desc=el('td','',f.description);if(f.notes)desc.append(el('div','hint','Obs.: '+f.notes));const cats=el('td');cats.append(badges(f));const date=el('td','',localDate(f.createdAt)),acts=el('td');acts.append(controls(f));const choose=el('td');choose.append(selectionBox(f));tr.append(choose,site,desc,cats,date,acts);return tr}
+function renderCategories(){const select=$('category'),filter=$('filterCategory'),current=select.value,filtered=filter.value;select.replaceChildren(new Option('Sem categoria',''));filter.replaceChildren(new Option('Todas as categorias','all'),new Option('Sem categoria','none'));for(const c of categories.sort((a,b)=>a.localeCompare(b,'pt-BR'))){select.add(new Option(c,c));filter.add(new Option(c,c))}select.value=categories.includes(current)?current:'';filter.value=[...categories,'all','none'].includes(filtered)?filtered:'all';const batch=$('batchCategory'),prevBatch=batch.value;batch.replaceChildren(new Option('Sem categoria',''));for(const c of categories)batch.add(new Option(c,c));batch.value=categories.includes(prevBatch)?prevBatch:'';const list=$('categoryList');list.replaceChildren();for(const c of categories){const item=el('div','category-item');item.append(el('span','',c),action('Renomear','',()=>renameCategory(c)),action('Excluir','danger',()=>removeCategory(c)));list.append(item)}if(!categories.length)list.append(el('span','hint','Nenhuma categoria criada.'))}
+// Gerenciamento centralizado das etiquetas. Não altera os favoritos ao cadastrar uma etiqueta vazia.
+function renderTags(){
+ const batchPicker=$('batchExistingTags');
+ const chosen=new Set([...batchPicker.selectedOptions].map(o=>tagId(o.value)));
+ const available=allTags();
+ batchPicker.replaceChildren();
+ if(!available.length){
+  const empty=new Option('Nenhuma tag cadastrada','');empty.disabled=true;batchPicker.add(empty);
+ }else{
+  for(const t of available){
+   const o=new Option(t,t);
+   o.selected=chosen.has(tagId(t));
+   batchPicker.add(o);
+  }
+ }
+ $('batchTagsEmptyHelp').classList.toggle('hidden',available.length>0);
+ const tags=allTags(),list=$('tagList'),picker=$('existingTagSelect'),previous=picker.value;
+ list.replaceChildren();picker.replaceChildren(new Option('Escolha uma etiqueta...',''));
+ for(const tag of tags){
+  picker.add(new Option(tag,tag));
+  const count=favorites.filter(f=>f.tags.some(t=>tagId(t)===tagId(tag))).length;
+  const item=el('div','tag-entry');
+  const info=el('div','tag-info');info.append(el('strong','',tag),el('span','hint',count+' site(s) associado(s)'));
+  item.append(info,action('Renomear','',()=>renameTag(tag)),action('Excluir','danger',()=>removeTag(tag)));
+  list.append(item);
+ }
+ if(!tags.length)list.append(el('p','hint','Nenhuma etiqueta cadastrada.'));
+ picker.value=tags.includes(previous)?previous:'';
+}
+function addTag(){
+ const name=cleanText($('newTag').value);
+ if(!name||name.length>80){alert('Informe uma etiqueta de até 80 caracteres.');return}
+ if(allTags().some(t=>tagId(t)===tagId(name))){alert('Essa etiqueta já existe.');return}
+ if(persistTags([...managedTags,name])){$('newTag').value='';renderTags()}
+}
+function renameTag(old){
+ const answer=prompt('Novo nome da etiqueta:',old);if(answer===null)return;
+ const name=cleanText(answer);if(!name||name.length>80){alert('Informe uma etiqueta de até 80 caracteres.');return}
+ if(tagId(old)!==tagId(name)&&allTags().some(t=>tagId(t)===tagId(name))){alert('Já existe uma etiqueta com esse nome.');return}
+ const next=favorites.map(f=>({...f,tags:normalizeTags(f.tags.map(t=>tagId(t)===tagId(old)?name:t))}));
+ const oldRegistry=[...managedTags];
+ if(!commitWithUndo(next,'Renomear etiqueta: '+old))return;
+ const registry=allTags().filter(t=>tagId(t)!==tagId(old));
+ if(!persistTags([...registry,name])){alert('Não foi possível salvar o catálogo de etiquetas.');return}
+ if($('tags').value.trim())$('tags').value=normalizeTags($('tags').value).map(t=>tagId(t)===tagId(old)?name:t).join(', ');
+ renderTags();render();
+}
+function removeTag(tag){
+ const count=favorites.filter(f=>f.tags.some(t=>tagId(t)===tagId(tag))).length;
+ if(!confirm('Excluir a etiqueta “'+tag+'”? Ela será removida de '+count+' site(s), mas nenhum favorito será excluído.'))return;
+ const next=favorites.map(f=>({...f,tags:f.tags.filter(t=>tagId(t)!==tagId(tag))}));
+ if(!commitWithUndo(next,'Excluir etiqueta: '+tag))return;
+ persistTags(managedTags.filter(t=>tagId(t)!==tagId(tag)));
+ if($('tags').value.trim())$('tags').value=normalizeTags($('tags').value).filter(t=>tagId(t)!==tagId(tag)).join(', ');
+ renderTags();render();
+}
+$('addTag').addEventListener('click',addTag);
+$('newTag').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addTag()}});
+$('addExistingTag').addEventListener('click',()=>{
+ const name=$('existingTagSelect').value;if(!name)return;
+ const values=normalizeTags([...normalizeTags($('tags').value),name]);
+ $('tags').value=values.join(', ');
+});
+function showManagerTab(tab){
+ const isTags=tab==='tags';
+ $('tagsPane').classList.toggle('hidden',!isTags);
+ $('categoriesPane').classList.toggle('hidden',isTags);
+ $('tabTags').classList.toggle('primary',isTags);
+ $('tabCategories').classList.toggle('primary',!isTags);
+ $('tabTags').setAttribute('aria-selected',String(isTags));
+ $('tabCategories').setAttribute('aria-selected',String(!isTags));
+ if(isTags)renderTags();
+}
+$('tabCategories').addEventListener('click',()=>showManagerTab('categories'));
+$('tabTags').addEventListener('click',()=>showManagerTab('tags'));
+function addCategory(){const name=cleanText($('newCategory').value);if(!name)return;if(categories.some(c=>c.toLocaleLowerCase('pt-BR')===name.toLocaleLowerCase('pt-BR'))){alert('Essa categoria já existe.');return}if(saveSettings([...categories,name])){$('newCategory').value='';renderCategories();$('category').value=name;render()}}
+function renameCategory(old){const answer=prompt('Novo nome para a categoria:',old);if(answer===null)return;const name=cleanText(answer);if(!name||name.length>60){alert('Informe um nome de até 60 caracteres.');return}if(categories.some(c=>c!==old&&c.toLowerCase()===name.toLowerCase())){alert('Categoria já existente.');return}const next=favorites.map(f=>f.category===old?{...f,category:name}:f);if(!saveFavorites(next))return;if(!saveSettings(categories.map(c=>c===old?name:c)))return;renderCategories();if(editingId){const edited=favorites.find(f=>f.id===editingId);if(edited)$('category').value=edited.category}render()}
+function removeCategory(name){const count=favorites.filter(f=>f.category===name).length;if(!confirm('Excluir a categoria “'+name+'”? '+(count?count+' site(s) ficarão sem categoria, mas não serão excluídos.':'')))return;const next=favorites.map(f=>f.category===name?{...f,category:''}:f);if(!saveFavorites(next))return;if(!saveSettings(categories.filter(c=>c!==name)))return;renderCategories();render()}
+$('addCategory').addEventListener('click',addCategory);$('newCategory').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addCategory()}});
+function render(){renderTags();const term=$('search').value.trim().toLocaleLowerCase('pt-BR'),tag=$('filterTag').value.trim().toLocaleLowerCase('pt-BR'),missing=$('filterMissing').value,cat=$('filterCategory').value,onlyPriority=$('filterPriority').value==='yes',sort=$('sort').value;let list=favorites.filter(f=>(!onlyPriority||f.priority)&&(!tag||f.tags.some(t=>t.toLocaleLowerCase('pt-BR')===tag))&&(missing==='all'||(missing==='missing'&&(!f.description||f.description==='Importado de planilha'))||(missing==='categorized'&&!!f.category)||(missing==='uncategorized'&&!f.category))&&(cat==='all'||(cat==='none'?!f.category:f.category===cat))&&[f.name,f.description,f.notes,f.category,...f.tags].join(' ').toLocaleLowerCase('pt-BR').includes(term));list.sort((a,b)=>Number(b.priority)-Number(a.priority)||(sort==='az'?a.name.localeCompare(b.name,'pt-BR'):sort==='za'?b.name.localeCompare(a.name,'pt-BR'):sort==='old'?new Date(a.createdAt)-new Date(b.createdAt):new Date(b.createdAt)-new Date(a.createdAt)));visibleIds=list.map(f=>f.id);$('selectVisible').checked=!!visibleIds.length&&visibleIds.every(id=>selectedIds.has(id));$('selectedCount').textContent=selectedIds.size+' selecionados';$('batchBar').classList.toggle('hidden',selectedIds.size===0);$('count').textContent=favorites.length+' '+(favorites.length===1?'favorito':'favoritos');$('results').textContent=list.length+' resultado(s) · '+favorites.filter(f=>f.priority).length+' prioritário(s)';$('cards').replaceChildren(...(view==='cards'?list.map(cardFor):[]));$('tableBody').replaceChildren(...(view==='table'?list.map(rowFor):[]));$('cards').classList.toggle('hidden',view!=='cards'||!list.length);$('tableArea').classList.toggle('hidden',view!=='table'||!list.length);$('empty').classList.toggle('hidden',!!list.length);$('empty').textContent=favorites.length?'Nenhum site corresponde aos filtros.':'Nenhum favorito cadastrado. Adicione seu primeiro site acima.';$('viewCards').classList.toggle('active',view==='cards');$('viewTable').classList.toggle('active',view==='table');renderStats()}
+for(const id of ['search','filterCategory','filterPriority','sort','filterTag','filterMissing'])$(id).addEventListener(id==='search'?'input':'change',render);
+$('viewCards').addEventListener('click',()=>{if(saveSettings(categories,'cards'))render()});$('viewTable').addEventListener('click',()=>{if(saveSettings(categories,'table'))render()});
+// Exportação inclui os dados e categorias. A importação também aceita o array JSON da versão 1.0.
+
+const csvHeaders=['Nome do Site','URL','Descrição/Finalidade','Data de Cadastro','Observações','Categoria','Etiquetas','Prioritário'];
+function csvCell(v){const t=String(v??'');return /[;"\r\n]/.test(t)?'"'+t.replace(/"/g,'""')+'"':t}
+function downloadText(filename,text,mime){const blob=new Blob([text],{type:mime}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=filename;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),2000)}
+
+// Backup JSON v3: inclui catálogo de categorias, etiquetas não utilizadas e preferências.
+const BACKUP_HISTORY_KEY='gerenciador_favoritos_import_history_v1_6';
+let pendingBackup=null;
+function uniqueNames(values,limit=80){
+ const seen=new Set(),result=[];
+ for(const value of values){if(typeof value!=='string')continue;const name=value.trim().slice(0,limit);const key=tagId(name);if(!name||seen.has(key))continue;seen.add(key);result.push(name)}
+ return result;
+}
+function downloadBackup(){
+ const data={app:'gerenciador-favoritos',version:3,exportedAt:new Date().toISOString(),
+  favorites,categories:uniqueNames(categories,60),tags:allTags(),
+  settings:{view,theme:document.body.classList.contains('dark')?'dark':'light'}};
+ downloadText('favoritos-backup-completo-'+new Date().toISOString().slice(0,10)+'.json',
+  JSON.stringify(data,null,2),'application/json;charset=utf-8');
+}
+$('exportBtn').addEventListener('click',downloadBackup);
+$('importBtn').addEventListener('click',()=>$('importFile').click());
+function inspectBackup(raw){
+ const rows=Array.isArray(raw)?raw:raw&&raw.app==='gerenciador-favoritos'?raw.favorites:null;
+ if(!Array.isArray(rows)||!rows.every(validFavorite))throw Error('Formato de favoritos inválido.');
+ if(rows.length>50000)throw Error('Arquivo contém registros demais.');
+ const imported=rows.map(upgrade).map(f=>({...f,url:normalizeUrl(f.url)}));
+ if(imported.some(f=>!f.url))throw Error('O arquivo contém URLs inválidas.');
+ const sourceCats=Array.isArray(raw.categories)?raw.categories:[];
+ const sourceTags=Array.isArray(raw.tags)?raw.tags:Array.isArray(raw.managedTags)?raw.managedTags:[];
+ const backupCategories=uniqueNames([...sourceCats,...imported.map(f=>f.category)],60);
+ const backupTags=uniqueNames([...sourceTags,...imported.flatMap(f=>f.tags)]);
+ const keys=new Set(),deduped=[];let internalDuplicates=0;
+ for(const f of imported){const k=urlKey(f.url);if(keys.has(k)){internalDuplicates++;continue}keys.add(k);deduped.push(f)}
+ const existingKeys=new Set(favorites.map(f=>urlKey(f.url)));
+ return {favorites:deduped,categories:backupCategories,tags:backupTags,
+  settings:raw&&raw.settings&&typeof raw.settings==='object'?raw.settings:{},
+  duplicates:internalDuplicates,overlap:deduped.filter(f=>existingKeys.has(urlKey(f.url))).length,
+  sourceVersion:raw?.version||'legado'};
+}
+function backupPlan(mode){
+ const incoming=pendingBackup.data;
+ if(mode==='restore')return {favorites:incoming.favorites,categories:incoming.categories,tags:incoming.tags,
+  view:incoming.settings.view==='table'?'table':incoming.settings.view==='cards'?'cards':view,
+  theme:['dark','light'].includes(incoming.settings.theme)?incoming.settings.theme:null};
+ const currentKeys=new Set(favorites.map(f=>urlKey(f.url)));
+ const newItems=incoming.favorites.filter(f=>!currentKeys.has(urlKey(f.url)));
+ const ids=new Set(favorites.map(f=>f.id));
+ const safeNew=newItems.map(f=>{if(ids.has(f.id)){f={...f,id:uid()}}ids.add(f.id);return f});
+ return {favorites:[...favorites,...safeNew],categories:uniqueNames([...categories,...incoming.categories],60),
+  tags:uniqueNames([...allTags(),...incoming.tags]),view,theme:null};
+}
+function previewBackup(){
+ if(!pendingBackup)return;
+ const data=pendingBackup.data,mode=$('backupMode').value,plan=backupPlan(mode);
+ const existing=new Set(favorites.map(f=>urlKey(f.url)));
+ const added=data.favorites.filter(f=>!existing.has(urlKey(f.url))).length;
+ $('backupSummary').textContent=
+  `Arquivo: ${pendingBackup.filename} · Formato: ${data.sourceVersion}\n`+
+  `Favoritos no arquivo: ${data.favorites.length} · Novos: ${added} · URLs já existentes: ${data.overlap}\n`+
+  `Categorias no arquivo: ${data.categories.length} · Etiquetas no arquivo: ${data.tags.length}\n`+
+  `URLs repetidas dentro do arquivo ignoradas: ${data.duplicates}\n`+
+  `Resultado previsto: ${plan.favorites.length} favoritos, ${plan.categories.length} categorias, ${plan.tags.length} etiquetas.`;
+ $('backupWarning').textContent=mode==='restore'
+  ?'ATENÇÃO: Restaurar substituirá favoritos, categorias e etiquetas atuais. Será criada uma cópia de segurança antes da alteração.'
+  :'Mesclar preservará os favoritos existentes; URLs já cadastradas serão ignoradas e categorias/etiquetas serão unificadas.';
+}
+$('backupMode').addEventListener('change',previewBackup);
+$('cancelBackup').addEventListener('click',()=>{$('backupPreview').classList.add('hidden');pendingBackup=null});
+$('importFile').addEventListener('change',async e=>{
+ const file=e.target.files[0];if(!file)return;
+ try{
+  if(file.size>15*1024*1024)throw Error('Arquivo maior que 15 MB.');
+  const data=inspectBackup(JSON.parse(await file.text()));
+  pendingBackup={data,filename:file.name};
+  $('backupMode').value='merge';previewBackup();$('backupPreview').classList.remove('hidden');
+ }catch(err){alert('Falha ao verificar backup: '+err.message)}
+ finally{e.target.value=''}
+});
+$('confirmBackup').addEventListener('click',()=>{
+ if(!pendingBackup)return;
+ const mode=$('backupMode').value,plan=backupPlan(mode);
+ const message=mode==='restore'
+  ?'CONFIRMAR RESTAURAÇÃO: os dados atuais serão substituídos. Continuar?'
+  :'Confirmar mesclagem do backup com os dados atuais?';
+ if(!confirm(message))return;
+ // Pré-validação completa, antes de escrever qualquer chave do localStorage.
+ const seen=new Set();
+ for(const f of plan.favorites){const k=urlKey(f.url);if(!k||seen.has(k)){alert('Operação cancelada: há URLs duplicadas ou inválidas no resultado.');return}seen.add(k)}
+ const snapshot={
+  favorites:localStorage.getItem(STORAGE_KEY),settings:localStorage.getItem(SETTINGS_KEY),
+  tags:localStorage.getItem(TAGS_KEY),theme:localStorage.getItem(THEME_KEY)
+ };
+ const rollback=()=>{for(const [k,key] of Object.entries({favorites:STORAGE_KEY,settings:SETTINGS_KEY,tags:TAGS_KEY,theme:THEME_KEY})){
+  if(snapshot[k]===null)localStorage.removeItem(key);else localStorage.setItem(key,snapshot[k]);
+ }};
+ try{
+  // Reserva cópia de segurança persistente para o botão Desfazer.
+  const previous=JSON.stringify({favorites,categories,managedTags:allTags(),label:'Importação JSON',at:new Date().toISOString()});
+  localStorage.setItem(UNDO_KEY,previous);
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(plan.favorites));
+  localStorage.setItem(SETTINGS_KEY,JSON.stringify({categories:plan.categories,view:plan.view}));
+  localStorage.setItem(TAGS_KEY,JSON.stringify(plan.tags));
+  if(plan.theme)localStorage.setItem(THEME_KEY,plan.theme);
+  favorites=plan.favorites;categories=plan.categories;managedTags=plan.tags;view=plan.view;
+  if(plan.theme)setTheme(plan.theme==='dark');
+  undoState=previous;$('undoBtn').disabled=false;selectedIds.clear();
+  const history=readJSON(BACKUP_HISTORY_KEY,[]);
+  try{localStorage.setItem(BACKUP_HISTORY_KEY,JSON.stringify([{date:new Date().toISOString(),file:pendingBackup.filename,mode,count:plan.favorites.length},...history].slice(0,20)))}catch{}
+  resetForm();renderCategories();render();renderHistory();
+  $('backupPreview').classList.add('hidden');pendingBackup=null;
+  alert('Importação JSON concluída. Categorias e etiquetas também foram restauradas.');
+ }catch(err){
+  try{rollback()}catch{}
+  alert('Não foi possível concluir a importação. Os dados anteriores foram preservados. '+err.message);
+ }
+});
+function renderHistory(){
+ const history=readJSON(BACKUP_HISTORY_KEY,[]);
+ const target=$('backupHistory');target.replaceChildren();
+ if(!history.length){target.append(el('p','hint','Nenhuma importação JSON registrada.'));return}
+ for(const h of history.slice(0,10)){
+  const line=el('p','hint');
+  line.textContent=`${localDate(h.date)} · ${h.mode==='restore'?'Restauração':'Mesclagem'} · ${h.file} · ${h.count} favoritos após a operação`;
+  target.append(line);
+ }
+}
+renderHistory();
+
+$('exportCsvBtn').addEventListener('click',()=>{
+ const lines=[csvHeaders,...favorites.map(f=>[f.name,f.url,f.description,dateForInput(f.createdAt),f.notes,f.category,f.tags.join(', '),f.priority?'Sim':'Não'])];
+ downloadText('favoritos-'+new Date().toISOString().slice(0,10)+'.csv','\uFEFF'+lines.map(r=>r.map(csvCell).join(';')).join('\r\n'),'text/csv;charset=utf-8');
+});
+$('importCsvBtn').addEventListener('click',()=>$('importCsvFile').click());
+// Parser CSV: trata aspas escapadas, quebras de linha dentro de células e ; ou , como separadores.
+function parseCsv(text,delimiter){
+ const rows=[],row=[];let cell='',quoted=false;
+ for(let i=0;i<text.length;i++){const c=text[i];
+  if(c==='"'){if(quoted&&text[i+1]==='"'){cell+='"';i++}else if(quoted){quoted=false}else if(!cell.trim()){quoted=true}else{cell+=c}}
+  else if(c===delimiter&&!quoted){row.push(cell);cell=''}
+  else if((c==='\n'||c==='\r')&&!quoted){if(c==='\r'&&text[i+1]==='\n')i++;row.push(cell);if(row.some(x=>x.trim()))rows.push([...row]);row.length=0;cell=''}
+  else{cell+=c}
+ }
+ if(quoted)throw Error('Há aspas não fechadas no CSV.');
+ row.push(cell);if(row.some(x=>x.trim()))rows.push([...row]);
+ return rows;
+}
+function headerKey(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'')}
+const aliases={
+ name:['nomedosite','nome','site','titulo','title'],
+ url:['url','link','endereco','enderecodosite','website','siteurl'],
+ description:['descricaofinalidade','descricao','finalidade','description','resumo'],
+ createdAt:['datadecadastro','cadastro','data','createdat'],
+ notes:['observacoes','observacao','notas','notes','comentarios'],
+ category:['categoria','category','grupo'],
+ tags:['etiquetas','tags','tag','palavraschave'],
+ priority:['prioritario','prioridade','favoritoprioritario','destaque']
+};
+function parseImportedDate(value){
+ const s=cleanText(value);if(!s)return new Date().toISOString();
+ const br=s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+ const iso=br?`${br[3]}-${br[2]}-${br[1]}T12:00:00`: /^\d{4}-\d{2}-\d{2}$/.test(s)?s+'T12:00:00':s;
+ const d=new Date(iso);return Number.isNaN(d.getTime())?new Date().toISOString():d.toISOString();
+}
+// Importação assistida: mostra prévia e não altera nada até a confirmação.
+let csvPending=null;
+function generatedName(url){
+ const hostname=new URL(url).hostname.replace(/^www\./i,'');
+ const first=hostname.split('.')[0];
+ return first?first.charAt(0).toUpperCase()+first.slice(1):hostname;
+}
+function showCsvPreview(items,invalid,duplicates){
+ csvPending={items,invalid,duplicates};
+ $('previewSummary').textContent=`${items.length} novo(s) site(s) pronto(s) para importar. ${duplicates.length} URL(s) já cadastrada(s): ignorar ou atualizar, conforme a opção abaixo. ${invalid.length} linha(s) precisam de correção. Nenhum registro existente será excluído.`;
+ $('previewIssues').replaceChildren();
+ if(invalid.length){
+  const title=el('p','preview-error','Linhas não importadas (corrija o endereço na planilha e tente novamente):');
+  $('previewIssues').append(title);
+  for(const x of invalid.slice(0,12))$('previewIssues').append(el('p','preview-error',`Linha ${x.line}: ${x.reason} — ${x.raw.slice(0,110)}`));
+  if(invalid.length>12)$('previewIssues').append(el('p','',`E mais ${invalid.length-12} linha(s).`));
+ }
+ $('previewRows').replaceChildren();
+ const display=[...items.map(x=>({...x,status:'Pronto'})),...invalid.map(x=>({line:x.line,name:'—',url:x.raw,status:x.reason})),...duplicates.map(x=>({line:x.line,name:x.name,url:x.url,status:'Já cadastrado — pode atualizar'}))].sort((a,b)=>a.line-b.line).slice(0,100);
+ for(const x of display){const tr=el('tr');for(const value of [x.line,x.name,x.url,x.status])tr.append(el('td','',String(value)));$('previewRows').append(tr)}
+ $('confirmCsv').disabled=items.length===0 && (duplicates.length===0 || !$('updateExisting').checked);
+ $('csvPreview').classList.remove('hidden');
+}
+$('updateExisting').addEventListener('change',()=>{if(csvPending)$('confirmCsv').disabled=csvPending.items.length===0&&(!csvPending.duplicates.length||!$('updateExisting').checked)});
+$('cancelCsv').addEventListener('click',()=>{$('csvPreview').classList.add('hidden');csvPending=null});
+$('confirmCsv').addEventListener('click',()=>{
+ try{
+  if(!csvPending){alert('Selecione novamente a planilha para importar.');return}
+  const {items,invalid,duplicates}=csvPending;
+  const updates=$('updateExisting').checked;
+  const next=favorites.map(f=>({...f,tags:[...f.tags]}));
+  const keys=new Map(next.map((f,i)=>[urlKey(f.url),i]));
+  let added=0,changed=0;
+  for(const x of items){
+   if(!x.favorite || !x.favorite.url)continue;
+   const key=urlKey(x.favorite.url);
+   if(keys.has(key))continue;
+   keys.set(key,next.length);next.push(x.favorite);added++;
+  }
+  if(updates)for(const x of duplicates){
+   const idx=keys.get(urlKey(x.url));
+   if(idx===undefined || !x.favorite)continue;
+   const f=next[idx],src=x.favorite,merged={...f,tags:[...f.tags]};
+   for(const k of ['name','description','notes','category']){
+    if(src[k] && !(k==='description'&&src[k]==='Importado de planilha'))merged[k]=src[k];
+   }
+   if(src.tags?.length)merged.tags=normalizeTags([...f.tags,...src.tags]);
+   if(src.priority)merged.priority=true;
+   if(JSON.stringify(f)!==JSON.stringify(merged)){next[idx]=merged;changed++}
+  }
+  if(!added&&!changed){
+   alert(duplicates.length&&!updates
+    ?'Nenhum site novo. Os endereços já existem. Marque "Atualizar registros existentes por URL" para atualizar os dados.'
+    :'Nenhuma alteração encontrada na planilha.');
+   return;
+  }
+  if(!confirm(`Deseja importar ${added} site(s) e atualizar ${changed} registro(s)?\\n\\nSerá criado um ponto de restauração.`))return;
+  if(!commitWithUndo(next,'Importação de planilha'))return;
+  const nextCategories=[...new Set([...categories,...next.map(f=>f.category).filter(Boolean)])];
+  saveSettings(nextCategories);
+  renderCategories();resetForm();render();
+  $('csvPreview').classList.add('hidden');csvPending=null;
+  alert(`Importação concluída!\\nNovos: ${added}\\nAtualizados: ${changed}\\nInválidos: ${invalid.length}`);
+ }catch(error){
+  console.error('Falha na confirmação da importação:',error);
+  alert('Não foi possível confirmar a importação: '+(error?.message||String(error))+'\\nOs dados existentes foram preservados.');
+ }
+});
+$('importCsvFile').addEventListener('change',async event=>{
+ const file=event.target.files[0];if(!file)return;
+ try{
+  if(file.size>10*1024*1024)throw Error('O arquivo ultrapassa 10 MB.');
+  const rows=await spreadsheetRows(file);
+  if(rows.length<2)throw Error('A planilha deve conter cabeçalho e ao menos uma linha.');
+  const header=rows.shift().map(headerKey),index={};
+  for(const [field,opts] of Object.entries(aliases))index[field]=header.findIndex(h=>opts.includes(h));
+  if(index.url<0)throw Error('Não encontrei a coluna URL ou Link.');
+  const get=(r,k)=>index[k]<0?'':cleanText(r[index[k]]||'');
+  const existing=new Set(favorites.map(f=>urlKey(f.url))),items=[],invalid=[],duplicates=[];
+  for(let i=0;i<rows.length;i++){
+   const r=rows[i],line=i+2,rawUrl=get(r,'url');
+   if(!r.some(x=>cleanText(x)))continue;
+   const url=normalizeUrl(rawUrl);
+   if(!url){invalid.push({line,raw:rawUrl,reason:'URL ausente ou inválida'});continue}
+   const name=get(r,'name')||generatedName(url),key=urlKey(url);
+   if(existing.has(key)){duplicates.push({line,name,url,favorite:{name,url,description:get(r,'description').slice(0,1000),notes:get(r,'notes').slice(0,3000),category:get(r,'category').slice(0,60),tags:normalizeTags(get(r,'tags')),priority:/^(sim|s|yes|true|1|★)$/i.test(get(r,'priority'))}});continue}
+   existing.add(key);
+   const favorite={id:uid(),name:name.slice(0,120),url,
+    description:get(r,'description').slice(0,1000)||'Importado de planilha',
+    createdAt:parseImportedDate(get(r,'createdAt')),
+    notes:get(r,'notes').slice(0,3000),category:get(r,'category').slice(0,60),
+    tags:normalizeTags(get(r,'tags')).map(x=>x.slice(0,80)),
+    priority:/^(sim|s|yes|true|1|★)$/i.test(get(r,'priority'))};
+   items.push({line,name,url,favorite});
+  }
+  $('updateExisting').checked=false;showCsvPreview(items,invalid,duplicates);
+ }catch(err){alert('Não foi possível importar o CSV: '+err.message)}
+ finally{event.target.value=''}
+});
+
+
+// Histórico de uma etapa: antes de alterar em massa ou importar, salvar estado anterior.
+function commitWithUndo(next,label){
+ const old=JSON.stringify({favorites,categories,managedTags:allTags(),label,at:new Date().toISOString()});
+ try{localStorage.setItem(UNDO_KEY,old)}catch{alert('Não há espaço para criar ponto de restauração. Exporte JSON antes de continuar.');return false}
+ if(!saveFavorites(next))return false;
+ undoState=old;$('undoBtn').disabled=false;selectedIds.clear();render();return true;
+}
+function restoreUndo(){const raw=undoState||localStorage.getItem(UNDO_KEY);if(!raw)return;
+ const data=JSON.parse(raw);if(!confirm('Desfazer a última operação ('+data.label+')? As alterações posteriores serão substituídas.'))return;
+ if(!saveFavorites(data.favorites))return;
+ saveSettings(data.categories);if(Array.isArray(data.managedTags))persistTags(data.managedTags);localStorage.removeItem(UNDO_KEY);undoState=null;$('undoBtn').disabled=true;selectedIds.clear();resetForm();renderCategories();render();
+}
+$('undoBtn').disabled=!localStorage.getItem(UNDO_KEY);$('undoBtn').addEventListener('click',restoreUndo);
+const THEME_KEY='gerenciador_favoritos_tema_v1_4';
+function setTheme(dark){document.body.classList.toggle('dark',dark);$('themeBtn').textContent=dark?'☀ Modo claro':'☾ Modo escuro';localStorage.setItem(THEME_KEY,dark?'dark':'light')}
+setTheme(localStorage.getItem(THEME_KEY)==='dark');$('themeBtn').addEventListener('click',()=>setTheme(!document.body.classList.contains('dark')));
+function renderStats(){const categorized=favorites.filter(f=>f.category).length,priority=favorites.filter(f=>f.priority).length,tagged=favorites.filter(f=>f.tags.length).length;
+ const data=[['Total de sites',favorites.length],['Com categoria',categorized],['Prioritários',priority],['Com etiquetas',tagged]];
+ $('stats').replaceChildren(...data.map(([name,n])=>{const box=el('div','stat');box.append(el('strong','',String(n)),el('span','',name));return box}));
+ const counts=new Map();for(const f of favorites)counts.set(f.category||'Sem categoria',(counts.get(f.category||'Sem categoria')||0)+1);
+ $('topCategories').textContent='Categorias mais utilizadas: '+([...counts].sort((a,b)=>b[1]-a[1]).slice(0,6).map(([n,c])=>`${n} (${c})`).join(' · ')||'Nenhuma ainda');
+}
+$('selectVisible').addEventListener('change',e=>{for(const id of visibleIds){if(e.target.checked)selectedIds.add(id);else selectedIds.delete(id)}render()});
+$('clearSelection').addEventListener('click',()=>{selectedIds.clear();render()});
+$('clearFilters').addEventListener('click',()=>{$('search').value='';$('filterTag').value='';$('filterMissing').value='all';$('filterCategory').value='all';$('filterPriority').value='all';render()});
+function bulkChange(transform,label,destructive=false){if(!selectedIds.size){alert('Selecione um ou mais sites.');return}
+ const count=selectedIds.size;if(!confirm(`${label} em ${count} registro(s)?${destructive?' Esta ação poderá ser desfeita.':''}`))return;
+ const next=destructive?favorites.filter(f=>!selectedIds.has(f.id)):favorites.map(f=>selectedIds.has(f.id)?transform(f):f);
+ if(commitWithUndo(next,label)){selectedIds.clear();resetForm();renderCategories();render();showPage('sites')}
+}
+$('applyCategory').addEventListener('click',()=>bulkChange(f=>({...f,category:$('batchCategory').value}),'Alterar categoria'));
+$('applyTags').addEventListener('click',()=>{
+ const selected=[...$('batchExistingTags').selectedOptions].map(o=>o.value);
+ const typed=normalizeTags($('batchTags').value);
+ const tags=[...new Map([...selected,...typed].map(t=>[tagId(t),t])).values()];
+ if(!tags.length){alert('Selecione uma ou mais etiquetas cadastradas ou digite novas etiquetas.');return}
+ const remove=$('batchTagMode').value==='remove';
+ bulkChange(f=>({...f,tags:remove?f.tags.filter(t=>!tags.some(x=>tagId(x)===tagId(t))):normalizeTags([...f.tags,...tags])}),remove?'Remover etiquetas':'Adicionar etiquetas');
+});
+$('applyPriority').addEventListener('click',()=>bulkChange(f=>({...f,priority:$('batchPriority').value==='yes'}),'Alterar prioridade'));
+$('batchDelete').addEventListener('click',()=>bulkChange(null,'Excluir selecionados',true));
+function auditDuplicates(){const groups=new Map();for(const f of favorites){const key=urlKey(f.url);if(!groups.has(key))groups.set(key,[]);groups.get(key).push(f)}
+ const list=$('auditList');list.replaceChildren();let total=0;
+ for(const [key,group] of groups)if(group.length>1){total++;
+  const section=el('div','notice');section.append(el('strong','',key));
+  for(const f of group){const line=el('div','audit-item');const info=el('span','small',f.name+' · '+f.url+' · '+localDate(f.createdAt));
+   const btn=action('Excluir este registro','danger',()=>{if(!confirm('Excluir somente “'+f.name+'”? Os outros registros permanecerão.'))return;
+    const next=favorites.filter(x=>x.id!==f.id);if(!commitWithUndo(next,'Remover duplicado'))return;auditDuplicates()});line.append(info,btn);section.append(line)}list.append(section)}
+ if(!total)list.append(el('p','preview-ok','Nenhuma URL duplicada encontrada.'));
+ $('auditModal').classList.remove('hidden');
+}
+$('auditBtn').addEventListener('click',auditDuplicates);$('closeAudit').addEventListener('click',()=>$('auditModal').classList.add('hidden'));
+// XLSX sem CDN: leitor mínimo de arquivos OOXML ZIP com a primeira aba.
+// Usa APIs nativas modernas do navegador (DecompressionStream) e limita arquivos grandes.
+async function spreadsheetRows(file){
+ if(!/\.xlsx$/i.test(file.name)){
+  const text=(await file.text()).replace(/^\uFEFF/,'');const first=text.split(/\r?\n/,1)[0];
+  const delimiter=(first.match(/;/g)||[]).length>=(first.match(/,/g)||[]).length?';':',';return parseCsv(text,delimiter);
+ }
+ const buf=await file.arrayBuffer(),dv=new DataView(buf),bytes=new Uint8Array(buf);
+ const u16=i=>dv.getUint16(i,true),u32=i=>dv.getUint32(i,true);
+ let end=-1;for(let i=bytes.length-22;i>=Math.max(0,bytes.length-65557);i--)if(u32(i)===0x06054b50){end=i;break}
+ if(end<0)throw Error('Arquivo XLSX não é um ZIP válido.');
+ let offset=u32(end+16),count=u16(end+10);const entries=new Map();
+ for(let j=0;j<count;j++){if(u32(offset)!==0x02014b50)throw Error('Índice ZIP inválido.');
+  const method=u16(offset+10),size=u32(offset+20),nameLen=u16(offset+28),extra=u16(offset+30),comment=u16(offset+32),loc=u32(offset+42);
+  const name=new TextDecoder().decode(bytes.slice(offset+46,offset+46+nameLen));entries.set(name,{method,size,loc});offset+=46+nameLen+extra+comment;
+ }
+ async function xml(name){const e=entries.get(name);if(!e)return null;if(e.size>25e6)throw Error('Planilha muito grande.');
+  const off=e.loc;if(u32(off)!==0x04034b50)throw Error('Entrada ZIP inválida.');const start=off+30+u16(off+26)+u16(off+28),data=bytes.slice(start,start+e.size);
+  let output;if(e.method===0)output=data;else if(e.method===8&&typeof DecompressionStream!=='undefined'){
+   const stream=new Blob([data]).stream().pipeThrough(new DecompressionStream('deflate-raw'));output=new Uint8Array(await new Response(stream).arrayBuffer());
+  }else throw Error('Este navegador não oferece descompactação XLSX local. Salve como CSV UTF-8.');
+  return new DOMParser().parseFromString(new TextDecoder().decode(output),'application/xml');
+ }
+ const stringsDoc=await xml('xl/sharedStrings.xml'),shared=[];
+ if(stringsDoc)for(const si of stringsDoc.getElementsByTagName('si'))shared.push([...si.getElementsByTagName('t')].map(t=>t.textContent).join(''));
+ const workbook=await xml('xl/workbook.xml'),rels=await xml('xl/_rels/workbook.xml.rels');
+ let sheetPath='xl/worksheets/sheet1.xml';
+ if(workbook&&rels){const first=workbook.getElementsByTagName('sheet')[0],rid=first?.getAttribute('r:id');
+  for(const rel of rels.getElementsByTagName('Relationship'))if(rel.getAttribute('Id')===rid){const target=rel.getAttribute('Target')||'';sheetPath=target.startsWith('/')?target.slice(1):target.startsWith('xl/')?target:'xl/'+target;break}
+ }
+ const doc=await xml(sheetPath);if(!doc)throw Error('Primeira aba XLSX não encontrada.');
+ const result=[];for(const row of doc.getElementsByTagName('row')){const cells=[];
+  for(const c of row.getElementsByTagName('c')){const ref=c.getAttribute('r')||'A1',letters=(ref.match(/^[A-Z]+/)||['A'])[0];let idx=0;for(const char of letters)idx=idx*26+char.charCodeAt(0)-64;idx--;
+   const type=c.getAttribute('t'),v=c.getElementsByTagName('v')[0]?.textContent||'';
+   cells[idx]=type==='s'?(shared[Number(v)]||''):type==='inlineStr'?[...c.getElementsByTagName('t')].map(t=>t.textContent).join(''):v;
+  }result.push(Array.from({length:cells.length},(_,i)=>cells[i]||''));
+ }
+ return result;
+}
+
+renderCategories();resetForm();render();
+</script></body></html>

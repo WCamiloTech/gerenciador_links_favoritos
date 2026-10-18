@@ -1,0 +1,18 @@
+from pathlib import Path
+import subprocess,re
+root=Path(__file__).resolve().parents[1]
+html=(root/'index.html').read_text(encoding='utf-8-sig')
+files=['js/core.js','js/export-utils.js','js/app-legacy.js','js/backup.js','js/importacao-planilhas.js']
+assert all(html.count('src="'+f+'"')==1 for f in files)
+assert [html.index('src="'+f+'"') for f in files]==sorted(html.index('src="'+f+'"') for f in files)
+for f in files:
+ assert (root/f).exists(),f
+ result=subprocess.run(['node','--check',str(root/f)],capture_output=True,text=True)
+ assert result.returncode==0,(f,result.stderr)
+ids=re.findall(r'id="([^"]+)"',html)
+assert len(ids)==len(set(ids))
+assert 'function downloadText(' in (root/'js/export-utils.js').read_text()
+assert "$('exportBtn').addEventListener" in (root/'js/backup.js').read_text()
+assert "$('exportCsvBtn').addEventListener" in (root/'js/app-legacy.js').read_text()
+assert "$('importCsvFile').addEventListener" in (root/'js/importacao-planilhas.js').read_text()
+print('OK: estrutura, sintaxe, ordem, IDs e eventos de importação/exportação')

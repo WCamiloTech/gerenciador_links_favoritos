@@ -1,0 +1,14 @@
+{
+  "baseline": "1.6.1",
+  "stage": "2.0-etapa1",
+  "source_sha256": "a99e65546a92a5883ae03cef0fdd7c3235c7c9fe8a312db871a8b97f9c3fd727",
+  "localStorage_keys": [
+    "gerenciador_favoritos_config_v1_1",
+    "gerenciador_favoritos_import_history_v1_6",
+    "gerenciador_favoritos_tags_v1_5_1",
+    "gerenciador_favoritos_tema_v1_4",
+    "gerenciador_favoritos_undo_v1_4",
+    "gerenciador_favoritos_v1"
+  ],
+  "policy": "Não alterar chaves nem formato de dados durante a modularização."
+}
