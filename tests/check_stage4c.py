@@ -1,5 +1,7 @@
+import re
+import subprocess
 from pathlib import Path
-import re,subprocess
+
 root=Path(__file__).resolve().parents[1]
 html=(root/'index.html').read_text(encoding='utf-8')
 order=['js/core.js','js/export-utils.js','js/app-legacy.js','js/favoritos.js','js/categorias.js','js/tags.js','js/backup.js','js/importacao-planilhas.js']

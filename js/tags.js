@@ -25,9 +25,9 @@ function renderTags(){
  for(const tag of tags){
   picker.add(new Option(tag,tag));
   const count=favorites.filter(f=>f.tags.some(t=>tagId(t)===tagId(tag))).length;
-  const item=el('div','tag-entry');
-  const info=el('div','tag-info');info.append(el('strong','',tag),el('span','hint',count+' site(s) associado(s)'));
-  item.append(info,action('Renomear','',()=>renameTag(tag)),action('Excluir','danger',()=>removeTag(tag)));
+  const item=el('div','category-item');
+  const info=el('div','manager-entry-info');info.append(el('strong','',tag),el('span','hint',count+' site(s) associado(s)'));
+  const controls=el('div','manager-entry-actions');controls.append(action('Renomear','',()=>renameTag(tag)),action('Excluir','danger',()=>removeTag(tag)));item.append(info,controls);
   list.append(item);
  }
  if(!tags.length)list.append(el('p','hint','Nenhuma etiqueta cadastrada.'));

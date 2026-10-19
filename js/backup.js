@@ -11,7 +11,8 @@ function downloadBackup(){
  const data={app:'gerenciador-favoritos',version:3,exportedAt:new Date().toISOString(),
   favorites,categories:uniqueNames(categories,60),tags:allTags(),
   settings:{view,theme:document.body.classList.contains('dark')?'dark':'light'}};
- downloadText('favoritos-backup-completo-'+new Date().toISOString().slice(0,10)+'.json',
+ const stamp=exportTimestamp();
+ downloadText('favoritos-backup-completo-'+stamp+'.json',
   JSON.stringify(data,null,2),'application/json;charset=utf-8');
 }
 $('exportBtn').addEventListener('click',downloadBackup);

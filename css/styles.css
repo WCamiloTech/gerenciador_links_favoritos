@@ -39,3 +39,47 @@ body.dark .editing-modal #siteForm{background:#1c293b}
 @media(max-width:1100px){#batchBar>.toolbar{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:720px){#batchBar>.toolbar{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:430px){#batchBar>.toolbar{grid-template-columns:1fr}}
+
+/* Etapa 4D.1-R3: nomes destacados e acoes agrupadas no gerenciador. */
+.category-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));align-items:stretch;gap:12px}
+.category-item{display:flex;flex-direction:column;align-items:stretch;justify-content:space-between;gap:12px;padding:13px;min-width:0}
+.category-name{font-size:14px;line-height:1.4;overflow-wrap:anywhere}
+.manager-entry-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap;border-top:1px solid #dce2ec;padding-top:9px}
+.category-item .manager-entry-actions .btn,.tag-entry .manager-entry-actions .btn{border:1px solid #dce2ec;border-radius:8px;background:transparent;padding:7px 9px;font-size:12px;font-weight:700}
+.category-item .manager-entry-actions .btn.danger,.tag-entry .manager-entry-actions .btn.danger{color:#b42338}
+.tag-entry{display:flex;flex-wrap:wrap;gap:12px}.tag-info{flex:1 1 150px}
+.tag-entry .manager-entry-actions{flex:0 1 auto;min-width:145px}
+body.dark .manager-entry-actions{border-top-color:#46566e}
+body.dark .category-item .manager-entry-actions .btn,body.dark .tag-entry .manager-entry-actions .btn{border-color:#46566e;color:#e7edf7}
+body.dark .category-item .manager-entry-actions .btn.danger,body.dark .tag-entry .manager-entry-actions .btn.danger{color:#ffabb5}
+@media(max-width:550px){.category-list{grid-template-columns:1fr}.tag-entry .manager-entry-actions{width:100%}}
+
+/* Etapa 4D.1-R4: grade e estrutura iguais para categorias e etiquetas. */
+.tag-manager{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));align-items:stretch;gap:12px;margin-top:16px}
+.category-item.tag-entry{display:flex;flex-direction:column;align-items:stretch;justify-content:space-between;gap:12px;padding:13px;min-width:0}
+.manager-entry-info{display:flex;flex-direction:column;gap:5px;min-width:0;overflow-wrap:anywhere}
+.manager-entry-info .hint{font-size:12px}
+.tag-entry .manager-entry-actions{width:100%;min-width:0;flex:0 0 auto}
+body.dark .category-item.tag-entry{background:#26364a;border-color:#40516a}
+@media(max-width:550px){.tag-manager{grid-template-columns:1fr}}
+
+/* Etapa 4D.1-R4.1: impedir que a grade de etiquetas estique os cartoes.
+   Categorias e etiquetas usam linhas compactas, sem altura distribuida. */
+.category-list,.tag-manager{
+  grid-auto-rows:max-content;
+  align-content:start;
+  align-items:start;
+}
+.category-list>.category-item,.tag-manager>.category-item.tag-entry{
+  height:auto;
+  min-height:0;
+  justify-content:flex-start;
+}
+.tag-manager>.category-item.tag-entry .manager-entry-actions{
+  margin-top:0;
+}
+
+/* Etapa 4D.1 - Revisao 4.2: categorias e etiquetas usam o mesmo layout. */
+.category-list,.tag-manager{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));grid-auto-rows:max-content;align-content:start;align-items:start;gap:12px}
+.category-list>.category-item,.tag-manager>.category-item{height:auto;min-height:0;justify-content:flex-start}
+@media(max-width:550px){.category-list,.tag-manager{grid-template-columns:1fr}}

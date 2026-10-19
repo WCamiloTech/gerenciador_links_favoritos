@@ -10,6 +10,7 @@ function showPage(page){
 document.querySelectorAll('.nav-link').forEach(n=>n.addEventListener('click',()=>{
  if(editingId && n.dataset.page!=='form'){if(!confirm('Sair da edição sem salvar?'))return;resetForm()}
  showPage(n.dataset.page);
+ if(n.dataset.page==='categories')renderCategories();
 }));
 showPage('sites');
 
@@ -21,7 +22,16 @@ const storedSettings=readJSON(SETTINGS_KEY,{});
 let categories=Array.isArray(storedSettings.categories)?[...new Set(storedSettings.categories.filter(c=>typeof c==='string'&&c.trim()).map(c=>c.trim()))]:[];
 for(const f of favorites){if(f.category&&!categories.some(c=>c.toLowerCase()===f.category.toLowerCase()))categories.push(f.category)}
 let view=storedSettings.view==='table'?'table':'cards';let editingId=null;let selectedIds=new Set(),visibleIds=[],undoState=null;const UNDO_KEY='gerenciador_favoritos_undo_v1_4';
-function saveFavorites(next){try{const seen=new Map();for(const f of next){const key=urlKey(f.url);if(seen.has(key)){const previous=seen.get(key);const wasExisting=favorites.some(x=>x.id===f.id&&urlKey(x.url)===key)&&favorites.some(x=>x.id===previous.id&&urlKey(x.url)===key);if(!wasExisting){alert('Operação bloqueada: URL duplicada.');return false}}else seen.set(key,f)}localStorage.setItem(STORAGE_KEY,JSON.stringify(next));favorites=next;return true}catch{alert('Não foi possível salvar. Verifique o armazenamento disponível no navegador.');return false}}
+function saveFavorites(next){try{const seen=new Map();for(const f of next){const key=urlKey(f.url);if(seen.has(key)){const previous=seen.get(key);const wasExisting=favorites.some(x=>x.id===f.id&&urlKey(x.url)===key)&&favorites.some(x=>x.id===previous.id&&urlKey(x.url)===key);if(!wasExisting){alert('Operação bloqueada: URL duplicada.');return false}}else seen.set(key,f)}localStorage.setItem(STORAGE_KEY,JSON.stringify(next));favorites=next;
+ // Registra etiquetas novas para reutilização mesmo após excluir o favorito.
+ const registry=new Map(managedTags.map(t=>[tagId(t),t]));
+ for(const f of next)for(const tag of normalizeTags(f.tags))if(!registry.has(tagId(tag)))registry.set(tagId(tag),tag);
+ const merged=[...registry.values()];
+ if(merged.length!==managedTags.length){
+  try{localStorage.setItem(TAGS_KEY,JSON.stringify(merged));managedTags=merged}
+  catch{alert('Favoritos salvos, mas não foi possível atualizar o catálogo de etiquetas.')}
+ }
+ return true}catch{alert('Não foi possível salvar. Verifique o armazenamento disponível no navegador.');return false}}
 function saveSettings(nextCategories=categories,nextView=view){try{localStorage.setItem(SETTINGS_KEY,JSON.stringify({categories:nextCategories,view:nextView}));categories=nextCategories;view=nextView;return true}catch{alert('Não foi possível salvar as preferências.');return false}}
 function dateForInput(iso){const d=new Date(iso);return Number.isNaN(d.getTime())?'':[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')}
 function showManagerTab(tab){
@@ -32,7 +42,7 @@ function showManagerTab(tab){
  $('tabCategories').classList.toggle('primary',!isTags);
  $('tabTags').setAttribute('aria-selected',String(isTags));
  $('tabCategories').setAttribute('aria-selected',String(!isTags));
- if(isTags)renderTags();
+ if(isTags)renderTags();else renderCategories();
 }
 $('tabCategories').addEventListener('click',()=>showManagerTab('categories'));
 $('tabTags').addEventListener('click',()=>showManagerTab('tags'));
@@ -40,7 +50,7 @@ $('tabTags').addEventListener('click',()=>showManagerTab('tags'));
 
 $('exportCsvBtn').addEventListener('click',()=>{
  const lines=[csvHeaders,...favorites.map(f=>[f.name,f.url,f.description,dateForInput(f.createdAt),f.notes,f.category,f.tags.join(', '),f.priority?'Sim':'Não'])];
- downloadText('favoritos-'+new Date().toISOString().slice(0,10)+'.csv','\uFEFF'+lines.map(r=>r.map(csvCell).join(';')).join('\r\n'),'text/csv;charset=utf-8');
+ downloadText('favoritos-'+exportTimestamp()+'.csv','\uFEFF'+lines.map(r=>r.map(csvCell).join(';')).join('\r\n'),'text/csv;charset=utf-8');
 });
 // Histórico de uma etapa: antes de alterar em massa ou importar, salvar estado anterior.
 function commitWithUndo(next,label){

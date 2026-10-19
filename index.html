@@ -1,27 +1,246 @@
-﻿\ufeff<!DOCTYPE html>
-<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Meus Favoritos — v1.4</title>
-<link rel="stylesheet" href="css/styles.css"></head><body><main class="wrap app-layout"><nav class="app-nav" aria-label="Seções"><strong class="nav-brand">★ Meus Favoritos</strong><button type="button" class="nav-link active" data-page="sites">🔖 Meus favoritos</button><button type="button" class="nav-link" data-page="form">＋ Adicionar site</button><button type="button" class="nav-link" data-page="categories">▤ Categorias e tags</button><button type="button" class="nav-link" data-page="files">⇅ Importar / Exportar</button><button type="button" class="nav-link" data-page="stats">▥ Estatísticas</button></nav><div class="app-content">
-<header class="top"><div><div class="eyebrow">Sua biblioteca de links · Versão 1.4.1</div><h1>Meus Favoritos</h1><p>Organize, encontre e acesse seus sites em um só lugar.</p></div><div class="actions"><button class="btn" id="themeBtn" type="button">🌙 Modo escuro</button><button class="btn" id="undoBtn" type="button" disabled>↶ Desfazer</button><span id="count" class="count">0 favoritos</span></div></header>
-<section class="panel app-page" data-section="stats"><h2>Visão geral</h2><div id="stats" class="stats"></div><div id="topCategories" class="hint" style="margin-top:12px"></div></section><section class="panel app-page" data-section="form" id="formPanel"><h2 id="formTitle">Adicionar novo site</h2><form id="siteForm"><div class="fields">
-<div class="field"><label for="name">Nome do site *</label><input id="name" required maxlength="120" placeholder="Ex.: MDN Web Docs"></div>
-<div class="field"><label for="url">URL *</label><input id="url" required placeholder="https://exemplo.com"></div>
-<div class="field wide"><label for="description">Descrição / finalidade *</label><textarea id="description" required maxlength="1000" placeholder="Para que serve este site?"></textarea></div>
-<div class="field"><label for="category">Categoria</label><select id="category"></select></div>
-<div class="field"><label for="tags">Etiquetas (separadas por vírgula)</label><input id="tags" maxlength="500" placeholder="Ex.: Python, aulas, gratuito"><label for="existingTagSelect">Adicionar uma etiqueta existente</label><div class="tag-picker"><select id="existingTagSelect"><option value="">Escolha uma etiqueta...</option></select><button class="btn" id="addExistingTag" type="button">Adicionar etiqueta</button></div></div>
-<div class="field"><label for="date">Data de cadastro</label><input id="date" type="date" readonly></div>
-<div class="field"><label for="notes">Observações</label><textarea id="notes" maxlength="3000" placeholder="Anotações, dicas e lembretes..."></textarea></div>
-<div class="field wide"><label><input id="priority" type="checkbox" style="width:auto;margin-right:8px">Marcar como favorito prioritário ★</label></div>
-</div><div id="duplicateWarning" class="message hidden" role="alert"></div><div class="actions"><button type="submit" id="saveBtn" class="btn primary">Salvar favorito</button><button type="button" id="cancelBtn" class="btn hidden">Cancelar edição</button></div></form></section>
-<section class="panel app-page" data-section="categories"><h2>Categorias e etiquetas</h2>
-<div class="tag-tabs" role="tablist" aria-label="Gerenciamento"><button class="btn primary" id="tabCategories" type="button" role="tab">Categorias</button><button class="btn" id="tabTags" type="button" role="tab">Etiquetas (tags)</button></div>
-<div id="categoriesPane"><p class="hint">Cada favorito pertence a uma categoria principal.</p><div class="manage"><div class="field"><label for="newCategory">Nova categoria</label><input id="newCategory" maxlength="60" placeholder="Ex.: Pesquisa Acadêmica"></div><button class="btn primary" id="addCategory" type="button">Adicionar categoria</button></div><div id="categoryList" class="category-list"></div></div>
-<div id="tagsPane" class="hidden"><p class="hint">Uma etiqueta pode ser associada a vários favoritos. Renomear ou excluir uma etiqueta atualiza os sites vinculados, sem excluí-los.</p><div class="manage"><div class="field"><label for="newTag">Nova etiqueta</label><input id="newTag" maxlength="80" placeholder="Ex.: Python, Hardware, Games"></div><button class="btn primary" id="addTag" type="button">Adicionar etiqueta</button></div><div id="tagList" class="tag-manager"></div></div></section>
-<section class="panel app-page" data-section="files"><h2>Importar e exportar</h2><p class="hint">Faça um backup JSON antes de importar ou atualizar muitos registros. CSV e XLSX são aceitos na importação de planilhas.</p><div class="actions" style="margin:0"><button class="btn" id="exportBtn">Exportar JSON</button><button class="btn" id="importBtn">Importar JSON</button><button class="btn" id="exportCsvBtn">Exportar planilha CSV</button><button class="btn primary" id="importCsvBtn">Importar CSV / Excel</button><button class="btn" id="auditBtn">Auditar duplicados</button><input class="hidden" id="importCsvFile" type="file" accept=".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"><input class="hidden" id="importFile" type="file" accept=".json,application/json"></div><h3>Histórico de importações JSON</h3><div id="backupHistory"></div></section>
-<section class="panel app-page" data-section="sites"><div class="top"><h2>Sites cadastrados</h2></div>
-<div class="toolbar"><input id="search" type="search" placeholder="Pesquisar nome, descrição, tags e observações..." aria-label="Pesquisar"><select id="filterCategory" aria-label="Filtrar categoria"></select><select id="filterPriority" aria-label="Filtrar prioridade"><option value="all">Todos os favoritos</option><option value="yes">Somente prioritários</option></select><select id="sort" aria-label="Ordenar"><option value="recent">Mais recentes</option><option value="old">Mais antigos</option><option value="az">Nome A–Z</option><option value="za">Nome Z–A</option></select><div class="toggle" aria-label="Modo de visualização"><button type="button" id="viewCards">Cards</button><button type="button" id="viewTable">Tabela</button></div></div>
-<div class="toolbar"><input id="filterTag" placeholder="Filtrar por tag (exata)" aria-label="Filtrar tag"><select id="filterMissing" aria-label="Estado do cadastro"><option value="all">Todas as descrições</option><option value="missing">Sem descrição informativa</option><option value="categorized">Com categoria</option><option value="uncategorized">Sem categoria</option></select><button class="btn" id="clearFilters">Limpar filtros</button></div><div class="select-all-row"><label class="batch-check"><input type="checkbox" id="selectVisible" class="select-favorite"> Selecionar resultados filtrados</label><span class="hint">Marque os sites para mostrar as ações em lote.</span></div><div class="batchbar hidden" id="batchBar"><div class="toolbar"><span id="selectedCount" class="pill">0 selecionados</span><button class="btn" id="clearSelection">Limpar seleção</button><label class="batch-field">Categoria a aplicar <select id="batchCategory" aria-label="Categoria em lote"></select></label><button class="btn" id="applyCategory">Aplicar categoria</button><label class="batch-field">Selecionar tags cadastradas <select id="batchExistingTags" multiple size="3" aria-label="Etiquetas cadastradas para aplicar em lote"></select><span class="hint">Ctrl + clique para escolher várias tags. <span id="batchTagsEmptyHelp" class="hidden">Não há etiquetas neste armazenamento. Cadastre-as em Categorias e tags ou digite uma nova etiqueta ao lado.</span></span></label><label class="batch-field">Ou digitar novas tags <input id="batchTags" placeholder="Ex.: programação, aulas" style="max-width:230px"></label><label class="batch-field">Ação nas etiquetas <select id="batchTagMode" aria-label="Operação nas etiquetas"><option value="add">Adicionar tags</option><option value="remove">Remover tags</option></select></label><button class="btn" id="applyTags">Aplicar tags</button><label class="batch-field">Prioridade <select id="batchPriority" aria-label="Prioridade em lote"><option value="yes">Marcar prioritários</option><option value="no">Remover prioridade</option></select></label><button class="btn" id="applyPriority">Aplicar prioridade</button><button class="btn danger" id="batchDelete">Excluir selecionados</button></div><p class="hint">Para tags: escolha uma ou várias etiquetas cadastradas (Ctrl + clique), selecione Adicionar ou Remover e clique em Aplicar tags. Para categorias, use Aplicar categoria. É possível desfazer alterações em lote.</p></div><p class="hint">Planilhas: use CSV UTF-8. Se o nome estiver vazio, será gerado a partir do domínio. CSV e XLSX (primeira aba) podem ser importados diretamente; mantenha as colunas Nome do Site e URL. Ao importar, os registros existentes são preservados e URLs repetidas são ignoradas.</p><p class="summary" id="results"></p><div id="cards" class="cards"></div><div id="tableArea" class="table-wrap hidden"><table><thead><tr><th>Selecionar</th><th>Site</th><th>Descrição</th><th>Categoria / etiquetas</th><th>Cadastro</th><th>Ações</th></tr></thead><tbody id="tableBody"></tbody></table></div><div id="empty" class="empty hidden"></div><p class="hint">Os dados ficam armazenados neste navegador. Faça backups JSON ou CSV regularmente. Abrir este arquivo em outro navegador ou em outro endereço pode acessar um armazenamento diferente.</p></section></div></main>
-<div id="backupPreview" class="preview-modal hidden" role="dialog" aria-modal="true" aria-labelledby="backupPreviewTitle"><div class="preview-dialog">
-<h2 id="backupPreviewTitle">Conferir backup JSON</h2><p id="backupSummary" class="preview-note" style="white-space:pre-line"></p>
-<label for="backupMode">Modo de importação</label><select id="backupMode"><option value="merge">Mesclar sem apagar favoritos existentes</option><option value="restore">Restaurar backup completo (substituir)</option></select>
-<p id="backupWarning" class="preview-note"></p><div class="actions"><button class="btn primary" id="confirmBackup">Confirmar importação JSON</button><button class="btn" id="cancelBackup">Cancelar</button></div></div></div><div id="csvPreview" class="preview-modal hidden" role="dialog" aria-modal="true" aria-labelledby="previewTitle"><div class="preview-dialog"><h2 id="previewTitle">Conferir importação da planilha</h2><p id="previewSummary" class="preview-note"></p><div id="previewIssues" class="preview-note"></div><div class="preview-table"><table><thead><tr><th>Linha</th><th>Nome identificado</th><th>URL</th><th>Situação</th></tr></thead><tbody id="previewRows"></tbody></table></div><div class="toolbar"><label><input type="checkbox" id="updateExisting" style="width:auto"> Atualizar registros existentes por URL (apenas campos preenchidos)</label></div><div class="actions"><button class="btn primary" id="confirmCsv">Confirmar importação</button><button class="btn" id="cancelCsv">Cancelar</button></div></div></div><div id="auditModal" class="preview-modal hidden" role="dialog" aria-modal="true"><div class="preview-dialog"><h2>Auditoria de duplicados existentes</h2><p class="hint">A auditoria não apaga nada automaticamente. Selecione qual registro deseja manter.</p><div id="auditList"></div><div class="actions"><button class="btn" id="closeAudit">Fechar</button></div></div></div>
-<script src="js/core.js"></script><script src="js/export-utils.js"></script><script src="js/app-legacy.js"></script><script src="js/favoritos.js"></script><script src="js/categorias.js"></script><script src="js/tags.js"></script><script src="js/renderizacao.js"></script><script src="js/backup.js"></script><script src="js/importacao-planilhas.js"></script></body></html>
+﻿\ufeff
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Meus Favoritos — v1.4</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <main class="wrap app-layout">
+        <nav class="app-nav" aria-label="Seções"><strong class="nav-brand">★ Meus Favoritos</strong><button
+                type="button" class="nav-link active" data-page="sites">🔖 Meus favoritos</button><button type="button"
+                class="nav-link" data-page="form">＋ Adicionar site</button><button type="button" class="nav-link"
+                data-page="categories">▤ Categorias e tags</button><button type="button" class="nav-link"
+                data-page="files">⇅ Importar / Exportar</button><button type="button" class="nav-link"
+                data-page="stats">▥ Estatísticas</button></nav>
+        <div class="app-content">
+            <header class="top">
+                <div>
+                    <div class="eyebrow">Sua biblioteca de links · Versão 1.4.1</div>
+                    <h1>Meus Favoritos</h1>
+                    <p>Organize, encontre e acesse seus sites em um só lugar.</p>
+                </div>
+                <div class="actions"><button class="btn" id="themeBtn" type="button">🌙 Modo escuro</button><button
+                        class="btn" id="undoBtn" type="button" disabled>↶ Desfazer</button><span id="count"
+                        class="count">0 favoritos</span></div>
+            </header>
+            <section class="panel app-page" data-section="stats">
+                <h2>Visão geral</h2>
+                <div id="stats" class="stats"></div>
+                <div id="topCategories" class="hint" style="margin-top:12px"></div>
+            </section>
+            <section class="panel app-page" data-section="form" id="formPanel">
+                <h2 id="formTitle">Adicionar novo site</h2>
+                <form id="siteForm">
+                    <div class="fields">
+                        <div class="field"><label for="name">Nome do site *</label><input id="name" required
+                                maxlength="120" placeholder="Ex.: MDN Web Docs"></div>
+                        <div class="field"><label for="url">URL *</label><input id="url" required
+                                placeholder="https://exemplo.com"></div>
+                        <div class="field wide"><label for="description">Descrição / finalidade *</label><textarea
+                                id="description" required maxlength="1000"
+                                placeholder="Para que serve este site?"></textarea></div>
+                        <div class="field"><label for="category">Categoria</label><select id="category"></select></div>
+                        <div class="field"><label for="tags">Etiquetas (separadas por vírgula)</label><input id="tags"
+                                maxlength="500" placeholder="Ex.: Python, aulas, gratuito"><label
+                                for="existingTagSelect">Adicionar uma etiqueta existente</label>
+                            <div class="tag-picker"><select id="existingTagSelect">
+                                    <option value="">Escolha uma etiqueta...</option>
+                                </select><button class="btn" id="addExistingTag" type="button">Adicionar
+                                    etiqueta</button></div>
+                        </div>
+                        <div class="field"><label for="date">Data de cadastro</label><input id="date" type="date"
+                                readonly></div>
+                        <div class="field"><label for="notes">Observações</label><textarea id="notes" maxlength="3000"
+                                placeholder="Anotações, dicas e lembretes..."></textarea></div>
+                        <div class="field wide"><label><input id="priority" type="checkbox"
+                                    style="width:auto;margin-right:8px">Marcar como favorito prioritário ★</label></div>
+                    </div>
+                    <div id="duplicateWarning" class="message hidden" role="alert"></div>
+                    <div class="actions"><button type="submit" id="saveBtn" class="btn primary">Salvar
+                            favorito</button><button type="button" id="cancelBtn" class="btn hidden">Cancelar
+                            edição</button></div>
+                </form>
+            </section>
+            <section class="panel app-page" data-section="categories">
+                <h2>Categorias e etiquetas</h2>
+                <div class="tag-tabs" role="tablist" aria-label="Gerenciamento"><button class="btn primary"
+                        id="tabCategories" type="button" role="tab">Categorias</button><button class="btn" id="tabTags"
+                        type="button" role="tab">Etiquetas (tags)</button></div>
+                <div id="categoriesPane">
+                    <p class="hint">Cada favorito pertence a uma categoria principal.</p>
+                    <div class="manage">
+                        <div class="field"><label for="newCategory">Nova categoria</label><input id="newCategory"
+                                maxlength="60" placeholder="Ex.: Pesquisa Acadêmica"></div><button class="btn primary"
+                            id="addCategory" type="button">Adicionar categoria</button>
+                    </div>
+                    <div id="categoryList" class="category-list"></div>
+                </div>
+                <div id="tagsPane" class="hidden">
+                    <p class="hint">Uma etiqueta pode ser associada a vários favoritos. Renomear ou excluir uma etiqueta
+                        atualiza os sites vinculados, sem excluí-los.</p>
+                    <div class="manage">
+                        <div class="field"><label for="newTag">Nova etiqueta</label><input id="newTag" maxlength="80"
+                                placeholder="Ex.: Python, Hardware, Games"></div><button class="btn primary" id="addTag"
+                            type="button">Adicionar etiqueta</button>
+                    </div>
+                    <div id="tagList" class="tag-manager"></div>
+                </div>
+            </section>
+            <section class="panel app-page" data-section="files">
+                <h2>Importar e exportar</h2>
+                <p class="hint">Faça um backup JSON antes de importar ou atualizar muitos registros. CSV e XLSX são
+                    aceitos na importação de planilhas.</p>
+                <div class="actions" style="margin:0"><button class="btn" id="exportBtn">Exportar JSON</button><button
+                        class="btn" id="importBtn">Importar JSON</button><button class="btn" id="exportCsvBtn">Exportar
+                        planilha CSV</button><button class="btn primary" id="importCsvBtn">Importar CSV /
+                        Excel</button><button class="btn" id="auditBtn">Auditar duplicados</button><input class="hidden"
+                        id="importCsvFile" type="file"
+                        accept=".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"><input
+                        class="hidden" id="importFile" type="file" accept=".json,application/json"></div>
+                <h3>Histórico de importações JSON</h3>
+                <div id="backupHistory"></div>
+            </section>
+            <section class="panel app-page" data-section="sites">
+                <div class="top">
+                    <h2>Sites cadastrados</h2>
+                </div>
+                <div class="toolbar"><input id="search" type="search"
+                        placeholder="Pesquisar nome, descrição, tags e observações..." aria-label="Pesquisar"><select
+                        id="filterCategory" aria-label="Filtrar categoria"></select><select id="filterPriority"
+                        aria-label="Filtrar prioridade">
+                        <option value="all">Todos os favoritos</option>
+                        <option value="yes">Somente prioritários</option>
+                    </select><select id="sort" aria-label="Ordenar">
+                        <option value="recent">Mais recentes</option>
+                        <option value="old">Mais antigos</option>
+                        <option value="az">Nome A–Z</option>
+                        <option value="za">Nome Z–A</option>
+                    </select>
+                    <div class="toggle" aria-label="Modo de visualização"><button type="button"
+                            id="viewCards">Cards</button><button type="button" id="viewTable">Tabela</button></div>
+                </div>
+                <div class="toolbar"><input id="filterTag" placeholder="Filtrar por tag (exata)"
+                        aria-label="Filtrar tag"><select id="filterMissing" aria-label="Estado do cadastro">
+                        <option value="all">Todas as descrições</option>
+                        <option value="missing">Sem descrição informativa</option>
+                        <option value="categorized">Com categoria</option>
+                        <option value="uncategorized">Sem categoria</option>
+                    </select><button class="btn" id="clearFilters">Limpar filtros</button></div>
+                <div class="select-all-row"><label class="batch-check"><input type="checkbox" id="selectVisible"
+                            class="select-favorite"> Selecionar resultados filtrados</label><span class="hint">Marque os
+                        sites para mostrar as ações em lote.</span></div>
+                <div class="batchbar hidden" id="batchBar">
+                    <div class="toolbar"><span id="selectedCount" class="pill">0 selecionados</span><button class="btn"
+                            id="clearSelection">Limpar seleção</button><label class="batch-field">Categoria a aplicar
+                            <select id="batchCategory" aria-label="Categoria em lote"></select></label><button
+                            class="btn" id="applyCategory">Aplicar categoria</button><label
+                            class="batch-field">Selecionar tags cadastradas <select id="batchExistingTags" multiple
+                                size="3" aria-label="Etiquetas cadastradas para aplicar em lote"></select><span
+                                class="hint">Ctrl + clique para escolher várias tags. <span id="batchTagsEmptyHelp"
+                                    class="hidden">Não há etiquetas neste armazenamento. Cadastre-as em Categorias e
+                                    tags ou digite uma nova etiqueta ao lado.</span></span></label><label
+                            class="batch-field">Ou digitar novas tags <input id="batchTags"
+                                placeholder="Ex.: programação, aulas" style="max-width:230px"></label><label
+                            class="batch-field">Ação nas etiquetas <select id="batchTagMode"
+                                aria-label="Operação nas etiquetas">
+                                <option value="add">Adicionar tags</option>
+                                <option value="remove">Remover tags</option>
+                            </select></label><button class="btn" id="applyTags">Aplicar tags</button><label
+                            class="batch-field">Prioridade <select id="batchPriority" aria-label="Prioridade em lote">
+                                <option value="yes">Marcar prioritários</option>
+                                <option value="no">Remover prioridade</option>
+                            </select></label><button class="btn" id="applyPriority">Aplicar prioridade</button><button
+                            class="btn danger" id="batchDelete">Excluir selecionados</button></div>
+                    <p class="hint">Para tags: escolha uma ou várias etiquetas cadastradas (Ctrl + clique), selecione
+                        Adicionar ou Remover e clique em Aplicar tags. Para categorias, use Aplicar categoria. É
+                        possível desfazer alterações em lote.</p>
+                </div>
+                <p class="hint">Planilhas: use CSV UTF-8. Se o nome estiver vazio, será gerado a partir do domínio. CSV
+                    e XLSX (primeira aba) podem ser importados diretamente; mantenha as colunas Nome do Site e URL. Ao
+                    importar, os registros existentes são preservados e URLs repetidas são ignoradas.</p>
+                <p class="summary" id="results"></p>
+                <div id="cards" class="cards"></div>
+                <div id="tableArea" class="table-wrap hidden">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Selecionar</th>
+                                <th>Site</th>
+                                <th>Descrição</th>
+                                <th>Categoria / etiquetas</th>
+                                <th>Cadastro</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+                <div id="empty" class="empty hidden"></div>
+                <p class="hint">Os dados ficam armazenados neste navegador. Faça backups JSON ou CSV regularmente. Abrir
+                    este arquivo em outro navegador ou em outro endereço pode acessar um armazenamento diferente.</p>
+            </section>
+        </div>
+    </main>
+    <div id="backupPreview" class="preview-modal hidden" role="dialog" aria-modal="true"
+        aria-labelledby="backupPreviewTitle">
+        <div class="preview-dialog">
+            <h2 id="backupPreviewTitle">Conferir backup JSON</h2>
+            <p id="backupSummary" class="preview-note" style="white-space:pre-line"></p>
+            <label for="backupMode">Modo de importação</label><select id="backupMode">
+                <option value="merge">Mesclar sem apagar favoritos existentes</option>
+                <option value="restore">Restaurar backup completo (substituir)</option>
+            </select>
+            <p id="backupWarning" class="preview-note"></p>
+            <div class="actions"><button class="btn primary" id="confirmBackup">Confirmar importação
+                    JSON</button><button class="btn" id="cancelBackup">Cancelar</button></div>
+        </div>
+    </div>
+    <div id="csvPreview" class="preview-modal hidden" role="dialog" aria-modal="true" aria-labelledby="previewTitle">
+        <div class="preview-dialog">
+            <h2 id="previewTitle">Conferir importação da planilha</h2>
+            <p id="previewSummary" class="preview-note"></p>
+            <div id="previewIssues" class="preview-note"></div>
+            <div class="preview-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Linha</th>
+                            <th>Nome identificado</th>
+                            <th>URL</th>
+                            <th>Situação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="previewRows"></tbody>
+                </table>
+            </div>
+            <div class="toolbar"><label><input type="checkbox" id="updateExisting" style="width:auto"> Atualizar
+                    registros existentes por URL (apenas campos preenchidos)</label></div>
+            <div class="actions"><button class="btn primary" id="confirmCsv">Confirmar importação</button><button
+                    class="btn" id="cancelCsv">Cancelar</button></div>
+        </div>
+    </div>
+    <div id="auditModal" class="preview-modal hidden" role="dialog" aria-modal="true">
+        <div class="preview-dialog">
+            <h2>Auditoria de duplicados existentes</h2>
+            <p class="hint">A auditoria não apaga nada automaticamente. Selecione qual registro deseja manter.</p>
+            <div id="auditList"></div>
+            <div class="actions"><button class="btn" id="closeAudit">Fechar</button></div>
+        </div>
+    </div>
+    <script src="js/core.js"></script>
+    <script src="js/export-utils.js"></script>
+    <script src="js/app-legacy.js"></script>
+    <script src="js/favoritos.js"></script>
+    <script src="js/categorias.js"></script>
+    <script src="js/tags.js"></script>
+    <script src="js/renderizacao.js"></script>
+    <script src="js/backup.js"></script>
+    <script src="js/importacao-planilhas.js"></script>
+</body>
+
+</html>
