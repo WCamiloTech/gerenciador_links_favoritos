@@ -69,4 +69,4 @@ $('addExistingTag').addEventListener('click',()=>{
 });
 
 // Inicialização após a carga de ambos os módulos.
-renderCategories();resetForm();render();
+window.addEventListener('load',()=>{renderCategories();resetForm();render();});
