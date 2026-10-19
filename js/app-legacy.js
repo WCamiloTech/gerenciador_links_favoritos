@@ -17,11 +17,6 @@ showPage('sites');
 // Compatibilidade: mantém exatamente a chave de armazenamento da versão anterior.
 let favorites=(Array.isArray(readJSON(STORAGE_KEY,[]))?readJSON(STORAGE_KEY,[]):[]).filter(validFavorite).map(upgrade);
 const storedSettings=readJSON(SETTINGS_KEY,{});
-const TAGS_KEY='gerenciador_favoritos_tags_v1_5_1';
-let managedTags=Array.isArray(readJSON(TAGS_KEY,[]))?readJSON(TAGS_KEY,[]).filter(x=>typeof x==='string'&&x.trim()).map(x=>x.trim().slice(0,80)):[];
-function tagId(t){return cleanText(t).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('pt-BR')}
-function allTags(){const m=new Map();for(const t of [...managedTags,...favorites.flatMap(f=>f.tags)])if(!m.has(tagId(t)))m.set(tagId(t),t);return [...m.values()].sort((a,b)=>a.localeCompare(b,'pt-BR'))}
-function persistTags(next){try{localStorage.setItem(TAGS_KEY,JSON.stringify(next));managedTags=next;return true}catch{alert('Não foi possível salvar etiquetas.');return false}}
 
 let categories=Array.isArray(storedSettings.categories)?[...new Set(storedSettings.categories.filter(c=>typeof c==='string'&&c.trim()).map(c=>c.trim()))]:[];
 for(const f of favorites){if(f.category&&!categories.some(c=>c.toLowerCase()===f.category.toLowerCase()))categories.push(f.category)}
@@ -50,69 +45,6 @@ function selectionBox(f){const c=el('input','select-favorite');c.type='checkbox'
 function cardFor(f){const card=el('article','site'),head=el('div','site-head'),title=el('div','site-title');title.append(selectionBox(f),star(f),el('h3','',f.name));head.append(title,el('span','date',localDate(f.createdAt)));const link=el('a','url',f.url);link.href=f.url;link.target='_blank';link.rel='noopener noreferrer';card.append(head,link,el('p','description',f.description),badges(f));if(f.notes)card.append(el('div','notes',f.notes));card.append(controls(f));return card}
 function rowFor(f){const tr=el('tr'),site=el('td'),title=el('div','site-title');title.append(star(f),el('strong','',f.name));const link=el('a','url',f.url);link.href=f.url;link.target='_blank';link.rel='noopener noreferrer';site.append(title,link);const desc=el('td','',f.description);if(f.notes)desc.append(el('div','hint','Obs.: '+f.notes));const cats=el('td');cats.append(badges(f));const date=el('td','',localDate(f.createdAt)),acts=el('td');acts.append(controls(f));const choose=el('td');choose.append(selectionBox(f));tr.append(choose,site,desc,cats,date,acts);return tr}
 function renderCategories(){const select=$('category'),filter=$('filterCategory'),current=select.value,filtered=filter.value;select.replaceChildren(new Option('Sem categoria',''));filter.replaceChildren(new Option('Todas as categorias','all'),new Option('Sem categoria','none'));for(const c of categories.sort((a,b)=>a.localeCompare(b,'pt-BR'))){select.add(new Option(c,c));filter.add(new Option(c,c))}select.value=categories.includes(current)?current:'';filter.value=[...categories,'all','none'].includes(filtered)?filtered:'all';const batch=$('batchCategory'),prevBatch=batch.value;batch.replaceChildren(new Option('Sem categoria',''));for(const c of categories)batch.add(new Option(c,c));batch.value=categories.includes(prevBatch)?prevBatch:'';const list=$('categoryList');list.replaceChildren();for(const c of categories){const item=el('div','category-item');item.append(el('span','',c),action('Renomear','',()=>renameCategory(c)),action('Excluir','danger',()=>removeCategory(c)));list.append(item)}if(!categories.length)list.append(el('span','hint','Nenhuma categoria criada.'))}
-// Gerenciamento centralizado das etiquetas. Não altera os favoritos ao cadastrar uma etiqueta vazia.
-function renderTags(){
- const batchPicker=$('batchExistingTags');
- const chosen=new Set([...batchPicker.selectedOptions].map(o=>tagId(o.value)));
- const available=allTags();
- batchPicker.replaceChildren();
- if(!available.length){
-  const empty=new Option('Nenhuma tag cadastrada','');empty.disabled=true;batchPicker.add(empty);
- }else{
-  for(const t of available){
-   const o=new Option(t,t);
-   o.selected=chosen.has(tagId(t));
-   batchPicker.add(o);
-  }
- }
- $('batchTagsEmptyHelp').classList.toggle('hidden',available.length>0);
- const tags=allTags(),list=$('tagList'),picker=$('existingTagSelect'),previous=picker.value;
- list.replaceChildren();picker.replaceChildren(new Option('Escolha uma etiqueta...',''));
- for(const tag of tags){
-  picker.add(new Option(tag,tag));
-  const count=favorites.filter(f=>f.tags.some(t=>tagId(t)===tagId(tag))).length;
-  const item=el('div','tag-entry');
-  const info=el('div','tag-info');info.append(el('strong','',tag),el('span','hint',count+' site(s) associado(s)'));
-  item.append(info,action('Renomear','',()=>renameTag(tag)),action('Excluir','danger',()=>removeTag(tag)));
-  list.append(item);
- }
- if(!tags.length)list.append(el('p','hint','Nenhuma etiqueta cadastrada.'));
- picker.value=tags.includes(previous)?previous:'';
-}
-function addTag(){
- const name=cleanText($('newTag').value);
- if(!name||name.length>80){alert('Informe uma etiqueta de até 80 caracteres.');return}
- if(allTags().some(t=>tagId(t)===tagId(name))){alert('Essa etiqueta já existe.');return}
- if(persistTags([...managedTags,name])){$('newTag').value='';renderTags()}
-}
-function renameTag(old){
- const answer=prompt('Novo nome da etiqueta:',old);if(answer===null)return;
- const name=cleanText(answer);if(!name||name.length>80){alert('Informe uma etiqueta de até 80 caracteres.');return}
- if(tagId(old)!==tagId(name)&&allTags().some(t=>tagId(t)===tagId(name))){alert('Já existe uma etiqueta com esse nome.');return}
- const next=favorites.map(f=>({...f,tags:normalizeTags(f.tags.map(t=>tagId(t)===tagId(old)?name:t))}));
- const oldRegistry=[...managedTags];
- if(!commitWithUndo(next,'Renomear etiqueta: '+old))return;
- const registry=allTags().filter(t=>tagId(t)!==tagId(old));
- if(!persistTags([...registry,name])){alert('Não foi possível salvar o catálogo de etiquetas.');return}
- if($('tags').value.trim())$('tags').value=normalizeTags($('tags').value).map(t=>tagId(t)===tagId(old)?name:t).join(', ');
- renderTags();render();
-}
-function removeTag(tag){
- const count=favorites.filter(f=>f.tags.some(t=>tagId(t)===tagId(tag))).length;
- if(!confirm('Excluir a etiqueta “'+tag+'”? Ela será removida de '+count+' site(s), mas nenhum favorito será excluído.'))return;
- const next=favorites.map(f=>({...f,tags:f.tags.filter(t=>tagId(t)!==tagId(tag))}));
- if(!commitWithUndo(next,'Excluir etiqueta: '+tag))return;
- persistTags(managedTags.filter(t=>tagId(t)!==tagId(tag)));
- if($('tags').value.trim())$('tags').value=normalizeTags($('tags').value).filter(t=>tagId(t)!==tagId(tag)).join(', ');
- renderTags();render();
-}
-$('addTag').addEventListener('click',addTag);
-$('newTag').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addTag()}});
-$('addExistingTag').addEventListener('click',()=>{
- const name=$('existingTagSelect').value;if(!name)return;
- const values=normalizeTags([...normalizeTags($('tags').value),name]);
- $('tags').value=values.join(', ');
-});
 function showManagerTab(tab){
  const isTags=tab==='tags';
  $('tagsPane').classList.toggle('hidden',!isTags);
@@ -230,4 +162,3 @@ async function spreadsheetRows(file){
  return result;
 }
 
-renderCategories();resetForm();render();
