@@ -130,4 +130,42 @@ $('importCsvFile').addEventListener('change',async event=>{
  finally{event.target.value=''}
 });
 
-
+// XLSX sem CDN: leitor mínimo de arquivos OOXML ZIP com a primeira aba.
+// Usa APIs nativas modernas do navegador (DecompressionStream) e limita arquivos grandes.
+async function spreadsheetRows(file){
+ if(!/\.xlsx$/i.test(file.name)){
+  const text=(await file.text()).replace(/^\uFEFF/,'');const first=text.split(/\r?\n/,1)[0];
+  const delimiter=(first.match(/;/g)||[]).length>=(first.match(/,/g)||[]).length?';':',';return parseCsv(text,delimiter);
+ }
+ const buf=await file.arrayBuffer(),dv=new DataView(buf),bytes=new Uint8Array(buf);
+ const u16=i=>dv.getUint16(i,true),u32=i=>dv.getUint32(i,true);
+ let end=-1;for(let i=bytes.length-22;i>=Math.max(0,bytes.length-65557);i--)if(u32(i)===0x06054b50){end=i;break}
+ if(end<0)throw Error('Arquivo XLSX não é um ZIP válido.');
+ let offset=u32(end+16),count=u16(end+10);const entries=new Map();
+ for(let j=0;j<count;j++){if(u32(offset)!==0x02014b50)throw Error('Índice ZIP inválido.');
+  const method=u16(offset+10),size=u32(offset+20),nameLen=u16(offset+28),extra=u16(offset+30),comment=u16(offset+32),loc=u32(offset+42);
+  const name=new TextDecoder().decode(bytes.slice(offset+46,offset+46+nameLen));entries.set(name,{method,size,loc});offset+=46+nameLen+extra+comment;
+ }
+ async function xml(name){const e=entries.get(name);if(!e)return null;if(e.size>25e6)throw Error('Planilha muito grande.');
+  const off=e.loc;if(u32(off)!==0x04034b50)throw Error('Entrada ZIP inválida.');const start=off+30+u16(off+26)+u16(off+28),data=bytes.slice(start,start+e.size);
+  let output;if(e.method===0)output=data;else if(e.method===8&&typeof DecompressionStream!=='undefined'){
+   const stream=new Blob([data]).stream().pipeThrough(new DecompressionStream('deflate-raw'));output=new Uint8Array(await new Response(stream).arrayBuffer());
+  }else throw Error('Este navegador não oferece descompactação XLSX local. Salve como CSV UTF-8.');
+  return new DOMParser().parseFromString(new TextDecoder().decode(output),'application/xml');
+ }
+ const stringsDoc=await xml('xl/sharedStrings.xml'),shared=[];
+ if(stringsDoc)for(const si of stringsDoc.getElementsByTagName('si'))shared.push([...si.getElementsByTagName('t')].map(t=>t.textContent).join(''));
+ const workbook=await xml('xl/workbook.xml'),rels=await xml('xl/_rels/workbook.xml.rels');
+ let sheetPath='xl/worksheets/sheet1.xml';
+ if(workbook&&rels){const first=workbook.getElementsByTagName('sheet')[0],rid=first?.getAttribute('r:id');
+  for(const rel of rels.getElementsByTagName('Relationship'))if(rel.getAttribute('Id')===rid){const target=rel.getAttribute('Target')||'';sheetPath=target.startsWith('/')?target.slice(1):target.startsWith('xl/')?target:'xl/'+target;break}
+ }
+ const doc=await xml(sheetPath);if(!doc)throw Error('Primeira aba XLSX não encontrada.');
+ const result=[];for(const row of doc.getElementsByTagName('row')){const cells=[];
+  for(const c of row.getElementsByTagName('c')){const ref=c.getAttribute('r')||'A1',letters=(ref.match(/^[A-Z]+/)||['A'])[0];let idx=0;for(const char of letters)idx=idx*26+char.charCodeAt(0)-64;idx--;
+   const type=c.getAttribute('t'),v=c.getElementsByTagName('v')[0]?.textContent||'';
+   cells[idx]=type==='s'?(shared[Number(v)]||''):type==='inlineStr'?[...c.getElementsByTagName('t')].map(t=>t.textContent).join(''):v;
+  }result.push(Array.from({length:cells.length},(_,i)=>cells[i]||''));
+ }
+ return result;
+}
