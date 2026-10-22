@@ -113,3 +113,14 @@ Usar `docs/modelo_registro_implementacao.md` e `tools/registrar_implementacao.py
 - **Versão anterior:** C:\Users\Will\Downloads\gerenciador_links_favoritos_versoes\versao_5A_R1_pre_padronizacao_docs_2026-10-19_17-06-51.zip
 - **SHA-256:** 82ce4364ae94ca95455edc3a16c6b2d37d87026af33148996f343580bb1468db
 - **Origem:** Instalador de padronizacao
+
+## Etapa 5B — Selecao multipla de etiquetas e contexto de operacoes em lote
+- **Data e hora:** 2026-10-22T02:11:04-03:00
+- **Descrição:** Caixas de selecao para varias tags; preservacao de selecao e filtros em aplicacao de etiquetas; melhorias e README atualizados.
+- **Arquivos alterados:** index.html, css/styles.css, js/app-legacy.js, js/tags.js, README.md, docs/melhorias_sugeridas.md, tests/check_stage5b.py
+- **Testes automatizados:** 14 testes estaticos compativeis aprovados
+- **Validação funcional:** Pendente de confirmacao no Firefox
+- **Situação:** Em validacao
+- **Versão anterior:** C:\Users\Will\Downloads\gerenciador_links_favoritos_versoes\versao_5A_R1_pre_5B_2026-10-22_02-10-56.zip
+- **SHA-256:** D96966ABD76B97809A3DB69927E20CA626A0F4F4FC8956175112F314CF4D86F3
+- **Origem:** Instalador Etapa 5B

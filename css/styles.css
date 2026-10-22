@@ -83,3 +83,11 @@ body.dark .category-item.tag-entry{background:#26364a;border-color:#40516a}
 .category-list,.tag-manager{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));grid-auto-rows:max-content;align-content:start;align-items:start;gap:12px}
 .category-list>.category-item,.tag-manager>.category-item{height:auto;min-height:0;justify-content:flex-start}
 @media(max-width:550px){.category-list,.tag-manager{grid-template-columns:1fr}}
+
+/* Etapa 5B: escolha intuitiva de varias etiquetas em lote. */
+.batch-tag-options{min-width:195px;max-width:280px;max-height:160px;overflow-y:auto;border:1px solid #cbd5e1;border-radius:8px;padding:7px;display:flex;flex-direction:column;gap:3px;background:#fff;color:#202b3c}
+.batch-tag-choice{display:flex;align-items:center;gap:8px;padding:5px 7px;border-radius:6px;cursor:pointer;white-space:normal;overflow-wrap:anywhere}
+.batch-tag-choice:hover{background:rgba(103,85,219,.10)}
+.batch-tag-choice input{width:17px!important;height:17px;flex:0 0 17px;accent-color:#6755db}
+body.dark .batch-tag-options{background:#26364a;color:#edf2fc;border-color:#5c6b82}
+body.dark .batch-tag-choice:hover{background:rgba(161,145,255,.18)}

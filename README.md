@@ -30,3 +30,11 @@ O Git não é iniciado automaticamente, pois isso alteraria o seu ambiente.
 2. Mapear as dependências entre funções.
 3. Extrair os módulos de exportação, importação, armazenamento e interface em pequenas mudanças verificáveis.
 4. Criar testes automatizados de comportamento e um pacote de distribuição HTML único, se desejado.
+
+## Evolucao funcional (Etapa 5B - aguardando validacao no Firefox)
+- Cadastro e organizacao de favoritos com categorias e etiquetas; pesquisa, filtros, importacao CSV/XLSX e exportacao.
+- Etiquetas em lote: marque varias caixas de selecao, acrescente tags novas separadas por virgula e aplique a todos os favoritos selecionados.
+- Apos adicionar/remover etiquetas em lote, filtros e selecao dos favoritos sao preservados, inclusive quando alguns itens deixam de aparecer no filtro atual. Use **Limpar selecao** para encerrar.
+- Acoes destrutivas e restauracao via Desfazer continuam limpando a selecao.
+- Ideias e status: `docs/melhorias_sugeridas.md`. Historico: `docs/historico_implementacoes.md`.
+- As funcionalidades 5B so devem ser marcadas como **Aplicadas** apos validacao funcional no Firefox.

@@ -7,16 +7,16 @@ function persistTags(next){try{localStorage.setItem(TAGS_KEY,JSON.stringify(next
 // Gerenciamento centralizado das etiquetas. Não altera os favoritos ao cadastrar uma etiqueta vazia.
 function renderTags(){
  const batchPicker=$('batchExistingTags');
- const chosen=new Set([...batchPicker.selectedOptions].map(o=>tagId(o.value)));
+ const chosen=new Set([...batchPicker.querySelectorAll('input[type="checkbox"]:checked')].map(o=>tagId(o.value)));
  const available=allTags();
  batchPicker.replaceChildren();
  if(!available.length){
-  const empty=new Option('Nenhuma tag cadastrada','');empty.disabled=true;batchPicker.add(empty);
+  batchPicker.append(el('span','hint','Nenhuma tag cadastrada'));
  }else{
   for(const t of available){
-   const o=new Option(t,t);
-   o.selected=chosen.has(tagId(t));
-   batchPicker.add(o);
+   const label=el('label','batch-tag-choice');
+   const input=document.createElement('input');input.type='checkbox';input.value=t;input.checked=chosen.has(tagId(t));
+   label.append(input,document.createTextNode(t));batchPicker.append(label);
   }
  }
  $('batchTagsEmptyHelp').classList.toggle('hidden',available.length>0);

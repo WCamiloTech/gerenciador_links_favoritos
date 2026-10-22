@@ -139,9 +139,8 @@
                             id="clearSelection">Limpar seleção</button><label class="batch-field">Categoria a aplicar
                             <select id="batchCategory" aria-label="Categoria em lote"></select></label><button
                             class="btn" id="applyCategory">Aplicar categoria</button><label
-                            class="batch-field">Selecionar tags cadastradas <select id="batchExistingTags" multiple
-                                size="3" aria-label="Etiquetas cadastradas para aplicar em lote"></select><span
-                                class="hint">Ctrl + clique para escolher várias tags. <span id="batchTagsEmptyHelp"
+                            class="batch-field">Selecionar tags cadastradas <div id="batchExistingTags" class="batch-tag-options" role="group" aria-label="Etiquetas cadastradas para aplicar em lote"></div><span
+                                class="hint">Marque todas as tags que deseja aplicar de uma vez. <span id="batchTagsEmptyHelp"
                                     class="hidden">Não há etiquetas neste armazenamento. Cadastre-as em Categorias e
                                     tags ou digite uma nova etiqueta ao lado.</span></span></label><label
                             class="batch-field">Ou digitar novas tags <input id="batchTags"
@@ -156,7 +155,7 @@
                                 <option value="no">Remover prioridade</option>
                             </select></label><button class="btn" id="applyPriority">Aplicar prioridade</button><button
                             class="btn danger" id="batchDelete">Excluir selecionados</button></div>
-                    <p class="hint">Para tags: escolha uma ou várias etiquetas cadastradas (Ctrl + clique), selecione
+                    <p class="hint">Para tags: marque uma ou várias etiquetas cadastradas, selecione
                         Adicionar ou Remover e clique em Aplicar tags. Para categorias, use Aplicar categoria. É
                         possível desfazer alterações em lote.</p>
                 </div>
