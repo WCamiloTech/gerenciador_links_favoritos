@@ -21,7 +21,7 @@ const storedSettings=readJSON(SETTINGS_KEY,{});
 
 let categories=Array.isArray(storedSettings.categories)?[...new Set(storedSettings.categories.filter(c=>typeof c==='string'&&c.trim()).map(c=>c.trim()))]:[];
 for(const f of favorites){if(f.category&&!categories.some(c=>c.toLowerCase()===f.category.toLowerCase()))categories.push(f.category)}
-let view=storedSettings.view==='table'?'table':'cards';let editingId=null;let selectedIds=new Set(),visibleIds=[],undoState=null;const UNDO_KEY='gerenciador_favoritos_undo_v1_4';
+let view=storedSettings.view==='table'?'table':'cards';let editingId=null;let selectedIds=new Set(),visibleIds=[];
 function saveFavorites(next){try{const seen=new Map();for(const f of next){const key=urlKey(f.url);if(seen.has(key)){const previous=seen.get(key);const wasExisting=favorites.some(x=>x.id===f.id&&urlKey(x.url)===key)&&favorites.some(x=>x.id===previous.id&&urlKey(x.url)===key);if(!wasExisting){alert('Operação bloqueada: URL duplicada.');return false}}else seen.set(key,f)}localStorage.setItem(STORAGE_KEY,JSON.stringify(next));favorites=next;
  // Registra etiquetas novas para reutilização mesmo após excluir o favorito.
  const registry=new Map(managedTags.map(t=>[tagId(t),t]));
@@ -52,19 +52,6 @@ $('exportCsvBtn').addEventListener('click',()=>{
  const lines=[csvHeaders,...favorites.map(f=>[f.name,f.url,f.description,dateForInput(f.createdAt),f.notes,f.category,f.tags.join(', '),f.priority?'Sim':'Não'])];
  downloadText('favoritos-'+exportTimestamp()+'.csv','\uFEFF'+lines.map(r=>r.map(csvCell).join(';')).join('\r\n'),'text/csv;charset=utf-8');
 });
-// Histórico de uma etapa: antes de alterar em massa ou importar, salvar estado anterior.
-function commitWithUndo(next,label,preserveSelection=false){
- const old=JSON.stringify({favorites,categories,managedTags:allTags(),label,at:new Date().toISOString()});
- try{localStorage.setItem(UNDO_KEY,old)}catch{alert('Não há espaço para criar ponto de restauração. Exporte JSON antes de continuar.');return false}
- if(!saveFavorites(next))return false;
- undoState=old;$('undoBtn').disabled=false;if(!preserveSelection)selectedIds.clear();render();return true;
-}
-function restoreUndo(){const raw=undoState||localStorage.getItem(UNDO_KEY);if(!raw)return;
- const data=JSON.parse(raw);if(!confirm('Desfazer a última operação ('+data.label+')? As alterações posteriores serão substituídas.'))return;
- if(!saveFavorites(data.favorites))return;
- saveSettings(data.categories);if(Array.isArray(data.managedTags))persistTags(data.managedTags);localStorage.removeItem(UNDO_KEY);undoState=null;$('undoBtn').disabled=true;selectedIds.clear();resetForm();renderCategories();render();
-}
-$('undoBtn').disabled=!localStorage.getItem(UNDO_KEY);$('undoBtn').addEventListener('click',restoreUndo);
 const THEME_KEY='gerenciador_favoritos_tema_v1_4';
 function setTheme(dark){document.body.classList.toggle('dark',dark);$('themeBtn').textContent=dark?'☀ Modo claro':'☾ Modo escuro';localStorage.setItem(THEME_KEY,dark?'dark':'light')}
 setTheme(localStorage.getItem(THEME_KEY)==='dark');$('themeBtn').addEventListener('click',()=>setTheme(!document.body.classList.contains('dark')));

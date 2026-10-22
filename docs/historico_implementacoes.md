@@ -124,3 +124,36 @@ Usar `docs/modelo_registro_implementacao.md` e `tools/registrar_implementacao.py
 - **Versão anterior:** C:\Users\Will\Downloads\gerenciador_links_favoritos_versoes\versao_5A_R1_pre_5B_2026-10-22_02-10-56.zip
 - **SHA-256:** D96966ABD76B97809A3DB69927E20CA626A0F4F4FC8956175112F314CF4D86F3
 - **Origem:** Instalador Etapa 5B
+
+## Etapa 5B-DOC1 — Padronizacao do registro de melhorias
+- **Data e hora:** 2026-10-22T02:20:00-03:00
+- **Descrição:** Substituicao da tabela por registros individuais e atualizacao dos status MEL-004, MEL-005, MEL-007 e MEL-008 apos validacao funcional.
+- **Arquivos alterados:** docs/melhorias_sugeridas.md, README.md
+- **Testes automatizados:** Teste estrutural de documentacao aprovado
+- **Validação funcional:** Etapa 5B: seis testes funcionais confirmados pelo usuario
+- **Situação:** Instalada; documentacao atualizada
+- **Versão anterior:** C:\Users\Will\Downloads\gerenciador_links_favoritos_versoes\versao_5B_pre_docs_pos5B_2026-10-22_02-19-58.zip
+- **SHA-256:** DBC7D722F6ACE9AB8CEF9B3443F8EEECB0CFB4010EE16467AC5100B94744D92B
+- **Origem:** Instalador PowerShell de revisao documental pos-5B
+
+## Etapa 5C — Modularizacao da funcionalidade Desfazer
+- **Data e hora:** 2026-10-22T02:35:43-03:00
+- **Descrição:** Extracao da logica de Desfazer para js/desfazer.js sem alterar contrato, chave ou comportamento
+- **Arquivos alterados:** index.html, js/app-legacy.js, js/desfazer.js, README.md, tests/check_baseline.py, tests/check_stage5b.py, tests/check_stage5c.py
+- **Testes automatizados:** 16 testes estaticos aprovados
+- **Validação funcional:** Pendente: Desfazer de operacoes em lote, importacoes e persistencia apos atualizar pagina
+- **Situação:** Instalada; testes estaticos aprovados; validacao Firefox pendente
+- **Versão anterior:** C:\Users\Will\Downloads\gerenciador_links_favoritos_versoes\versao_5B_DOC_pre_5C_2026-10-22_02-35-35.zip
+- **SHA-256:** 3B018B772955BE86DFB5AEA8600F46AE6668C83C21772EC96D9EFBF0E5173AB1
+- **Origem:** Instalador Python Etapa 5C
+
+## Etapa 5C.1 — Desfazer na edicao individual de favoritos
+- **Data e hora:** 2026-10-22T12:24:40-03:00
+- **Descrição:** Integracao do formulario de edicao individual com commitWithUndo; salvamento sem alteracoes nao sobrescreve o ponto de restauracao
+- **Arquivos alterados:** js/favoritos.js, README.md, tests/check_stage5c1.py
+- **Testes automatizados:** 17 testes estaticos aprovados
+- **Validação funcional:** Pendente: editar categoria, nome, URL, descricao e etiquetas; salvar sem alteracao; Desfazer no Firefox
+- **Situação:** Instalada; testes estaticos aprovados; validacao Firefox pendente
+- **Versão anterior:** C:\Users\Will\Downloads\gerenciador_links_favoritos_versoes\versao_5C_pre_5C1_2026-10-22_12-24-34.zip
+- **SHA-256:** 049C4E0AAA2676456F27119685CA2E572CB30CE74A90FD4399D63ECB67C32EE2
+- **Origem:** Instalador Python Etapa 5C.1

@@ -1,38 +1,120 @@
 # Registro de melhorias sugeridas — Gerenciador de Links Favoritos
 
 **Data de criação:** 2026-10-20  
-**Finalidade:** preservar propostas e acompanhar sua implementação.  
-**Regra:** não marcar como aplicada sem instalação e validação funcional confirmadas. Não substituir o histórico de implementações nem a auditoria JSONL.
+**Última revisão:** 2026-10-22  
+**Finalidade:** registrar propostas, etapas, validações e aplicações sem perder o histórico.  
+**Regra:** marcar **Aplicada** somente após instalação e validação funcional.
+
+## Resumo
+
+- **Total de melhorias:** 8
+- **Aplicadas:** 4
+- **Sugeridas:** 4
+- **Planejadas / Em desenvolvimento / Em validação:** 0
 
 ## Estados padronizados
 
-- **Sugerida:** ideia registrada, ainda sem escopo fechado.
-- **Planejada:** aprovada para etapa futura.
+- **Sugerida:** ideia registrada, sem escopo fechado.
+- **Planejada:** aprovada para implementação futura.
 - **Em desenvolvimento:** implementação iniciada.
-- **Em validação:** instalada, aguardando testes funcionais.
+- **Em validação:** instalada, aguardando confirmação funcional.
 - **Aplicada:** instalada e validada.
-- **Adiada:** decisão de postergar.
-- **Descartada:** não será implementada; registrar motivo.
+- **Adiada:** implementação postergada, com justificativa.
+- **Descartada:** não será implementada, com justificativa.
 
 ## Melhorias
 
-| ID | Data | Descrição | Status | Etapa prevista | Data de aplicação | Observações |
-|---|---|---|---|---|---|---|
-| MEL-001 | 2026-10-20 | Sugerir automaticamente nome, descrição, categoria e tags usando IA, com revisão e confirmação do usuário. | Sugerida | A definir | — | Preservar uso offline; definir provedor, privacidade, custos e opção sem IA. |
-| MEL-002 | 2026-10-20 | Ampliar filtros e pesquisa: nome do site, descrição, categoria, tags e sites sem nome. | Sugerida | A definir | — | Conferir filtros existentes antes de acrescentar novos; combinar critérios e permitir limpar filtros. |
-| MEL-003 | 2026-10-20 | Disponibilizar planilha-modelo CSV e/ou XLSX para cadastro/importação de favoritos. | Sugerida | A definir | — | Alinhar colunas e validações ao importador atual; incluir exemplo e instruções. |
-| MEL-004 | 2026-10-20 | Permitir selecionar várias tags existentes e aplicar todas em lote aos favoritos selecionados. | Em validação | 5B | — | Preservar tags anteriores, evitar duplicatas e permitir também novas tags separadas por vírgula. |
-| MEL-005 | 2026-10-20 | Preservar filtros e seleção dos favoritos após adicionar tags em lote, permitindo novas operações sem refazer a seleção. | Em validação | 5B | — | Avaliar casos em que os itens deixam de satisfazer o filtro após alteração. |
-| MEL-006 | 2026-10-20 | Exibir categorias com cores suaves e translúcidas, mantendo legibilidade em temas claro e escuro. | Sugerida | A definir | — | Preferir cor como atributo opcional; definir paleta acessível. |
-| MEL-007 | 2026-10-20 | Manter este registro de melhorias com data, descrição, status, etapa e data de aplicação. | Em validação | 5B / Processo contínuo | — | Atualizar em toda implementação; só marcar aplicada após integrar ao projeto e validar. |
-| MEL-008 | 2026-10-20 | Atualizar incrementalmente o README.md com cada funcionalidade efetivamente implementada. | Em validação | 5B / Processo contínuo | — | Documentar uso, requisitos, alterações e limitações sem anunciar funções pendentes como disponíveis. |
+### MEL-001
+
+- **Data da sugestão:** 2026-10-20
+- **Descrição:** Sugerir automaticamente nome, descrição, categoria e tags usando IA, com revisão e confirmação do usuário.
+- **Status:** Sugerida
+- **Etapa:** A definir
+- **Data de aplicação:** —
+- **Observações:** Preservar uso offline; definir provedor, privacidade, custos e opção sem IA.
+
+### MEL-002
+
+- **Data da sugestão:** 2026-10-20
+- **Descrição:** Ampliar filtros e pesquisa: nome do site, descrição, categoria, tags e sites sem nome.
+- **Status:** Sugerida
+- **Etapa:** A definir
+- **Data de aplicação:** —
+- **Observações:** Conferir filtros existentes antes de acrescentar novos; combinar critérios e permitir limpar filtros.
+
+### MEL-003
+
+- **Data da sugestão:** 2026-10-20
+- **Descrição:** Disponibilizar planilha-modelo CSV e/ou XLSX para cadastro/importação de favoritos.
+- **Status:** Sugerida
+- **Etapa:** A definir
+- **Data de aplicação:** —
+- **Observações:** Alinhar colunas e validações ao importador atual; incluir exemplo e instruções.
+
+### MEL-004
+
+- **Data da sugestão:** 2026-10-20
+- **Descrição:** Permitir selecionar várias tags existentes e aplicar todas em lote aos favoritos selecionados.
+- **Status:** Aplicada
+- **Etapa:** 5B
+- **Data de aplicação:** 2026-10-22
+- **Observações:** Preservar tags anteriores, evitar duplicatas e permitir também novas tags separadas por vírgula. Validação confirmada pelo usuário após instalação da Etapa 5B.
+
+### MEL-005
+
+- **Data da sugestão:** 2026-10-20
+- **Descrição:** Preservar filtros e seleção dos favoritos após adicionar tags em lote, permitindo novas operações sem refazer a seleção.
+- **Status:** Aplicada
+- **Etapa:** 5B
+- **Data de aplicação:** 2026-10-22
+- **Observações:** Avaliar casos em que os itens deixam de satisfazer o filtro após alteração. Validação confirmada pelo usuário após instalação da Etapa 5B.
+
+### MEL-006
+
+- **Data da sugestão:** 2026-10-20
+- **Descrição:** Exibir categorias com cores suaves e translúcidas, mantendo legibilidade em temas claro e escuro.
+- **Status:** Sugerida
+- **Etapa:** A definir
+- **Data de aplicação:** —
+- **Observações:** Preferir cor como atributo opcional; definir paleta acessível.
+
+### MEL-007
+
+- **Data da sugestão:** 2026-10-20
+- **Descrição:** Manter este registro de melhorias com data, descrição, status, etapa e data de aplicação.
+- **Status:** Aplicada
+- **Etapa:** 5B / Processo contínuo
+- **Data de aplicação:** 2026-10-22
+- **Observações:** Atualizar em toda implementação; só marcar aplicada após integrar ao projeto e validar. Validação confirmada pelo usuário após instalação da Etapa 5B.
+
+### MEL-008
+
+- **Data da sugestão:** 2026-10-20
+- **Descrição:** Atualizar incrementalmente o README.md com cada funcionalidade efetivamente implementada.
+- **Status:** Aplicada
+- **Etapa:** 5B / Processo contínuo
+- **Data de aplicação:** 2026-10-22
+- **Observações:** Documentar uso, requisitos, alterações e limitações sem anunciar funções pendentes como disponíveis. Validação confirmada pelo usuário após instalação da Etapa 5B.
 
 ## Procedimento para próximas etapas
 
-1. Registrar novas propostas aqui antes de implementá-las, com ID e data.
-2. Ao aprovar escopo, alterar o status para **Planejada** e indicar a etapa.
-3. Na instalação, registrar versão, arquivos e testes no histórico/auditoria; atualizar o status para **Em validação**.
-4. Após confirmação funcional, marcar **Aplicada**, preencher a data e apontar o registro de implementação.
-5. Atualizar `README.md` somente para funcionalidades já disponíveis e manter o modelo de documentação padronizado.
+1. Registrar cada sugestão com ID único, data, descrição e situação.
+2. Ao planejar, indicar a etapa; ao instalar, registrar a validação pendente.
+3. Somente após confirmação funcional, marcar **Aplicada** e registrar a data.
+4. Atualizar o resumo e o `README.md` em cada implementação.
+5. Preservar `docs/historico_implementacoes.md` e `docs/auditoria_implementacoes.jsonl` como trilha de auditoria independente.
 
-> Este arquivo foi preparado para inclusão no projeto; sua criação aqui não significa que já tenha sido instalado no computador do usuário.
+---
+
+### MEL-009 — Captura de favoritos diretamente do navegador
+
+- **Data da sugestão:** 22/10/2026
+- **Descrição:** Salvar links diretamente do navegador por meio de botão ou ícone, sem copiar e colar manualmente a URL.
+- **Contexto:** Links descobertos em publicações do Instagram e acessados posteriormente em páginas externas.
+- **Solução inicial:** Bookmarklet que captura título e URL da página e abre o formulário do gerenciador.
+- **Evoluções futuras:** Extensão para navegadores e compartilhamento pelo celular.
+- **Requisitos:** Prevenir duplicidades, permitir categorias e etiquetas e preservar o funcionamento local.
+- **Status:** Sugerida
+- **Etapa:** A definir
+- **Data de aplicação:** Não aplicada
+- **Observações:** Avaliar compatibilidade com Firefox, páginas HTTPS e acesso ao aplicativo local.

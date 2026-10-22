@@ -31,10 +31,34 @@ O Git não é iniciado automaticamente, pois isso alteraria o seu ambiente.
 3. Extrair os módulos de exportação, importação, armazenamento e interface em pequenas mudanças verificáveis.
 4. Criar testes automatizados de comportamento e um pacote de distribuição HTML único, se desejado.
 
-## Evolucao funcional (Etapa 5B - aguardando validacao no Firefox)
+## Evolucao funcional (Etapa 5B - validada no Firefox)
 - Cadastro e organizacao de favoritos com categorias e etiquetas; pesquisa, filtros, importacao CSV/XLSX e exportacao.
 - Etiquetas em lote: marque varias caixas de selecao, acrescente tags novas separadas por virgula e aplique a todos os favoritos selecionados.
 - Apos adicionar/remover etiquetas em lote, filtros e selecao dos favoritos sao preservados, inclusive quando alguns itens deixam de aparecer no filtro atual. Use **Limpar selecao** para encerrar.
 - Acoes destrutivas e restauracao via Desfazer continuam limpando a selecao.
 - Ideias e status: `docs/melhorias_sugeridas.md`. Historico: `docs/historico_implementacoes.md`.
 - As funcionalidades 5B so devem ser marcadas como **Aplicadas** apos validacao funcional no Firefox.
+
+## Registro de melhorias
+
+Consulte `docs/melhorias_sugeridas.md` para propostas, prioridades, etapas e status. Na revisao documental pos-5B, MEL-004, MEL-005, MEL-007 e MEL-008 foram marcadas como aplicadas apos confirmacao funcional em 2026-10-22.
+
+## Etapa 5C — Modularização do Desfazer
+
+- `js/desfazer.js` concentra o ponto de restauração único, `commitWithUndo`, `restoreUndo` e a associação ao botão Desfazer.
+- A chave `gerenciador_favoritos_undo_v1_4` foi preservada, sem migração do armazenamento.
+- O script é carregado após `app-legacy.js` e antes dos módulos consumidores.
+- A etapa não altera o comportamento funcional; a validação no Firefox deve ser confirmada após a instalação.
+
+### Revisão 5C.1 — Compatibilidade do teste baseline
+
+- O teste `tests/check_baseline.py` agora verifica a integridade SHA-256 do snapshot histórico, a preservação de todos os IDs da interface e a existência/ordem dos scripts modulares.
+- A equivalência textual entre o JavaScript monolítico e o aplicativo modular foi retirada por não ser aplicável após a extração de módulos.
+- A revisão não altera a lógica de Desfazer; os testes funcionais no Firefox continuam necessários.
+
+### Etapa 5C.1 — Desfazer na edição individual
+
+- Ao salvar alterações em um favorito existente (nome, URL, descrição, observações, categoria, etiquetas ou prioridade), o formulário utiliza `commitWithUndo` e habilita Desfazer.
+- Salvar sem alterações não substitui o ponto de restauração anterior.
+- Inclusão de novos favoritos e demais operações não foram alteradas nesta revisão.
+- Validação funcional no Firefox pendente.
