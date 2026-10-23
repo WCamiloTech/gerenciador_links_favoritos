@@ -2,9 +2,19 @@
 // Etapa 5D: operações em lote extraídas sem alteração de lógica.
 $('selectVisible').addEventListener('change',e=>{for(const id of visibleIds){if(e.target.checked)selectedIds.add(id);else selectedIds.delete(id)}render()});
 $('clearSelection').addEventListener('click',()=>{selectedIds.clear();render()});
-function bulkChange(transform,label,destructive=false,preserveSelection=false){if(!selectedIds.size){alert('Selecione um ou mais sites.');return}
- const count=selectedIds.size;if(!confirm(`${label} em ${count} registro(s)?${destructive?' Esta ação poderá ser desfeita.':''}`))return;
- const next=destructive?favorites.filter(f=>!selectedIds.has(f.id)):favorites.map(f=>selectedIds.has(f.id)?transform(f):f);
+async function bulkChange(transform,label,destructive=false,preserveSelection=false){
+ if(!selectedIds.size){alert('Selecione um ou mais sites.');return}
+ const ids=new Set(selectedIds);
+ const count=ids.size;
+ const sqlite=!!window.sqliteBulkBridge;
+ if(!confirm(`${label} em ${count} registro(s)?${destructive&&!sqlite?' Esta ação poderá ser desfeita.':''}`))return;
+ const next=destructive?favorites.filter(f=>!ids.has(f.id)):favorites.map(f=>ids.has(f.id)?transform(f):f);
+ if(sqlite){
+  // Nao altera selecao nem interface antes da confirmacao do SQLite.
+  const ok=await window.sqliteBulkBridge.commit(next,label);
+  if(ok){if(preserveSelection){for(const id of ids){if(favorites.some(f=>f.id===id))selectedIds.add(id)}}else selectedIds.clear();resetForm();renderCategories();render();showPage('sites')}
+  return;
+ }
  if(commitWithUndo(next,label,preserveSelection)){if(!preserveSelection)selectedIds.clear();resetForm();renderCategories();render();showPage('sites')}
 }
 $('applyCategory').addEventListener('click',()=>bulkChange(f=>({...f,category:$('batchCategory').value}),'Alterar categoria'));

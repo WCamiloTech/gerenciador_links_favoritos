@@ -286,3 +286,32 @@ Usar `docs/modelo_registro_implementacao.md` e `tools/registrar_implementacao.py
 - **Backup:** C:\Users\Will\Downloads\pre_5D32B24C_2026-10-23_12-36-18.zip
 - **SHA-256:** 4415C0CA2172919C6B762871DCCAD77A20769EB537401F9E11B0120851A259B0
 - **Origem:** instalador B2.4-C; registro 5D32B24C-INST-2026-10-23_12-36-18
+
+
+## Etapa 5D.3.2-B2.4-C-VALID — Validação funcional das etiquetas no SQLite
+- **Data e hora:** 2026-10-23T12:57:26-03:00
+- **Descrição:** Encerramento da validação funcional da B2.4-C, sem alteração de código ou banco de dados.
+- **Arquivos alterados:** docs/historico_implementacoes.md, docs/auditoria_implementacoes.jsonl.
+- **Testes automatizados:** Aprovados na instalação B2.4-C: criar, renomear e excluir etiquetas; preservar favoritos; HTTP 409; auditoria; integridade SQLite.
+- **Validação funcional:** Aprovada pelo usuário: criar, renomear e excluir etiquetas; persistência entre Firefox e Chrome; favoritos anteriores preservados (5/5).
+- **Situação:** B2.4-C concluída e validada funcionalmente.
+- **Backup da instalação:** pre_5D32B24C_2026-10-23_12-36-18.zip
+- **SHA-256 do backup da instalação:** 4415C0CA2172919C6B762871DCCAD77A20769EB537401F9E11B0120851A259B0
+- **Backup anterior a este registro:** C:\Users\Will\Downloads\00_Arquivos_gerenciador_links_arquivos_19_10_2026\pre_registro_B24C_VALID_2026-10-23_12-57-26.zip
+- **SHA-256 do backup deste registro:** 3D311A76B6B6D9EBDB1E08FA891FCEE48B49CEFE36308E8DAE5C44371EA67BFB
+- **Origem:** Confirmação expressa do usuário na conversa; registro complementar, sem substituir o registro de instalação.
+
+
+## Etapa 5D.3.2-B2.5-VALID — Validação funcional das operações em lote no SQLite
+- **Data e hora:** 2026-10-23T13:27:21-03:00
+- **Descrição:** Registro complementar do encerramento funcional da B2.5, sem modificar código ou banco de dados.
+- **Arquivos alterados:** docs/historico_implementacoes.md, docs/auditoria_implementacoes.jsonl.
+- **Testes automatizados:** Verificações estáticas e de sintaxe do pacote B2.5; suíte automatizada funcional/de regressão ainda pendente (B2.5-A).
+- **Validação funcional:** Aprovada pelo usuário (9/9): seleção múltipla, categoria em lote, adicionar/remover etiquetas em lote, prioridade em lote, exclusão em lote, persistência Firefox/Chrome, preservação dos demais favoritos e proteção HTTP 409.
+- **Situação:** B2.5 instalada e validada funcionalmente; suíte de regressão planejada para B2.5-A.
+- **Versão anterior:** 5D.3.2-B2.4-C.
+- **Backup da instalação:** pre_5D32B25_2026-10-23_13-09-44.zip
+- **SHA-256 do backup da instalação:** 5026AAA7F738B29928C95EE656B93D009D8F04B950D9EE989D41423421BC33EB
+- **Backup anterior a este registro:** C:\Users\Will\Downloads\00_Arquivos_gerenciador_links_arquivos_19_10_2026\pre_registro_B25_VALID_2026-10-23_13-27-21.zip
+- **SHA-256 do backup deste registro:** 4063F2D969A4FCE0DDDDA2E64544ECC698D493ED9623C7CB6D3B37F612F828F8
+- **Origem:** Checklist confirmado pelo usuário; registro complementar sem substituir entradas anteriores.

@@ -10,7 +10,7 @@
  const blocked=()=>{alert('Operacao ainda indisponivel na integracao SQLite B2.2.');return false};
  // Bloqueia todas as rotas antigas de persistencia; CRUD usa apenas /api/state.
  saveFavorites=blocked;saveSettings=blocked;persistTags=blocked;
- const blockIds=['importBtn','confirmBackup','confirmCsv','applyCategory','applyTags','applyPriority','batchDelete','undoBtn','auditBtn','viewTable'];
+ const blockIds=['importBtn','confirmBackup','confirmCsv','undoBtn','auditBtn','viewTable'];
  for(const id of blockIds){const e=document.getElementById(id);if(e){e.disabled=true;e.title='Indisponivel nesta fase SQLite'}}
  function status(msg){banner.textContent=msg}
  function lock(flag){busy=flag;const b=document.getElementById('saveBtn');if(b)b.disabled=flag||!ready}
@@ -18,7 +18,7 @@
  function apply(s){if(!Array.isArray(s.favorites)||!Array.isArray(s.categories)||!Array.isArray(s.tags)||!Number.isInteger(s.revision)||!s.favorites.every(validFavorite))throw Error('Resposta SQLite invalida');
  favorites=s.favorites.map(upgrade);categories=[...s.categories];managedTags=[...s.tags];settings={...s.settings};revision=s.revision;
  selectedIds.clear();undoState=null;document.getElementById('undoBtn').disabled=true;renderCategories();render();ready=true;lock(false);
- status(`SQLite: ${favorites.length} favoritos, ${categories.length} categorias, ${managedTags.length} etiquetas · revisao ${revision}. Cadastro, edicao e exclusao habilitados. Outras alteracoes bloqueadas.`)}
+ status(`SQLite: ${favorites.length} favoritos, ${categories.length} categorias, ${managedTags.length} etiquetas · revisao ${revision}. Favoritos, categorias, etiquetas e operacoes em lote habilitados. Outras alteracoes bloqueadas.`)}
  async function refresh(){ready=false;lock(true);try{apply(await fetchState())}catch(e){ready=false;lock(true);status('SQLite indisponivel: '+e.message+'. Gravacao bloqueada.');throw e}}
  async function commit(next,operation,explicitCategories=null,explicitTags=null){if(!ready||busy)return false;lock(true);try{
   const tags=explicitTags===null?[...new Set([...managedTags,...next.flatMap(f=>f.tags)])]:explicitTags;
@@ -48,7 +48,7 @@
  // Impede renomear/excluir categorias, tags, importacoes e operacoes em lote.
  document.addEventListener('click',function(e){const b=e.target.closest('button');if(!b)return;
  const label=(b.textContent||'').trim();
- if(b.closest('#categoryList')||b.id==='addCategory'||b.closest('#tagList')||b.id==='addTag')return;
+ if(b.closest('#categoryList')||b.id==='addCategory'||b.closest('#tagList')||b.id==='addTag'||['applyCategory','applyTags','applyPriority','batchDelete'].includes(b.id))return;
  if(['Renomear','Adicionar','Aplicar categoria','Aplicar tags','Aplicar prioridade','Excluir selecionados','Confirmar importação','Renomear etiqueta','Excluir etiqueta'].some(s=>label===s||label.startsWith(s+' ')) || b.classList.contains('star')){
  e.preventDefault();e.stopImmediatePropagation();blocked();}
  },true);
@@ -82,6 +82,16 @@
   }
  };
 
+ // B2.5: todas as alteracoes em lote passam pela mesma transacao e revisao.
+ // O catalogo de etiquetas e ampliado apenas quando uma etiqueta nova e aplicada.
+ window.sqliteBulkBridge={
+  async commit(next,operation){
+   const all=[...managedTags];
+   const seen=new Set(all.map(tagId));
+   for(const f of next){for(const t of f.tags){if(!seen.has(tagId(t))){all.push(t);seen.add(tagId(t))}}}
+   return commit(next,operation,null,all);
+  }
+ };
  // B2.4-C: etiquetas gravadas junto aos favoritos, em transacao unica.
  window.sqliteTagBridge={
   async add(){
