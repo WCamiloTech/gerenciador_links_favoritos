@@ -223,3 +223,14 @@ Usar `docs/modelo_registro_implementacao.md` e `tools/registrar_implementacao.py
 - **Descricao:** GET /api/state automatico em painel isolado; diagnostico aceita porta local variavel.
 - **Backup anterior:** C:\Users\Will\Downloads\gerenciador_links_favoritos_versoes\pre_5D32B1_2026-10-23_01-21-05.zip
 - **SHA-256:** 552809C5145C8F206F115255E14044466842CA329869DB1F83219C681E6D0CFB
+
+## Etapa 5D.3.2-B2.2 — CRUD SQLite em banco de teste e auditoria transacional
+- **Data e hora:** 2026-10-23T02:04:35-03:00
+- **Descrição:** Instalacao de cadastro, edicao e exclusao pela API; outras escritas bloqueadas. Testes iniciais exclusivamente em copia do SQLite.
+- **Arquivos alterados:** index.html, js/sqlite-principal-gravacao.js, servidor/app.py, tests/test_audit_sqlite_5d32b22.py
+- **Testes automatizados:** Testes Python executados no ambiente de preparacao: 19 OK; validacao Windows pendente
+- **Validação funcional:** Pendente em Chrome/Firefox; banco teste: C:\Users\Will\Downloads\favoritos_teste_5D32B22_2026-10-23_02-04-34.db
+- **Situação:** Instalada, aguardando validacao funcional Windows
+- **Versão anterior:** 5D.3.2-B2.1
+- **SHA-256:** AE09B0378D5D1FBB4E4CAE137FE68CEAA6559B9254A6869030C90FC6C98550AD
+- **Origem:** instalador 5D32B22

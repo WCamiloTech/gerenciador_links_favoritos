@@ -73,6 +73,16 @@ def save_state(c,state,expected_revision):
         if revision!=expected_revision:
             c.rollback()
             return None
+        # Auditoria transacional de alteracoes efetivas, sem URLs nem descricoes.
+        before = {f['id']: f for f in get_state(c)['favorites']}
+        after = {f['id']: f for f in state['favorites']}
+        changes = ([("cadastro", fid) for fid in after.keys() - before.keys()] +
+                   [("exclusao", fid) for fid in before.keys() - after.keys()] +
+                   [("edicao", fid) for fid in before.keys() & after.keys() if before[fid] != after[fid]])
+        c.execute('CREATE TABLE IF NOT EXISTS audit_favorites (event_id INTEGER PRIMARY KEY AUTOINCREMENT, at_utc TEXT NOT NULL, operation TEXT NOT NULL, favorite_id TEXT NOT NULL, revision_before INTEGER NOT NULL, revision_after INTEGER NOT NULL)')
+        now_utc = datetime.now(timezone.utc).isoformat()
+        c.executemany('INSERT INTO audit_favorites(at_utc,operation,favorite_id,revision_before,revision_after) VALUES (?,?,?,?,?)',
+                      [(now_utc, operation, fid, revision, revision+1) for operation, fid in changes])
         c.execute('DELETE FROM favorite_tags')
         c.execute('DELETE FROM favorites')
         c.execute('DELETE FROM categories')
