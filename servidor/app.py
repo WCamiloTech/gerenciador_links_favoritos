@@ -74,7 +74,8 @@ def save_state(c,state,expected_revision):
             c.rollback()
             return None
         # Auditoria transacional de alteracoes efetivas, sem URLs nem descricoes.
-        before = {f['id']: f for f in get_state(c)['favorites']}
+        previous_state = get_state(c)
+        before = {f['id']: f for f in previous_state['favorites']}
         after = {f['id']: f for f in state['favorites']}
         changes = ([("cadastro", fid) for fid in after.keys() - before.keys()] +
                    [("exclusao", fid) for fid in before.keys() - after.keys()] +
@@ -83,6 +84,22 @@ def save_state(c,state,expected_revision):
         now_utc = datetime.now(timezone.utc).isoformat()
         c.executemany('INSERT INTO audit_favorites(at_utc,operation,favorite_id,revision_before,revision_after) VALUES (?,?,?,?,?)',
                       [(now_utc, operation, fid, revision, revision+1) for operation, fid in changes])
+        # B2.4-B: auditoria de alteracoes do catalogo na mesma transacao.
+        previous_categories=set(previous_state['categories'])
+        current_categories=set(state['categories'])
+        category_events=([('categoria_criada',x) for x in sorted(current_categories-previous_categories)] +
+                         [('categoria_excluida',x) for x in sorted(previous_categories-current_categories)])
+        c.execute('CREATE TABLE IF NOT EXISTS audit_categories (event_id INTEGER PRIMARY KEY AUTOINCREMENT, at_utc TEXT NOT NULL, operation TEXT NOT NULL, category_name TEXT NOT NULL, revision_before INTEGER NOT NULL, revision_after INTEGER NOT NULL)')
+        c.executemany('INSERT INTO audit_categories(at_utc,operation,category_name,revision_before,revision_after) VALUES (?,?,?,?,?)',
+                      [(now_utc,operation,name,revision,revision+1) for operation,name in category_events])
+        # B2.4-C: auditoria do catalogo de etiquetas na mesma transacao.
+        previous_tags=set(previous_state['tags'])
+        current_tags=set(state['tags'])
+        tag_events=([('etiqueta_criada',x) for x in sorted(current_tags-previous_tags)] +
+                    [('etiqueta_excluida',x) for x in sorted(previous_tags-current_tags)])
+        c.execute('CREATE TABLE IF NOT EXISTS audit_tags (event_id INTEGER PRIMARY KEY AUTOINCREMENT, at_utc TEXT NOT NULL, operation TEXT NOT NULL, tag_name TEXT NOT NULL, revision_before INTEGER NOT NULL, revision_after INTEGER NOT NULL)')
+        c.executemany('INSERT INTO audit_tags(at_utc,operation,tag_name,revision_before,revision_after) VALUES (?,?,?,?,?)',
+                      [(now_utc,operation,name,revision,revision+1) for operation,name in tag_events])
         c.execute('DELETE FROM favorite_tags')
         c.execute('DELETE FROM favorites')
         c.execute('DELETE FROM categories')

@@ -33,13 +33,13 @@ function renderTags(){
  if(!tags.length)list.append(el('p','hint','Nenhuma etiqueta cadastrada.'));
  picker.value=tags.includes(previous)?previous:'';
 }
-function addTag(){
+function addTag(){if(window.sqliteTagBridge)return window.sqliteTagBridge.add();
  const name=cleanText($('newTag').value);
  if(!name||name.length>80){alert('Informe uma etiqueta de até 80 caracteres.');return}
  if(allTags().some(t=>tagId(t)===tagId(name))){alert('Essa etiqueta já existe.');return}
  if(persistTags([...managedTags,name])){$('newTag').value='';renderTags()}
 }
-function renameTag(old){
+function renameTag(old){if(window.sqliteTagBridge)return window.sqliteTagBridge.rename(old);
  const answer=prompt('Novo nome da etiqueta:',old);if(answer===null)return;
  const name=cleanText(answer);if(!name||name.length>80){alert('Informe uma etiqueta de até 80 caracteres.');return}
  if(tagId(old)!==tagId(name)&&allTags().some(t=>tagId(t)===tagId(name))){alert('Já existe uma etiqueta com esse nome.');return}
@@ -51,7 +51,7 @@ function renameTag(old){
  if($('tags').value.trim())$('tags').value=normalizeTags($('tags').value).map(t=>tagId(t)===tagId(old)?name:t).join(', ');
  renderTags();render();
 }
-function removeTag(tag){
+function removeTag(tag){if(window.sqliteTagBridge)return window.sqliteTagBridge.remove(tag);
  const count=favorites.filter(f=>f.tags.some(t=>tagId(t)===tagId(tag))).length;
  if(!confirm('Excluir a etiqueta “'+tag+'”? Ela será removida de '+count+' site(s), mas nenhum favorito será excluído.'))return;
  const next=favorites.map(f=>({...f,tags:f.tags.filter(t=>tagId(t)!==tagId(tag))}));

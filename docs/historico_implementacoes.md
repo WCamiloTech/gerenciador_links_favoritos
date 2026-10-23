@@ -249,3 +249,40 @@ Usar `docs/modelo_registro_implementacao.md` e `tools/registrar_implementacao.py
 - **Pendencias:** testar 409 na interface com revisao desatualizada; verificar regressao; integrar Desfazer, categorias, etiquetas, importacoes e operacoes em lote; corrigir textos herdados de localStorage; confirmar limpeza dos favoritos temporarios criados no teste de concorrencia.
 - **Situacao:** CRUD validado em banco de teste; etapa global de migracao SQLite ainda em desenvolvimento.
 - **Backup documental:** pre_5D32B22_DOC_2026-10-23_02-38-23.zip; SHA256 EC8948BB7F13FB1C38F9F1314D200FB22E65FF0683246D147EECC5DB2C007306.
+
+## Etapa 5D.3.2-B2.4-B - Categorias SQLite (instalacao pendente de validacao funcional)
+- Data e hora: 2026-10-23T03:42:14-03:00
+- Arquivos: js/categorias.js, js/sqlite-principal-gravacao.js, servidor/app.py
+- Testes isolados: aprovados antes da instalacao
+- Banco principal e banco de testes: nao modificados pelo instalador
+- Backup: C:\Users\Will\Downloads\pre_5D32B24B_2026-10-23_03-42-13.zip
+- Validacao Firefox/Chrome: PENDENTE
+
+## Registro de planejamento: IDEIAS-MEL-016-017-CHECKLIST-20261023
+- Data/hora: 2026-10-23T12:29:03.137293-03:00
+- Acao: inclusao das ideias MEL-016 (abertura em lote) e MEL-017 (links quebrados), e checklist de pendencias.
+- Situacao: propostas registradas; nenhuma funcionalidade implementada por esta acao.
+- Backup anterior: C:\Users\Will\Downloads\gerenciador_links_favoritos_versoes\pre_registro_mel016_017_2026-10-23_12-29-03.zip
+- SHA-256 backup: ebb09804e24a153cfe90eef708ee611738eaaec9e72f6f8936223c7c14bdea35
+
+
+## Etapa 5D.3.2-B2.4-B A2 - Validacao funcional complementar
+- **Data e hora:** Confirmacao do usuario em 2026-10-23; horario exato nao documentado.
+- **Descricao:** Criacao, renomeacao e exclusao de categorias confirmadas no Firefox e Chrome.
+- **Testes automatizados:** Aprovados na instalacao B2.4-B A2, conforme relato do usuario.
+- **Validacao funcional:** Aprovada pelo usuario nos dois navegadores.
+- **Situacao:** B2.4-B funcionalmente validada; auditoria complementar registrada na B2.4-C.
+- **Origem:** Confirmacao do usuario na conversa.
+
+
+## Etapa 5D.3.2-B2.4-C - Integracao das etiquetas ao SQLite
+- **Data e hora:** 2026-10-23T12:36:18.055873-03:00
+- **Descricao:** Cadastro, renomeacao e exclusao de etiquetas com persistencia transacional no SQLite; associacoes de favoritos preservadas.
+- **Arquivos alterados:** js/tags.js, js/sqlite-principal-gravacao.js, servidor/app.py
+- **Testes automatizados:** API e SQLite isolados aprovados (criacao, renomeacao, exclusao, integridade, 409, auditoria).
+- **Validacao funcional:** Pendente em Firefox/Chrome; sem testes de navegador automatizados nesta entrega.
+- **Situacao:** Instalada, aguardando validacao funcional.
+- **Versao anterior:** 5D.3.2-B2.4-B A2
+- **Backup:** C:\Users\Will\Downloads\pre_5D32B24C_2026-10-23_12-36-18.zip
+- **SHA-256:** 4415C0CA2172919C6B762871DCCAD77A20769EB537401F9E11B0120851A259B0
+- **Origem:** instalador B2.4-C; registro 5D32B24C-INST-2026-10-23_12-36-18

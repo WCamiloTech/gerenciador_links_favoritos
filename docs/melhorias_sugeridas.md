@@ -152,3 +152,22 @@
 - **MEL-014:** Planejada. Backup de teste via sqlite3.backup realizado; restauracao e recuperacao completas ainda nao validadas.
 - **MEL-015:** Em desenvolvimento. CRUD e auditoria validados manualmente; HTTP 409 na interface e regressao completa pendentes.
 - **Observacao:** A mensagem de URL duplicada nao demonstra por si so conflito de revisao.
+
+### MEL-016 - Abertura de links em lote
+
+- **Data da sugestao:** 2026-10-23
+- **Descricao:** Selecionar varios favoritos e abrir os links em lote.
+- **Status:** Sugerida
+- **Etapa:** A definir
+- **Data de aplicacao:** Nao aplicada
+- **Observacoes:** Confirmar quantidade, limite configuravel, evitar abertura acidental; navegadores podem bloquear multiplas abas.
+
+### MEL-017 - Verificacao de links quebrados
+
+- **Data da sugestao:** 2026-10-23
+- **Descricao:** Verificar disponibilidade dos links cadastrados e sinalizar possiveis links quebrados.
+- **Status:** Sugerida
+- **Etapa:** A definir
+- **Data de aplicacao:** Nao aplicada
+- **Observacoes:** Distinguir HTTP 404/410, timeout, redirecionamento, 403/429 e bloqueios anti-bot; nunca excluir automaticamente.
+
