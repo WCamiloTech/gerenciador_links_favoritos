@@ -145,3 +145,10 @@
 - **Etapa:** 5D.2 / 5D.3.2
 - **Data de aplicacao:** -
 - **Observacoes:** Nao marcar como aplicada antes de validacao funcional no Windows.
+
+### Acompanhamento 5D.3.2-B2.2-DOC (2026-10-23T02:38:23-03:00)
+- **Identificador:** 5D.3.2-B2.2-DOC-VALID-20261023
+- **MEL-013:** Em desenvolvimento. CRUD e leitura compartilhada validados em banco de teste; Desfazer, categorias, etiquetas, importacoes e operacoes em lote ainda pendentes. Nao marcar como Aplicada.
+- **MEL-014:** Planejada. Backup de teste via sqlite3.backup realizado; restauracao e recuperacao completas ainda nao validadas.
+- **MEL-015:** Em desenvolvimento. CRUD e auditoria validados manualmente; HTTP 409 na interface e regressao completa pendentes.
+- **Observacao:** A mensagem de URL duplicada nao demonstra por si so conflito de revisao.

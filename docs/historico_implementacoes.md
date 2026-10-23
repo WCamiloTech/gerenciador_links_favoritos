@@ -234,3 +234,18 @@ Usar `docs/modelo_registro_implementacao.md` e `tools/registrar_implementacao.py
 - **Versão anterior:** 5D.3.2-B2.1
 - **SHA-256:** AE09B0378D5D1FBB4E4CAE137FE68CEAA6559B9254A6869030C90FC6C98550AD
 - **Origem:** instalador 5D32B22
+
+## Etapa 5D.3.2-B2.2-DOC — Validacao e auditoria complementar
+- **Identificador:** 5D.3.2-B2.2-DOC-VALID-20261023
+- **Registro documental:** 2026-10-23T02:38:23-03:00
+- **Escopo:** Apenas documentacao; sem alteracoes em codigo, configuracoes ou bancos SQLite.
+- **Instalador inicial:** 2026-10-23 02:01:53 (hora informada pelo usuario). Falha ao criar copia de teste SQLite: NameError B22_DB_SRC devido a aspas ausentes no Python embutido; instalador interrompido antes de substituir codigo.
+- **Instalador corrigido:** 2026-10-23 02:04:34 (hora informada pelo usuario). Copia criada por sqlite3.backup e B2.2 instalada em banco de teste.
+- **Backup informado da instalacao corrigida:** pre_5D32B22_2026-10-23_02-04-34.zip; SHA256 AE09B0378D5D1FBB4E4CAE137FE68CEAA6559B9254A6869030C90FC6C98550AD.
+- **Banco utilizado nos testes:** Downloads/favoritos_teste_5D32B22_2026-10-23_02-04-34.db (nao e o banco principal).
+- **CRUD validado pelo usuario:** cadastro 86->87 (revisao 0->1), edicao do mesmo favorito (1->2), exclusao 87->86 (2->3). Auditoria audit_favorites consultada e confirmou as tres operacoes com o mesmo ID cf1e2a8d-3cca-4a6a-8ba8-90f3dbde81b9.
+- **Leitura cruzada:** Chrome e Firefox exibiram 86 favoritos, 10 categorias, 22 etiquetas e revisao 3. Usuario relatou propagacao das alteracoes entre navegadores.
+- **Duplicidade:** captura exibiu bloqueio de URL ja cadastrada; isto NAO comprova um conflito de revisao HTTP 409 na interface.
+- **Pendencias:** testar 409 na interface com revisao desatualizada; verificar regressao; integrar Desfazer, categorias, etiquetas, importacoes e operacoes em lote; corrigir textos herdados de localStorage; confirmar limpeza dos favoritos temporarios criados no teste de concorrencia.
+- **Situacao:** CRUD validado em banco de teste; etapa global de migracao SQLite ainda em desenvolvimento.
+- **Backup documental:** pre_5D32B22_DOC_2026-10-23_02-38-23.zip; SHA256 EC8948BB7F13FB1C38F9F1314D200FB22E65FF0683246D147EECC5DB2C007306.
