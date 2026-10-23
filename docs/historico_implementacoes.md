@@ -168,3 +168,29 @@ Usar `docs/modelo_registro_implementacao.md` e `tools/registrar_implementacao.py
 - **Versão anterior:** C:\Users\Will\Downloads\gerenciador_links_favoritos_versoes\versao_5C1_pre_5D_2026-10-22_12-50-03.zip
 - **SHA-256:** 95D11E0C460BF33CDAEAE012152DC1BCA817CDCB998FFD5FE1D218308A00CFFA
 - **Origem:** Instalador Python Etapa 5D
+
+## Etapa 5D.1 - Testes funcionais automatizados
+- **Situacao:** Validada pelo usuario: 6 testes Playwright Firefox aprovados em 8.681s
+- **Descricao:** Infraestrutura automatizada de testes funcionais, executor PowerShell e requirements.txt
+- **Origem:** Registro retrospectivo baseado no resultado de execucao informado pelo usuario
+
+## Etapa 5D.3 - Migracao piloto JSON para SQLite
+- **Situacao:** Migracao piloto validada pelo usuario; interface ainda nao integrada
+- **Descricao:** Importacao do backup JSON v3 para SQLite: 86 favoritos, 10 categorias, 22 etiquetas
+- **Origem:** Registro retrospectivo baseado no resultado de execucao informado pelo usuario
+
+## Etapa 5D.3.1 - Servidor local e API SQLite
+- **Data e hora:** 2026-10-22T23:04:20-03:00
+- **Situacao:** Instalada; validacao Windows pendente; interface nao integrada
+- **Descricao:** API local HTTP para SQLite com leitura, gravacao atomica e controle de versao (409).
+- **Arquivos:** servidor\app.py, servidor\migrar_json_sqlite.py, tests\test_api_sqlite_5d31.py, docs\etapa_5d31_api_sqlite.md
+- **Backup anterior:** C:\Users\Will\Downloads\gerenciador_links_favoritos_versoes\pre_5D31_2026-10-22_23-04-19.zip
+- **SHA-256:** 03F0245EC324588BA5698A1D8886B1CD2C913E17BB6B7A24112A588E9312E6BD
+- **Validacao:** 6 testes API no Windows e GET /api/health pendentes.
+
+## Etapa 5D.3.1-CORR - Correcao SQLite e registro de melhorias
+- Data: 2026-10-22T23:09:03-03:00
+- Situacao: instalada; testes Windows pendentes.
+- Correcao: fechamento explicito de conexoes no importador para evitar WinError 32 durante testes.
+- Melhorias: MEL-013, MEL-014, MEL-015 (sem marcar como aplicadas).
+- Backup: C:\Users\Will\Downloads\favoritos_correcao_5D31_2026-10-22_23-09-03

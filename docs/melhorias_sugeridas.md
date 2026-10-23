@@ -118,3 +118,30 @@
 - **Etapa:** A definir
 - **Data de aplicação:** Não aplicada
 - **Observações:** Avaliar compatibilidade com Firefox, páginas HTTPS e acesso ao aplicativo local.
+
+### MEL-013 - Armazenamento centralizado SQLite
+
+- **Data da sugestao:** 2026-10-22
+- **Descricao:** Substituir gradualmente o localStorage como fonte principal por SQLite acessado via API local; compartilhar favoritos entre Chrome e Firefox.
+- **Status:** Em desenvolvimento
+- **Etapa:** 5D.3 / 5D.3.2
+- **Data de aplicacao:** -
+- **Observacoes:** Nao marcar como aplicada antes de validacao funcional no Windows.
+
+### MEL-014 - Backups e recuperacao do SQLite
+
+- **Data da sugestao:** 2026-10-22
+- **Descricao:** Implementar backup consistente do banco SQLite, restauracao testada, controle de conflitos e verificacao de integridade.
+- **Status:** Planejada
+- **Etapa:** 5D.3.2 / 5D.3.3
+- **Data de aplicacao:** -
+- **Observacoes:** Nao marcar como aplicada antes de validacao funcional no Windows.
+
+### MEL-015 - Regressao automatizada e testes entre navegadores
+
+- **Data da sugestao:** 2026-10-22
+- **Descricao:** Ampliar Playwright e testes API para CRUD, categorias, etiquetas, importacao, exportacao, persistencia e uso em Chrome e Firefox.
+- **Status:** Em desenvolvimento
+- **Etapa:** 5D.2 / 5D.3.2
+- **Data de aplicacao:** -
+- **Observacoes:** Nao marcar como aplicada antes de validacao funcional no Windows.
