@@ -7,10 +7,10 @@
 
 ## Resumo
 
-- **Total de melhorias:** 9
+- **Total de melhorias:** 12
 - **Aplicadas:** 4
 - **Sugeridas:** 5
-- **Planejadas / Em desenvolvimento / Em validação:** 0
+- **Planejadas / Em desenvolvimento / Em validação:** 3
 
 ## Estados padronizados
 

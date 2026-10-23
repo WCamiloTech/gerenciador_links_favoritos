@@ -1,4 +1,4 @@
-﻿\ufeff
+\ufeff
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -102,6 +102,15 @@
                         id="importCsvFile" type="file"
                         accept=".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"><input
                         class="hidden" id="importFile" type="file" accept=".json,application/json"></div>
+                <h3>Diagnóstico SQLite (somente leitura)</h3>
+                <p class="hint">Compara os dados do navegador com o banco local. Não importa, não sincroniza e não grava informações.</p>
+                <button class="btn" id="sqliteCompareBtn" type="button">Comparar navegador e SQLite</button>
+                <div id="sqliteReadPanel" style="margin-top:1rem;padding:1rem;border:1px solid #aaa;border-radius:8px">
+                  <strong>Favoritos no SQLite — visualização independente (somente leitura)</strong>
+                  <p id="sqliteReadStatus" role="status">Aguardando consulta...</p>
+                  <div id="sqliteReadList" style="max-height:360px;overflow:auto"></div>
+                </div>
+                <pre id="sqliteCompareResult" role="status" aria-live="polite" style="white-space:pre-wrap;overflow-wrap:anywhere"></pre>
                 <h3>Histórico de importações JSON</h3>
                 <div id="backupHistory"></div>
             </section>
@@ -242,6 +251,8 @@
     <script src="js/renderizacao.js"></script>
     <script src="js/backup.js"></script>
     <script src="js/importacao-planilhas.js"></script>
+    <script src="js/sqlite-diagnostico.js"></script>
+    <script src="js/sqlite-leitura.js"></script>
 </body>
 
 </html>

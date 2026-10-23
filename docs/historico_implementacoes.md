@@ -194,3 +194,32 @@ Usar `docs/modelo_registro_implementacao.md` e `tools/registrar_implementacao.py
 - Correcao: fechamento explicito de conexoes no importador para evitar WinError 32 durante testes.
 - Melhorias: MEL-013, MEL-014, MEL-015 (sem marcar como aplicadas).
 - Backup: C:\Users\Will\Downloads\favoritos_correcao_5D31_2026-10-22_23-09-03
+
+## Etapa 5D.3.1-VALID — Validação do servidor local e API SQLite
+
+- **Data:** 2026-10-22
+- **Situação:** Validada.
+- **Testes automatizados:** 6 testes executados e aprovados.
+- **Servidor local:** Funcionamento confirmado.
+- **Banco de dados:** SQLite piloto.
+- **Favoritos:** 86.
+- **Categorias:** 10.
+- **Etiquetas:** 22.
+- **Correção WinError 32:** Validada.
+- **Integração com a interface:** Pendente.
+- **Próxima etapa:** 5D.3.2 — Integração JavaScript com SQLite.
+
+## Etapa 5D.3.2-A - Diagnostico de leitura SQLite
+- **Data e hora:** 2026-10-22T23:31:51-03:00
+- **Situacao:** Instalada; validacao Windows pendente; sem gravacao SQLite pela interface.
+- **Descricao:** Painel de comparacao somente leitura via GET /api/state.
+- **Backup anterior:** C:\Users\Will\Downloads\gerenciador_links_favoritos_versoes\pre_5D32A_2026-10-22_23-31-17.zip
+- **SHA-256:** A7A1A10791B4FABDB15E4CA300C05F90F974BE31257C6FC65E3186BE47A7529D
+
+
+## Etapa 5D.3.2-B1 - Leitura automatica SQLite isolada
+- **Data e hora:** 2026-10-23T01:21:11-03:00
+- **Situacao:** Instalada; validacao funcional pendente; somente leitura.
+- **Descricao:** GET /api/state automatico em painel isolado; diagnostico aceita porta local variavel.
+- **Backup anterior:** C:\Users\Will\Downloads\gerenciador_links_favoritos_versoes\pre_5D32B1_2026-10-23_01-21-05.zip
+- **SHA-256:** 552809C5145C8F206F115255E14044466842CA329869DB1F83219C681E6D0CFB
