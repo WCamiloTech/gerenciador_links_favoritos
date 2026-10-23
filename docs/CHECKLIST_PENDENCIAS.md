@@ -11,14 +11,14 @@ Esta lista e um roteiro de trabalho, nao prova de testes executados.
 - [x] Backup manual do banco antes do cadastro de links (confirmado pelo usuario).
 
 ## Pendencias obrigatorias para uso completo
-- [ ] B2.4-C: integrar CRUD de etiquetas ao SQLite, incluindo associacoes, renomeacao e exclusao sem apagar favoritos.
-- [ ] Integrar edicao em lote, aplicacao de etiquetas e categorias, mantendo selecao/filtros.
-- [ ] Integrar Desfazer (undo) ao SQLite com transacoes e auditoria.
+- [x] B2.4-C: integrar CRUD de etiquetas ao SQLite, incluindo associacoes, renomeacao e exclusao sem apagar favoritos.
+- [x] Integrar edicao em lote, aplicacao de etiquetas e categorias, mantendo selecao/filtros.
+- [x] Integrar Desfazer (undo) ao SQLite com transacoes e auditoria.
 - [ ] Reabilitar e testar importacao JSON, CSV e XLSX, inclusive atualizacao por planilha e bloqueio de duplicados.
 - [ ] Reabilitar e testar exportacao JSON/CSV e backup completo, com datas e restauracao.
 - [ ] Criar backup automatico consistente do SQLite e restauracao testada (MEL-014).
 - [ ] Preparar banco de producao: migracao sem perdas do banco atualmente denominado 'teste', backups e configuracao de inicializacao.
-- [ ] Ampliar testes automatizados ja existentes: API, Playwright Firefox/Chromium, persistencia, conflitos e regressao (MEL-015).
+- [~] Ampliar testes automatizados ja existentes: API, Playwright Firefox/Chromium, persistencia, conflitos e regressao (MEL-015). (B2.6: 8/8 aprovados; ampliacao futura pendente.)
 - [ ] Conferir todas as funcoes do modo tabela/cards, pesquisa, filtros, estatisticas, historico e modo escuro; reabilitar as que estiverem bloqueadas.
 - [ ] Auditar todas as operacoes SQLite (incluindo categorias, etiquetas, importacoes e desfazer), sem eventos indevidos.
 - [ ] Atualizar textos de interface e README que ainda mencionem localStorage como fonte principal.

@@ -9,7 +9,7 @@ function commitWithUndo(next,label,preserveSelection=false){
  if(!saveFavorites(next))return false;
  undoState=old;$('undoBtn').disabled=false;if(!preserveSelection)selectedIds.clear();render();return true;
 }
-function restoreUndo(){const raw=undoState||localStorage.getItem(UNDO_KEY);if(!raw)return;
+function restoreUndo(){if(window.sqliteUndoBridge)return window.sqliteUndoBridge.undo();const raw=undoState||localStorage.getItem(UNDO_KEY);if(!raw)return;
  const data=JSON.parse(raw);if(!confirm('Desfazer a última operação ('+data.label+')? As alterações posteriores serão substituídas.'))return;
  if(!saveFavorites(data.favorites))return;
  saveSettings(data.categories);if(Array.isArray(data.managedTags))persistTags(data.managedTags);localStorage.removeItem(UNDO_KEY);undoState=null;$('undoBtn').disabled=true;selectedIds.clear();resetForm();renderCategories();render();

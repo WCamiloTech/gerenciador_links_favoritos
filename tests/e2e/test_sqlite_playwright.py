@@ -141,6 +141,51 @@ class SQLiteBrowserTests(unittest.TestCase):
         p.wait_for_function('favorites.length === 1')
         self.assertEqual([f['id'] for f in self.state()['favorites']],['test-c'])
 
+    def test_06_undo_bulk_priority_persists(self):
+        p=self.page()
+        p.evaluate("selectedIds.clear(); selectedIds.add('test-a'); selectedIds.add('test-b'); render()")
+        p.locator('#batchPriority').select_option('yes')
+        p.locator('#applyPriority').click()
+        p.wait_for_function("favorites.filter(f=>f.priority).length===2")
+        self.assertTrue(p.locator('#undoBtn').is_enabled())
+        p.locator('#undoBtn').click()
+        p.wait_for_function("favorites.every(f=>!f.priority)")
+        self.assertTrue(all(not f['priority'] for f in self.state()['favorites']))
+        self.assertFalse(p.locator('#undoBtn').is_enabled())
+        p.reload()
+        p.wait_for_function("favorites.length===3 && favorites.every(f=>!f.priority)")
+        with closing(sqlite3.connect(self.db)) as con:
+            self.assertEqual(con.execute('PRAGMA integrity_check').fetchone()[0],'ok')
+
+    def test_07_undo_bulk_delete_restores_favorites(self):
+        p=self.page()
+        p.evaluate("selectedIds.clear(); selectedIds.add('test-a'); selectedIds.add('test-b'); render()")
+        p.locator('#batchDelete').click()
+        p.wait_for_function('favorites.length===1')
+        p.locator('#undoBtn').click()
+        p.wait_for_function('favorites.length===3')
+        self.assertEqual({f['id'] for f in self.state()['favorites']},{'test-a','test-b','test-c'})
+
+    def test_08_undo_conflict_preserves_other_browser(self):
+        a=self.page('chromium')
+        b=self.page('firefox')
+        a.evaluate("selectedIds.clear(); selectedIds.add('test-a'); render()")
+        a.locator('#batchPriority').select_option('yes')
+        a.locator('#applyPriority').click()
+        a.wait_for_function("favorites.find(f=>f.id==='test-a').priority===true")
+        b.reload()
+        b.wait_for_function("favorites.find(f=>f.id==='test-a').priority===true")
+        b.evaluate("selectedIds.clear(); selectedIds.add('test-b'); render()")
+        b.locator('#batchPriority').select_option('yes')
+        b.locator('#applyPriority').click()
+        b.wait_for_function("favorites.find(f=>f.id==='test-b').priority===true")
+        a.locator('#undoBtn').click()
+        a.wait_for_function("favorites.find(f=>f.id==='test-b').priority===true")
+        data={f['id']:f for f in self.state()['favorites']}
+        self.assertTrue(data['test-a']['priority'])
+        self.assertTrue(data['test-b']['priority'])
+        self.assertFalse(a.locator('#undoBtn').is_enabled())
+
     def test_05_conflict_409_prevents_overwrite(self):
         a=self.page('chromium')
         b=self.page('firefox')

@@ -330,3 +330,16 @@ Usar `docs/modelo_registro_implementacao.md` e `tools/registrar_implementacao.py
 - **SHA-256 do executor:** 231E185BFE481771CC297842AD70EEB14F01669D889D65C42CF3695550B17712
 - **SHA-256 do teste:** 6C2161E519D92542B026A20CBF854DE969354849582C9D2A35CD4FB4B3C3CA5A
 - **Registro:** 5D32B25A-VALID-2026-10-23_19-49-39
+
+## Etapa 5D.3.2-B2.6 — Desfazer SQLite (encerramento)
+- **Data e hora do registro:** 2026-10-23T20:23:58-03:00
+- **Descrição:** Desfazer integrado ao SQLite; encerramento documental e correção do executor PowerShell usando o mecanismo validado na B2.5-A.
+- **Testes automatizados:** 8/8 aprovados pelo usuário (13,649 s), incluindo três novos cenários da B2.6.
+- **Validação funcional:** Desfazer funcionando no Chrome e Firefox, confirmado pelo usuário.
+- **Limite da evidência:** Não foi feita nova execução de testes neste encerramento; resultado informado pelo usuário.
+- **Banco de dados:** Não alterado pelo instalador de encerramento.
+- **Arquivos alterados:** docs/historico_implementacoes.md, docs/auditoria_implementacoes.jsonl, checklist de pendências e instalador B2.6 em Downloads.
+- **Backup anterior ao encerramento:** C:\Users\Will\Downloads\00_Arquivos_gerenciador_links_arquivos_19_10_2026\pre_encerramento_B26_2026-10-23_20-23-58.zip
+- **SHA-256 do backup:** 68FCF1521B00DFA411A994AE486D359F89EA7FEDDD0A9BB3B09667A30FA2CA11
+- **Registro:** 5D32B26-VALID-2026-10-23_20-23-58
+- **Situação:** Encerrada documentalmente com testes e validação funcional confirmados; testes finais globais continuam pendentes.

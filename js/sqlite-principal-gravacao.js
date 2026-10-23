@@ -6,29 +6,46 @@
  const banner=document.createElement('div');banner.id='sqliteMainStatus';banner.setAttribute('role','status');
  banner.style.cssText='padding:12px 16px;margin:12px 0;border:1px solid #b99f4c;border-radius:8px;background:#443b21;color:#fff';
  const page=document.querySelector('[data-section="sites"]');page.insertBefore(banner,page.firstChild);
- let revision=null, settings={}, ready=false, busy=false;
+ let revision=null, settings={}, ready=false, busy=false, undoSnapshot=null;
  const blocked=()=>{alert('Operacao ainda indisponivel na integracao SQLite B2.2.');return false};
  // Bloqueia todas as rotas antigas de persistencia; CRUD usa apenas /api/state.
  saveFavorites=blocked;saveSettings=blocked;persistTags=blocked;
- const blockIds=['importBtn','confirmBackup','confirmCsv','undoBtn','auditBtn','viewTable'];
+ const blockIds=['importBtn','confirmBackup','confirmCsv','auditBtn','viewTable'];
  for(const id of blockIds){const e=document.getElementById(id);if(e){e.disabled=true;e.title='Indisponivel nesta fase SQLite'}}
  function status(msg){banner.textContent=msg}
  function lock(flag){busy=flag;const b=document.getElementById('saveBtn');if(b)b.disabled=flag||!ready}
  async function fetchState(){const response=await fetch('/api/state',{cache:'no-store'});if(!response.ok)throw Error('Falha na leitura: HTTP '+response.status);return response.json()}
  function apply(s){if(!Array.isArray(s.favorites)||!Array.isArray(s.categories)||!Array.isArray(s.tags)||!Number.isInteger(s.revision)||!s.favorites.every(validFavorite))throw Error('Resposta SQLite invalida');
  favorites=s.favorites.map(upgrade);categories=[...s.categories];managedTags=[...s.tags];settings={...s.settings};revision=s.revision;
- selectedIds.clear();undoState=null;document.getElementById('undoBtn').disabled=true;renderCategories();render();ready=true;lock(false);
+ selectedIds.clear();undoState=null;document.getElementById('undoBtn').disabled=!undoSnapshot;renderCategories();render();ready=true;lock(false);
  status(`SQLite: ${favorites.length} favoritos, ${categories.length} categorias, ${managedTags.length} etiquetas · revisao ${revision}. Favoritos, categorias, etiquetas e operacoes em lote habilitados. Outras alteracoes bloqueadas.`)}
  async function refresh(){ready=false;lock(true);try{apply(await fetchState())}catch(e){ready=false;lock(true);status('SQLite indisponivel: '+e.message+'. Gravacao bloqueada.');throw e}}
- async function commit(next,operation,explicitCategories=null,explicitTags=null){if(!ready||busy)return false;lock(true);try{
+ async function commit(next,operation,explicitCategories=null,explicitTags=null,recordUndo=true){if(!ready||busy)return false;
+  const before={favorites:JSON.parse(JSON.stringify(favorites)),categories:[...categories],tags:[...managedTags],settings:{...settings},label:operation};
+  lock(true);try{
   const tags=explicitTags===null?[...new Set([...managedTags,...next.flatMap(f=>f.tags)])]:explicitTags;
   const cats=explicitCategories===null?[...new Set([...categories,...next.map(f=>f.category).filter(Boolean)])]:explicitCategories;
   const response=await fetch('/api/state',{method:'PUT',headers:{'Content-Type':'application/json','If-Match':String(revision)},body:JSON.stringify({favorites:next,categories:cats,tags,settings})});
-  if(response.status===409){await refresh();alert('Conflito: outro navegador alterou os dados. O estado foi recarregado; refaca sua operacao.');return false}
+  if(response.status===409){undoSnapshot=null;await refresh();alert('Conflito: outro navegador alterou os dados. O estado foi recarregado; refaca sua operacao.');return false}
   if(!response.ok){const err=await response.json().catch(()=>({}));throw Error(err.error||'HTTP '+response.status)}
-  await refresh();return true;
+  await refresh();
+  if(recordUndo){undoSnapshot=before;document.getElementById('undoBtn').disabled=false}
+  else{undoSnapshot=null;document.getElementById('undoBtn').disabled=true}
+  return true;
  }catch(e){status('Erro em '+operation+': '+e.message+'. Verifique os dados antes de tentar novamente.');alert('Nao foi possivel salvar no SQLite: '+e.message);return false}
  finally{lock(false)}}
+ // Desfazer e uma nova transacao SQLite, protegida por If-Match/revisao.
+ window.sqliteUndoBridge={
+  async undo(){
+   if(!undoSnapshot||!ready||busy)return false;
+   const snapshot=undoSnapshot;
+   if(!confirm('Desfazer a ultima operacao ('+snapshot.label+')?'))return false;
+   const ok=await commit(snapshot.favorites,'desfazer '+snapshot.label,snapshot.categories,snapshot.tags,false);
+   if(ok){selectedIds.clear();resetForm();renderCategories();render();showPage('sites')}
+   return ok;
+  },
+  available(){return !!undoSnapshot}
+ };
  // Captura o submit antes do manipulador legado que gravaria em localStorage.
  document.addEventListener('submit',async function(e){if(e.target.id!=='siteForm'){e.preventDefault();e.stopImmediatePropagation();blocked();return}
  e.preventDefault();e.stopImmediatePropagation();if(!ready||busy)return;
