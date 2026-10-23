@@ -1,6 +1,6 @@
 from pathlib import Path
 root=Path(__file__).resolve().parents[1]
-legacy=(root/'js/app-legacy.js').read_text(encoding='utf-8')
+legacy=(root/'js/operacoes-lote.js').read_text(encoding='utf-8')
 undo=(root/'js/desfazer.js').read_text(encoding='utf-8')
 html=(root/'index.html').read_text(encoding='utf-8')
 backup=(root/'js/backup.js').read_text(encoding='utf-8')
@@ -17,7 +17,7 @@ assert 'commitWithUndo(next,label,preserveSelection)' in legacy
 assert 'commitWithUndo(next,' in imports
 assert 'localStorage.setItem(UNDO_KEY,previous)' in backup
 assert 'undoState=previous' in backup
-scripts=['js/core.js','js/export-utils.js','js/app-legacy.js','js/desfazer.js','js/favoritos.js','js/categorias.js','js/tags.js','js/renderizacao.js','js/backup.js','js/importacao-planilhas.js']
+scripts=['js/core.js','js/export-utils.js','js/app-legacy.js','js/desfazer.js','js/operacoes-lote.js','js/favoritos.js','js/categorias.js','js/tags.js','js/renderizacao.js','js/backup.js','js/importacao-planilhas.js']
 positions=[html.index('src="'+s+'"') for s in scripts]
 assert positions==sorted(positions), 'Ordem dos scripts incorreta'
 assert undo.count('function commitWithUndo(')==1

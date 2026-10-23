@@ -62,3 +62,13 @@ Consulte `docs/melhorias_sugeridas.md` para propostas, prioridades, etapas e sta
 - Salvar sem alterações não substitui o ponto de restauração anterior.
 - Inclusão de novos favoritos e demais operações não foram alteradas nesta revisão.
 - Validação funcional no Firefox pendente.
+
+
+## Etapa 5D — Modularização das operações em lote
+
+- `js/operacoes-lote.js` contém seleção visível, limpeza da seleção, `bulkChange` e eventos de categoria, etiquetas, prioridade e exclusão em lote.
+- A lógica foi movida sem mudanças funcionais; `js/desfazer.js` continua responsável pelo ponto de restauração.
+- Ordem: `app-legacy.js`, `desfazer.js`, `operacoes-lote.js`, `favoritos.js`.
+- Testes antigos 5B e 5C foram atualizados **somente** para apontar para a nova localização do código.
+- Validação no Firefox pendente após instalação.
+- Regra anticiclos: uma etapa, uma responsabilidade; registrar pendências separadamente sem ampliar o escopo.

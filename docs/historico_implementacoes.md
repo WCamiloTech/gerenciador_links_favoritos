@@ -157,3 +157,14 @@ Usar `docs/modelo_registro_implementacao.md` e `tools/registrar_implementacao.py
 - **Versão anterior:** C:\Users\Will\Downloads\gerenciador_links_favoritos_versoes\versao_5C_pre_5C1_2026-10-22_12-24-34.zip
 - **SHA-256:** 049C4E0AAA2676456F27119685CA2E572CB30CE74A90FD4399D63ECB67C32EE2
 - **Origem:** Instalador Python Etapa 5C.1
+
+## Etapa 5D — Modularizacao das operacoes em lote
+- **Data e hora:** 2026-10-22T12:50:08-03:00
+- **Descrição:** Extracao sem mudanca funcional de selecao, bulkChange e eventos em lote para js/operacoes-lote.js; ajuste de testes historicos para localizacao; resumo MEL-009 corrigido
+- **Arquivos alterados:** docs/melhorias_sugeridas.md, index.html, js/app-legacy.js, js/operacoes-lote.js, README.md, tests/check_stage5b.py, tests/check_stage5c.py, tests/check_stage5d.py
+- **Testes automatizados:** 18 testes estaticos aprovados
+- **Validação funcional:** Pendente: categoria, etiquetas, prioridade, exclusao em lote, selecao/filtros e Desfazer no Firefox
+- **Situação:** Instalada; 18 testes estaticos aprovados; validacao Firefox pendente
+- **Versão anterior:** C:\Users\Will\Downloads\gerenciador_links_favoritos_versoes\versao_5C1_pre_5D_2026-10-22_12-50-03.zip
+- **SHA-256:** 95D11E0C460BF33CDAEAE012152DC1BCA817CDCB998FFD5FE1D218308A00CFFA
+- **Origem:** Instalador Python Etapa 5D

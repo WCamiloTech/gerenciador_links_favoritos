@@ -1,0 +1,3 @@
+# Dependencias dos testes automatizados (Etapa 5D.1)
+# O aplicativo em si nao exige dependencias Python.
+playwright>=1.50,<2

@@ -1,7 +1,7 @@
 from pathlib import Path
 root=Path(__file__).resolve().parents[1]
 html=(root/'index.html').read_text(encoding='utf-8')
-legacy=(root/'js/app-legacy.js').read_text(encoding='utf-8')
+legacy=(root/'js/operacoes-lote.js').read_text(encoding='utf-8')
 undo=(root/'js/desfazer.js').read_text(encoding='utf-8')
 tags=(root/'js/tags.js').read_text(encoding='utf-8')
 css=(root/'css/styles.css').read_text(encoding='utf-8')
