@@ -315,3 +315,18 @@ Usar `docs/modelo_registro_implementacao.md` e `tools/registrar_implementacao.py
 - **Backup anterior a este registro:** C:\Users\Will\Downloads\00_Arquivos_gerenciador_links_arquivos_19_10_2026\pre_registro_B25_VALID_2026-10-23_13-27-21.zip
 - **SHA-256 do backup deste registro:** 4063F2D969A4FCE0DDDDA2E64544ECC698D493ED9623C7CB6D3B37F612F828F8
 - **Origem:** Checklist confirmado pelo usuário; registro complementar sem substituir entradas anteriores.
+
+## Etapa 5D.3.2-B2.5-A - Suite Playwright e SQLite (encerramento)
+- **Data e hora:** 2026-10-23T19:49:50-03:00
+- **Descricao:** Suite E2E com Chromium e Firefox e banco SQLite temporario; ajuste do executor PowerShell para separar stdout/stderr e validar o codigo de saida do processo Python.
+- **Arquivos alterados neste encerramento:** tools/executar_playwright_B25A.ps1, docs/historico_implementacoes.md, docs/auditoria_implementacoes.jsonl.
+- **Arquivo de teste previamente instalado:** tests/e2e/test_sqlite_playwright.py (nao modificado neste encerramento).
+- **Testes automatizados:** 5/5 aprovados na execucao do instalador: inicializacao Chromium/Firefox; prioridade em lote e persistencia; categoria em lote; exclusao e preservacao; conflito HTTP 409.
+- **Validacao funcional:** B2.5 aprovada anteriormente pelo usuario (9/9); B2.5-A aprovada automaticamente (5/5).
+- **Banco de dados:** temporario e isolado; nenhum banco real modificado pelos testes.
+- **Situacao:** concluida apos execucao bem-sucedida neste computador.
+- **Backup anterior ao encerramento:** C:\Users\Will\Downloads\00_Arquivos_gerenciador_links_arquivos_19_10_2026\pre_encerramento_B25A_2026-10-23_19-49-39.zip
+- **SHA-256 do backup:** 2B213E3221E775A9EFE15E43F0D460D9847BE9A79E37D6AA25A579B8ACC6CA26
+- **SHA-256 do executor:** 231E185BFE481771CC297842AD70EEB14F01669D889D65C42CF3695550B17712
+- **SHA-256 do teste:** 6C2161E519D92542B026A20CBF854DE969354849582C9D2A35CD4FB4B3C3CA5A
+- **Registro:** 5D32B25A-VALID-2026-10-23_19-49-39
