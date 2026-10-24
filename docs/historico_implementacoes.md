@@ -343,3 +343,17 @@ Usar `docs/modelo_registro_implementacao.md` e `tools/registrar_implementacao.py
 - **SHA-256 do backup:** 68FCF1521B00DFA411A994AE486D359F89EA7FEDDD0A9BB3B09667A30FA2CA11
 - **Registro:** 5D32B26-VALID-2026-10-23_20-23-58
 - **Situação:** Encerrada documentalmente com testes e validação funcional confirmados; testes finais globais continuam pendentes.
+
+## Etapa 5D.3.2-B2.7-A — Importacao JSON SQLite (encerramento)
+- **Data e hora do registro:** 2026-10-24T18:45:57-03:00
+- **Registro:** 5D32B27A-VALID-2026-10-24
+- **Descricao:** Integracao da importacao JSON por mesclagem e restauracao ao SQLite; verificacao de duplicados e persistencia.
+- **Testes automatizados:** 11/11 aprovados em 19,600 s, conforme resultado de unittest informado pelo usuario; nenhum teste reexecutado neste encerramento.
+- **Validacao funcional:** Previa, mesclagem, restauracao, duplicados, F5 e compartilhamento Chrome/Firefox confirmados pelo usuario.
+- **Banco utilizado na validacao:** B27A_teste_importacao.db, confirmado pela linha de comando dos processos Python.
+- **Integridade da instalacao:** Os tres arquivos B2.7-A instalados foram comparados ao pacote por SHA-256, conforme confirmacao do usuario.
+- **Ocorrencia registrada:** O instalador B2.7-A apresentou falha no redirecionamento de logs; a suite foi executada diretamente e aprovada.
+- **Escopo restante:** CSV/XLSX e a pendencia geral de importacao permanecem abertos.
+- **Backup anterior ao registro:** C:\Users\Will\Downloads\00_Arquivos_gerenciador_links_arquivos_19_10_2026\pre_encerramento_B27A_2026-10-24_18-45-57.zip
+- **SHA-256 do backup:** 8175B20FF82634437713E1C20D9C48DD0E413A45D44E955314CA21AA777D16A6
+- **Situacao:** B2.7-A encerrada documentalmente.

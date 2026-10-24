@@ -204,5 +204,68 @@ class SQLiteBrowserTests(unittest.TestCase):
         self.assertFalse(data['test-b']['priority'])
         self.assertEqual(state['revision'],1)
 
+    def test_09_json_merge_sqlite_and_undo(self):
+        for browser in ('chromium','firefox'):
+            with self.subTest(browser=browser):
+                p=self.page(browser)
+                item={'id':'json-extra','createdAt':'2026-10-23','name':'JSON Extra',
+                      'url':'https://example.com/new','description':'Importado','notes':'',
+                      'category':'Nova categoria','tags':['Nova etiqueta'],'priority':False}
+                payload={'app':'gerenciador-favoritos','version':3,'favorites':[item]}
+                p.locator('#importFile').set_input_files({
+                    'name':'mesclar.json','mimeType':'application/json',
+                    'buffer':json.dumps(payload).encode('utf-8')})
+                p.locator('#confirmBackup').click()
+                p.wait_for_function("favorites.some(f=>f.id==='json-extra')")
+                state=self.state()
+                self.assertEqual(len(state['favorites']),4)
+                self.assertIn('Nova categoria',state['categories'])
+                self.assertIn('Nova etiqueta',state['tags'])
+                p.locator('#undoBtn').click()
+                p.wait_for_function('favorites.length===3')
+                self.assertEqual(len(self.state()['favorites']),3)
+                with closing(sqlite3.connect(self.db)) as con:
+                    self.assertEqual(con.execute('PRAGMA integrity_check').fetchone()[0],'ok')
+
+    def test_10_json_restore_sqlite(self):
+        p=self.page('firefox')
+        item={'id':'json-restore','createdAt':'2026-10-23','name':'Restaurado',
+              'url':'https://example.com/restore','description':'','notes':'',
+              'category':'Importada','tags':['Restaurada'],'priority':True}
+        payload={'app':'gerenciador-favoritos','version':3,'favorites':[item],
+                 'categories':['Importada'],'tags':['Restaurada'],
+                 'settings':{'view':'cards'}}
+        p.locator('#importFile').set_input_files({
+            'name':'restaurar.json','mimeType':'application/json',
+            'buffer':json.dumps(payload).encode('utf-8')})
+        p.locator('#backupMode').select_option('restore')
+        p.locator('#confirmBackup').click()
+        p.wait_for_function("favorites.length===1 && favorites[0].id==='json-restore'")
+        self.assertEqual(self.state()['favorites'][0]['id'],'json-restore')
+        p.locator('#undoBtn').click()
+        p.wait_for_function('favorites.length===3')
+        self.assertEqual(len(self.state()['favorites']),3)
+
+    def test_11_json_merge_conflict_409(self):
+        a=self.page('chromium')
+        b=self.page('firefox')
+        item={'id':'json-conflict','createdAt':'2026-10-23','name':'Conflito',
+              'url':'https://example.com/conflict','description':'','notes':'',
+              'category':'Geral','tags':['Base'],'priority':False}
+        payload={'app':'gerenciador-favoritos','version':3,'favorites':[item]}
+        b.locator('#importFile').set_input_files({
+            'name':'conflito.json','mimeType':'application/json',
+            'buffer':json.dumps(payload).encode('utf-8')})
+        a.evaluate("selectedIds.clear(); selectedIds.add('test-a'); render()")
+        a.locator('#batchPriority').select_option('yes')
+        a.locator('#applyPriority').click()
+        a.wait_for_function("favorites.find(f=>f.id==='test-a').priority")
+        b.locator('#confirmBackup').click()
+        b.wait_for_function("favorites.find(f=>f.id==='test-a').priority")
+        state=self.state()
+        self.assertEqual(len(state['favorites']),3)
+        self.assertFalse(any(f['id']=='json-conflict' for f in state['favorites']))
+        self.assertEqual(state['revision'],1)
+
 if __name__=='__main__':
     unittest.main(verbosity=2)

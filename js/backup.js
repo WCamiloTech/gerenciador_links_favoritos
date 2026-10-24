@@ -112,6 +112,28 @@ $('confirmBackup').addEventListener('click',()=>{
   alert('Não foi possível concluir a importação. Os dados anteriores foram preservados. '+err.message);
  }
 });
+// B2.7-A: captura apenas a confirmacao JSON quando a ponte SQLite esta ativa.
+// O handler legado continua disponivel fora do servidor local.
+document.addEventListener('click',async event=>{
+ const button=event.target.closest('button');
+ if(!button||button.id!=='confirmBackup'||!window.sqliteJsonImportBridge)return;
+ event.preventDefault();event.stopImmediatePropagation();
+ if(!pendingBackup||!window.sqliteJsonImportBridge.available())return;
+ const mode=$('backupMode').value;
+ const plan=backupPlan(mode);
+ if(!confirm(mode==='restore'
+  ?'CONFIRMAR RESTAURACAO no SQLite: os favoritos, categorias e etiquetas atuais serao substituidos. Continuar?'
+  :'Confirmar mesclagem do arquivo JSON com o SQLite?'))return;
+ const ok=await window.sqliteJsonImportBridge.commitPlan(plan,mode);
+ if(!ok)return;
+ const history=readJSON(BACKUP_HISTORY_KEY,[]);
+ try{localStorage.setItem(BACKUP_HISTORY_KEY,JSON.stringify([
+  {date:new Date().toISOString(),file:pendingBackup.filename,mode,count:plan.favorites.length},
+  ...history].slice(0,20)))}catch{}
+ $('backupPreview').classList.add('hidden');pendingBackup=null;renderHistory();
+ alert('Importacao JSON concluida no SQLite.');
+},true);
+
 function renderHistory(){
  const history=readJSON(BACKUP_HISTORY_KEY,[]);
  const target=$('backupHistory');target.replaceChildren();

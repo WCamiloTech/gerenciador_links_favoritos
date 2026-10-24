@@ -15,6 +15,7 @@ Esta lista e um roteiro de trabalho, nao prova de testes executados.
 - [x] Integrar edicao em lote, aplicacao de etiquetas e categorias, mantendo selecao/filtros.
 - [x] Integrar Desfazer (undo) ao SQLite com transacoes e auditoria.
 - [ ] Reabilitar e testar importacao JSON, CSV e XLSX, inclusive atualizacao por planilha e bloqueio de duplicados.
+- [x] B2.7-A — JSON validado: mesclar, restaurar, duplicados, F5, Chrome/Firefox; 11/11 Playwright. CSV/XLSX continuam pendentes.
 - [ ] Reabilitar e testar exportacao JSON/CSV e backup completo, com datas e restauracao.
 - [ ] Criar backup automatico consistente do SQLite e restauracao testada (MEL-014).
 - [ ] Preparar banco de producao: migracao sem perdas do banco atualmente denominado 'teste', backups e configuracao de inicializacao.

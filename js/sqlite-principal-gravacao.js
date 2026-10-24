@@ -10,7 +10,7 @@
  const blocked=()=>{alert('Operacao ainda indisponivel na integracao SQLite B2.2.');return false};
  // Bloqueia todas as rotas antigas de persistencia; CRUD usa apenas /api/state.
  saveFavorites=blocked;saveSettings=blocked;persistTags=blocked;
- const blockIds=['importBtn','confirmBackup','confirmCsv','auditBtn','viewTable'];
+ const blockIds=['confirmCsv','auditBtn','viewTable'];
  for(const id of blockIds){const e=document.getElementById(id);if(e){e.disabled=true;e.title='Indisponivel nesta fase SQLite'}}
  function status(msg){banner.textContent=msg}
  function lock(flag){busy=flag;const b=document.getElementById('saveBtn');if(b)b.disabled=flag||!ready}
@@ -20,12 +20,12 @@
  selectedIds.clear();undoState=null;document.getElementById('undoBtn').disabled=!undoSnapshot;renderCategories();render();ready=true;lock(false);
  status(`SQLite: ${favorites.length} favoritos, ${categories.length} categorias, ${managedTags.length} etiquetas · revisao ${revision}. Favoritos, categorias, etiquetas e operacoes em lote habilitados. Outras alteracoes bloqueadas.`)}
  async function refresh(){ready=false;lock(true);try{apply(await fetchState())}catch(e){ready=false;lock(true);status('SQLite indisponivel: '+e.message+'. Gravacao bloqueada.');throw e}}
- async function commit(next,operation,explicitCategories=null,explicitTags=null,recordUndo=true){if(!ready||busy)return false;
+ async function commit(next,operation,explicitCategories=null,explicitTags=null,recordUndo=true,explicitSettings=null){if(!ready||busy)return false;
   const before={favorites:JSON.parse(JSON.stringify(favorites)),categories:[...categories],tags:[...managedTags],settings:{...settings},label:operation};
   lock(true);try{
   const tags=explicitTags===null?[...new Set([...managedTags,...next.flatMap(f=>f.tags)])]:explicitTags;
   const cats=explicitCategories===null?[...new Set([...categories,...next.map(f=>f.category).filter(Boolean)])]:explicitCategories;
-  const response=await fetch('/api/state',{method:'PUT',headers:{'Content-Type':'application/json','If-Match':String(revision)},body:JSON.stringify({favorites:next,categories:cats,tags,settings})});
+  const response=await fetch('/api/state',{method:'PUT',headers:{'Content-Type':'application/json','If-Match':String(revision)},body:JSON.stringify({favorites:next,categories:cats,tags,settings:explicitSettings===null?settings:explicitSettings})});
   if(response.status===409){undoSnapshot=null;await refresh();alert('Conflito: outro navegador alterou os dados. O estado foi recarregado; refaca sua operacao.');return false}
   if(!response.ok){const err=await response.json().catch(()=>({}));throw Error(err.error||'HTTP '+response.status)}
   await refresh();
@@ -40,11 +40,32 @@
    if(!undoSnapshot||!ready||busy)return false;
    const snapshot=undoSnapshot;
    if(!confirm('Desfazer a ultima operacao ('+snapshot.label+')?'))return false;
-   const ok=await commit(snapshot.favorites,'desfazer '+snapshot.label,snapshot.categories,snapshot.tags,false);
+   const ok=await commit(snapshot.favorites,'desfazer '+snapshot.label,snapshot.categories,snapshot.tags,false,snapshot.settings);
    if(ok){selectedIds.clear();resetForm();renderCategories();render();showPage('sites')}
    return ok;
   },
   available(){return !!undoSnapshot}
+ };
+ // B2.7-A: importacao JSON pela mesma transacao SQLite, com If-Match e Undo.
+ window.sqliteJsonImportBridge={
+  available(){return ready&&!busy},
+  async commitPlan(plan,mode){
+   if(!ready||busy)return false;
+   if(!plan||!Array.isArray(plan.favorites)||!Array.isArray(plan.categories)||!Array.isArray(plan.tags))return false;
+   const ids=new Set(),urls=new Set();
+   for(const f of plan.favorites){
+    const key=urlKey(f.url);
+    if(!key||ids.has(f.id)||urls.has(key)){
+     alert('Importacao cancelada: IDs ou URLs duplicados/invalidos.');return false;
+    }
+    ids.add(f.id);urls.add(key);
+   }
+   const nextSettings={...settings};
+   if(mode==='restore'&&['cards','table'].includes(plan.view))nextSettings.view=plan.view;
+   const ok=await commit(plan.favorites,mode==='restore'?'restaurar JSON':'mesclar JSON',plan.categories,plan.tags,true,nextSettings);
+   if(ok){selectedIds.clear();resetForm();renderCategories();render();}
+   return ok;
+  }
  };
  // Captura o submit antes do manipulador legado que gravaria em localStorage.
  document.addEventListener('submit',async function(e){if(e.target.id!=='siteForm'){e.preventDefault();e.stopImmediatePropagation();blocked();return}
