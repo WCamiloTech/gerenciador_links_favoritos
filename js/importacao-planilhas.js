@@ -98,6 +98,48 @@ $('confirmCsv').addEventListener('click',()=>{
   alert('Não foi possível confirmar a importação: '+(error?.message||String(error))+'\\nOs dados existentes foram preservados.');
  }
 });
+// B2.7-B: a confirmacao SQLite intercepta o clique ANTES dos handlers legados.
+// A leitura/previa continuam iguais; nenhuma gravacao localStorage no modo SQLite.
+document.addEventListener('click',async event=>{
+ const button=event.target.closest('button');
+ if(!button||button.id!=='confirmCsv'||!window.sqliteSpreadsheetBridge)return;
+ event.preventDefault();event.stopImmediatePropagation();
+ if(!csvPending||!window.sqliteSpreadsheetBridge.available())return;
+ const {items,invalid,duplicates}=csvPending;
+ const updates=$('updateExisting').checked;
+ // Plano baseado na revisao carregada. O servidor recusa alteracoes concorrentes (409).
+ const next=favorites.map(f=>({...f,tags:[...f.tags]}));
+ const keys=new Map(next.map((f,i)=>[urlKey(f.url),i]));
+ let added=0,changed=0;
+ for(const x of items){
+  if(!x.favorite?.url)continue;
+  const key=urlKey(x.favorite.url);
+  if(keys.has(key))continue;
+  keys.set(key,next.length);next.push(x.favorite);added++;
+ }
+ if(updates)for(const x of duplicates){
+  const idx=keys.get(urlKey(x.url));
+  if(idx===undefined||!x.favorite)continue;
+  const f=next[idx],src=x.favorite,merged={...f,tags:[...f.tags]};
+  for(const k of ['name','description','notes','category']){
+   if(src[k]&&!(k==='description'&&src[k]==='Importado de planilha'))merged[k]=src[k];
+  }
+  if(src.tags?.length)merged.tags=normalizeTags([...f.tags,...src.tags]);
+  if(src.priority)merged.priority=true;
+  if(JSON.stringify(f)!==JSON.stringify(merged)){next[idx]=merged;changed++}
+ }
+ if(!added&&!changed){
+  alert(duplicates.length&&!updates
+   ?'Nenhum site novo. Marque "Atualizar registros existentes por URL" para atualizar.'
+   :'Nenhuma alteracao encontrada na planilha.');return;
+ }
+ if(!confirm(`Importar ${added} site(s) e atualizar ${changed} registro(s)?\n\nA operacao podera ser desfeita.`))return;
+ const ok=await window.sqliteSpreadsheetBridge.commitPlan(next);
+ if(!ok){csvPending=null;$('csvPreview').classList.add('hidden');return}
+ resetForm();renderCategories();render();
+ $('csvPreview').classList.add('hidden');csvPending=null;
+ alert(`Importacao concluida!\nNovos: ${added}\nAtualizados: ${changed}\nInvalidos: ${invalid.length}`);
+},true);
 $('importCsvFile').addEventListener('change',async event=>{
  const file=event.target.files[0];if(!file)return;
  try{
@@ -108,15 +150,16 @@ $('importCsvFile').addEventListener('change',async event=>{
   for(const [field,opts] of Object.entries(aliases))index[field]=header.findIndex(h=>opts.includes(h));
   if(index.url<0)throw Error('Não encontrei a coluna URL ou Link.');
   const get=(r,k)=>index[k]<0?'':cleanText(r[index[k]]||'');
-  const existing=new Set(favorites.map(f=>urlKey(f.url))),items=[],invalid=[],duplicates=[];
+  const existing=new Set(favorites.map(f=>urlKey(f.url))),seenInFile=new Set(),items=[],invalid=[],duplicates=[];
   for(let i=0;i<rows.length;i++){
    const r=rows[i],line=i+2,rawUrl=get(r,'url');
    if(!r.some(x=>cleanText(x)))continue;
    const url=normalizeUrl(rawUrl);
    if(!url){invalid.push({line,raw:rawUrl,reason:'URL ausente ou inválida'});continue}
    const name=get(r,'name')||generatedName(url),key=urlKey(url);
+   if(seenInFile.has(key)){invalid.push({line,raw:rawUrl,reason:'URL repetida dentro da planilha'});continue}
+   seenInFile.add(key);
    if(existing.has(key)){duplicates.push({line,name,url,favorite:{name,url,description:get(r,'description').slice(0,1000),notes:get(r,'notes').slice(0,3000),category:get(r,'category').slice(0,60),tags:normalizeTags(get(r,'tags')),priority:/^(sim|s|yes|true|1|★)$/i.test(get(r,'priority'))}});continue}
-   existing.add(key);
    const favorite={id:uid(),name:name.slice(0,120),url,
     description:get(r,'description').slice(0,1000)||'Importado de planilha',
     createdAt:parseImportedDate(get(r,'createdAt')),

@@ -1,5 +1,7 @@
 """Testes E2E SQLite em banco TEMPORARIO. Nao acessa o banco real."""
 import json
+import io
+import zipfile
 import sqlite3
 import tempfile
 import threading
@@ -81,7 +83,7 @@ class SQLiteBrowserTests(unittest.TestCase):
             page.wait_for_function(
                 "typeof window.sqliteBulkBridge !== 'undefined' && "
                 "typeof favorites !== 'undefined' && Array.isArray(favorites) && "
-                "favorites.length === 3",
+                "favorites.length >= 3",
                 timeout=5000
             )
         except Exception as exc:
@@ -267,5 +269,103 @@ class SQLiteBrowserTests(unittest.TestCase):
         self.assertFalse(any(f['id']=='json-conflict' for f in state['favorites']))
         self.assertEqual(state['revision'],1)
 
+    def test_12_csv_merge_and_undo(self):
+        csv = ('Nome;URL;Finalidade;Categoria;Etiquetas\n'
+               'Novo CSV;https://example.com/csv;Importado;Categoria CSV;Etiqueta CSV\n')
+        for browser in ('chromium','firefox'):
+            with self.subTest(browser=browser):
+                p=self.page(browser)
+                p.locator('#importCsvFile').set_input_files({
+                    'name':'importar.csv','mimeType':'text/csv',
+                    'buffer':csv.encode('utf-8')})
+                p.locator('#confirmCsv').click()
+                p.wait_for_function("favorites.some(f=>f.url==='https://example.com/csv')")
+                state=self.state()
+                self.assertEqual(len(state['favorites']),4)
+                self.assertIn('Categoria CSV',state['categories'])
+                self.assertIn('Etiqueta CSV',state['tags'])
+                p.locator('#undoBtn').click()
+                p.wait_for_function('favorites.length===3')
+                self.assertEqual(len(self.state()['favorites']),3)
+
+    def test_13_csv_update_by_url_and_internal_duplicate(self):
+        p=self.page()
+        csv=('Nome;URL;Finalidade;Categoria;Etiquetas\n'
+             'Alterado CSV;https://example.com/a;Atualizada;Nova CSV;Adicional\n'
+             'Ignorado;https://example.com/a;Duplicado;Outra;Outra\n')
+        p.locator('#importCsvFile').set_input_files({
+            'name':'atualizar.csv','mimeType':'text/csv',
+            'buffer':csv.encode('utf-8')})
+        p.locator('#updateExisting').check()
+        p.locator('#confirmCsv').click()
+        p.wait_for_function("favorites.find(f=>f.id==='test-a').name==='Alterado CSV'")
+        state=self.state()
+        self.assertEqual(len(state['favorites']),3)
+        fav=next(f for f in state['favorites'] if f['id']=='test-a')
+        self.assertEqual(fav['category'],'Nova CSV')
+        self.assertIn('Adicional',fav['tags'])
+        p.reload()
+        p.wait_for_function("favorites.find(f=>f.id==='test-a').name==='Alterado CSV'")
+
+    def test_14_csv_conflict_409_preserves_other_browser(self):
+        a=self.page('chromium')
+        b=self.page('firefox')
+        b.locator('#importCsvFile').set_input_files({
+            'name':'conflito.csv','mimeType':'text/csv',
+            'buffer':b'Nome;URL\nConflito;https://example.com/csv-conflict\n'})
+        a.evaluate("selectedIds.clear(); selectedIds.add('test-a'); render()")
+        a.locator('#batchPriority').select_option('yes')
+        a.locator('#applyPriority').click()
+        a.wait_for_function("favorites.find(f=>f.id==='test-a').priority")
+        b.locator('#confirmCsv').click()
+        b.wait_for_function("favorites.find(f=>f.id==='test-a').priority")
+        state=self.state()
+        self.assertEqual(len(state['favorites']),3)
+        self.assertEqual(state['revision'],1)
+
+    def test_15_xlsx_first_sheet_in_both_browsers(self):
+        # OOXML minimo; descompactacao real ZIP deflate pelo navegador.
+        xml=b"""<?xml version="1.0" encoding="UTF-8"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData><row r="1"><c r="A1" t="inlineStr"><is><t>Nome</t></is></c><c r="B1" t="inlineStr"><is><t>URL</t></is></c></row><row r="2"><c r="A2" t="inlineStr"><is><t>Importado XLSX</t></is></c><c r="B2" t="inlineStr"><is><t>https://example.com/xlsx</t></is></c></row></sheetData></worksheet>"""
+        content=io.BytesIO()
+        with zipfile.ZipFile(content,'w',compression=zipfile.ZIP_DEFLATED) as z:
+            z.writestr('xl/worksheets/sheet1.xml',xml)
+        for browser in ('chromium','firefox'):
+            with self.subTest(browser=browser):
+                p=self.page(browser)
+                alerts=[]
+                
+                p.on('dialog',lambda dialog: (alerts.append(dialog.message),dialog.accept()))
+                p.locator('#importCsvFile').set_input_files({
+                    'name':'planilha.xlsx',
+                    'mimeType':'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    'buffer':content.getvalue()})
+                # Aguarda o leitor assincrono concluir e a previa aparecer.
+                # No segundo navegador a URL ja existe; nao devemos tentar duplicar.
+                try:
+                    p.wait_for_function("""() => {
+                        const preview=document.querySelector('#csvPreview');
+                        return preview && !preview.classList.contains('hidden');
+                    }""",timeout=12000)
+                except Exception as exc:
+                    self.fail(f'Previa XLSX nao apareceu em {browser}; alertas={alerts}; erro={exc}')
+                rows=p.locator('#previewRows').inner_text()
+                self.assertIn('https://example.com/xlsx',rows,
+                    f'URL ausente da previa em {browser}; previa={rows}; alertas={alerts}')
+                if browser=='chromium':
+                    self.assertTrue(p.locator('#confirmCsv').is_enabled(),
+                        f'Confirmacao desabilitada; previa={rows}; alertas={alerts}')
+                    p.locator('#confirmCsv').click()
+                    try:
+                        p.wait_for_function("favorites.some(f=>f.url==='https://example.com/xlsx')",timeout=12000)
+                    except Exception as exc:
+                        self.fail(f'XLSX nao persistiu em {browser}; alertas={alerts}; previa={rows}; estado={self.state()}; erro={exc}')
+                else:
+                    # Testa a leitura da mesma planilha em Firefox e identifica duplicidade.
+                    self.assertIn('Já cadastrado',rows,
+                        f'Firefox deveria identificar URL ja importada; previa={rows}')
+                self.assertEqual(len(self.state()['favorites']),4)
+
 if __name__=='__main__':
     unittest.main(verbosity=2)
+
+

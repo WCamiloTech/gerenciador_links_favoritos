@@ -14,7 +14,7 @@ Esta lista e um roteiro de trabalho, nao prova de testes executados.
 - [x] B2.4-C: integrar CRUD de etiquetas ao SQLite, incluindo associacoes, renomeacao e exclusao sem apagar favoritos.
 - [x] Integrar edicao em lote, aplicacao de etiquetas e categorias, mantendo selecao/filtros.
 - [x] Integrar Desfazer (undo) ao SQLite com transacoes e auditoria.
-- [ ] Reabilitar e testar importacao JSON, CSV e XLSX, inclusive atualizacao por planilha e bloqueio de duplicados.
+- [x] Reabilitar e testar importacao JSON, CSV e XLSX, inclusive atualizacao por planilha e bloqueio de duplicados. (B2.7-A e B2.7-B: testes automatizados e validacao funcional aprovados.)
 - [x] B2.7-A — JSON validado: mesclar, restaurar, duplicados, F5, Chrome/Firefox; 11/11 Playwright. CSV/XLSX continuam pendentes.
 - [ ] Reabilitar e testar exportacao JSON/CSV e backup completo, com datas e restauracao.
 - [ ] Criar backup automatico consistente do SQLite e restauracao testada (MEL-014).

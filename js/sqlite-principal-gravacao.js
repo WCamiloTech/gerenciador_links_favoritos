@@ -10,7 +10,7 @@
  const blocked=()=>{alert('Operacao ainda indisponivel na integracao SQLite B2.2.');return false};
  // Bloqueia todas as rotas antigas de persistencia; CRUD usa apenas /api/state.
  saveFavorites=blocked;saveSettings=blocked;persistTags=blocked;
- const blockIds=['confirmCsv','auditBtn','viewTable'];
+ const blockIds=['auditBtn','viewTable'];
  for(const id of blockIds){const e=document.getElementById(id);if(e){e.disabled=true;e.title='Indisponivel nesta fase SQLite'}}
  function status(msg){banner.textContent=msg}
  function lock(flag){busy=flag;const b=document.getElementById('saveBtn');if(b)b.disabled=flag||!ready}
@@ -67,6 +67,24 @@
    return ok;
   }
  };
+ // B2.7-B: CSV/XLSX utilizam a mesma transacao de favoritos, categorias e etiquetas.
+ window.sqliteSpreadsheetBridge={
+  available(){return ready&&!busy},
+  async commitPlan(next){
+   if(!ready||busy||!Array.isArray(next))return false;
+   const ids=new Set(),urls=new Set();
+   for(const f of next){
+    const key=urlKey(f.url);
+    if(!validFavorite(f)||!key||ids.has(f.id)||urls.has(key)){
+     alert('Importacao cancelada: favorito invalido, ID ou URL duplicada.');return false;
+    }
+    ids.add(f.id);urls.add(key);
+   }
+   const ok=await commit(next,'importar planilha CSV/XLSX');
+   if(ok){selectedIds.clear();resetForm();renderCategories();render()}
+   return ok;
+  }
+ };
  // Captura o submit antes do manipulador legado que gravaria em localStorage.
  document.addEventListener('submit',async function(e){if(e.target.id!=='siteForm'){e.preventDefault();e.stopImmediatePropagation();blocked();return}
  e.preventDefault();e.stopImmediatePropagation();if(!ready||busy)return;
@@ -87,7 +105,7 @@
  document.addEventListener('click',function(e){const b=e.target.closest('button');if(!b)return;
  const label=(b.textContent||'').trim();
  if(b.closest('#categoryList')||b.id==='addCategory'||b.closest('#tagList')||b.id==='addTag'||['applyCategory','applyTags','applyPriority','batchDelete'].includes(b.id))return;
- if(['Renomear','Adicionar','Aplicar categoria','Aplicar tags','Aplicar prioridade','Excluir selecionados','Confirmar importação','Renomear etiqueta','Excluir etiqueta'].some(s=>label===s||label.startsWith(s+' ')) || b.classList.contains('star')){
+ if(['Renomear','Adicionar','Aplicar categoria','Aplicar tags','Aplicar prioridade','Excluir selecionados','Renomear etiqueta','Excluir etiqueta'].some(s=>label===s||label.startsWith(s+' ')) || b.classList.contains('star')){
  e.preventDefault();e.stopImmediatePropagation();blocked();}
  },true);
  // B2.4-B: catalogo de categorias em uma unica gravacao transacional.

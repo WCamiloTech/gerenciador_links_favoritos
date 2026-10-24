@@ -357,3 +357,15 @@ Usar `docs/modelo_registro_implementacao.md` e `tools/registrar_implementacao.py
 - **Backup anterior ao registro:** C:\Users\Will\Downloads\00_Arquivos_gerenciador_links_arquivos_19_10_2026\pre_encerramento_B27A_2026-10-24_18-45-57.zip
 - **SHA-256 do backup:** 8175B20FF82634437713E1C20D9C48DD0E413A45D44E955314CA21AA777D16A6
 - **Situacao:** B2.7-A encerrada documentalmente.
+
+## Etapa 5D.3.2-B2.7-B — Importacao CSV/XLSX SQLite (encerramento)
+- **Data e hora:** 2026-10-24T20:28:38-03:00
+- **Registro:** 5D32B27B-VALID-2026-10-24
+- **Escopo:** CSV e XLSX com previa, confirmacao, integracao SQLite, persistencia, atualizacao por URL, duplicados, desfazer e conflito HTTP 409 (conforme suite automatizada).
+- **Testes automatizados:** 15/15 aprovados em 26,014 s; resultado informado pelo usuario. Nenhum teste reexecutado no encerramento.
+- **Validacao funcional informada:** CSV no Chrome (previa, confirmacao, listagem, F5); compartilhamento Chrome/Firefox; XLSX no Firefox (previa, confirmacao, listagem, F5).
+- **Banco de testes utilizado na validacao:** B27A_teste_importacao.db (conforme procedimento relatado).
+- **Integridade do codigo no encerramento (SHA-256):** {"js/importacao-planilhas.js": "FC4C684B8150345A5176F43D17B64967FE8AF797A169C459E134488748203B09", "js/sqlite-principal-gravacao.js": "CEAC7DFD05B536D1CC722D5A0704AB959FDF1810AB46FEAE7A4A09C15ACA7DD4", "tests/e2e/test_sqlite_playwright.py": "2CF51916131DCD8EE726A539A4DE30CCF2AA692FDD8D2DA617E6D0CBB7AE27F8"}
+- **Backup da documentacao anterior ao registro:** C:\Users\Will\Downloads\00_Arquivos_gerenciador_links_arquivos_19_10_2026\pre_encerramento_B27B_2026-10-24_20-28-38.zip
+- **SHA-256 do backup:** E84A7DFCD4FB05A06B930C94DE9AAEB3704F0A539B2C23713EB080C64A1821F9
+- **Situacao:** B2.7-B aprovada e encerrada documentalmente. Pendencias de exportacao/backup SQLite e demais etapas continuam independentes.
