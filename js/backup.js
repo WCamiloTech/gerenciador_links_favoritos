@@ -1,5 +1,6 @@
 // Etapa 3: backup JSON, sem mudanças na lógica.
 // Backup JSON v3: inclui catálogo de categorias, etiquetas não utilizadas e preferências.
+// Historico de importacao e local a este navegador; favoritos sao persistidos no SQLite em modo servidor.
 const BACKUP_HISTORY_KEY='gerenciador_favoritos_import_history_v1_6';
 let pendingBackup=null;
 function uniqueNames(values,limit=80){
@@ -116,9 +117,10 @@ $('confirmBackup').addEventListener('click',()=>{
 // O handler legado continua disponivel fora do servidor local.
 document.addEventListener('click',async event=>{
  const button=event.target.closest('button');
- if(!button||button.id!=='confirmBackup'||!window.sqliteJsonImportBridge)return;
+ if(!button||button.id!=='confirmBackup'||!['localhost','127.0.0.1'].includes(location.hostname))return;
  event.preventDefault();event.stopImmediatePropagation();
- if(!pendingBackup||!window.sqliteJsonImportBridge.available())return;
+ if(!pendingBackup)return;
+ if(!window.sqliteJsonImportBridge?.available()){alert('SQLite indisponivel. Importacao cancelada sem gravacao local.');return;}
  const mode=$('backupMode').value;
  const plan=backupPlan(mode);
  if(!confirm(mode==='restore'

@@ -39,3 +39,4 @@ Esta lista e um roteiro de trabalho, nao prova de testes executados.
 - [ ] Backup previo e SHA-256.
 - [ ] Instalacao concluida e validacao funcional suficiente.
 - [ ] Historico, auditoria JSONL, melhorias e README atualizados.
+- [x] B2.7-C — Auditoria e consolidacao preventiva de importacoes SQLite; 2/2 testes direcionados aprovados. (5D32B27C-VALID-2026-10-25)

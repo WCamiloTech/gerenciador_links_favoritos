@@ -102,9 +102,10 @@ $('confirmCsv').addEventListener('click',()=>{
 // A leitura/previa continuam iguais; nenhuma gravacao localStorage no modo SQLite.
 document.addEventListener('click',async event=>{
  const button=event.target.closest('button');
- if(!button||button.id!=='confirmCsv'||!window.sqliteSpreadsheetBridge)return;
+ if(!button||button.id!=='confirmCsv'||!['localhost','127.0.0.1'].includes(location.hostname))return;
  event.preventDefault();event.stopImmediatePropagation();
- if(!csvPending||!window.sqliteSpreadsheetBridge.available())return;
+ if(!csvPending)return;
+ if(!window.sqliteSpreadsheetBridge?.available()){alert('SQLite indisponivel. Importacao cancelada sem gravacao local.');return;}
  const {items,invalid,duplicates}=csvPending;
  const updates=$('updateExisting').checked;
  // Plano baseado na revisao carregada. O servidor recusa alteracoes concorrentes (409).

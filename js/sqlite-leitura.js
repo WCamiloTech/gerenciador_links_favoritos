@@ -38,7 +38,7 @@
         body.append(tr);
       }
       table.append(body); list.append(table);
-      status.textContent = `${state.favorites.length} favoritos, ${state.categories.length} categorias, ${state.tags.length} etiquetas. Revisao ${state.revision}. Somente leitura: o cadastro principal continua no localStorage.`;
+      status.textContent = `${state.favorites.length} favoritos, ${state.categories.length} categorias, ${state.tags.length} etiquetas. Revisao ${state.revision}. Painel de consulta SQLite. No modo servidor, o SQLite e a fonte principal dos favoritos.`;
     } catch (error) {
       list.replaceChildren();
       status.textContent = 'Falha na leitura SQLite (' + error.message + '). Nenhum dado foi alterado.';

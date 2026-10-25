@@ -369,3 +369,17 @@ Usar `docs/modelo_registro_implementacao.md` e `tools/registrar_implementacao.py
 - **Backup da documentacao anterior ao registro:** C:\Users\Will\Downloads\00_Arquivos_gerenciador_links_arquivos_19_10_2026\pre_encerramento_B27B_2026-10-24_20-28-38.zip
 - **SHA-256 do backup:** E84A7DFCD4FB05A06B930C94DE9AAEB3704F0A539B2C23713EB080C64A1821F9
 - **Situacao:** B2.7-B aprovada e encerrada documentalmente. Pendencias de exportacao/backup SQLite e demais etapas continuam independentes.
+
+## Etapa 5D.3.2-B2.7-C — Auditoria e consolidacao preventiva das importacoes
+- **Data e hora:** 2026-10-25T16:15:43-03:00
+- **Registro:** 5D32B27C-VALID-2026-10-25
+- **B2.7-C:** auditoria de JSON, CSV, XLSX, codigo legado e SQLite.
+- **B2.7-C.1:** protecao preventiva contra gravacao legada e atualizacao de mensagem SQLite; instalada pelo usuario.
+- **B2.7-C.2:** 2/2 testes direcionados aprovados em 13,613 s (JSON/Chromium e CSV/Firefox); resultado informado pelo usuario.
+- **Validacoes:** falha controlada, preservacao dos favoritos, ausencia de gravacao indevida no localStorage e recuperacao.
+- **Relatorio da validacao:** C:\Users\Will\Downloads\00_Arquivos_gerenciador_links_arquivos_19_10_2026\B27C2_validacao_2026-10-25_16-11-53.txt
+- **SHA-256 do relatorio:** A62D1372D2E5F34DBE490108563E464FC84D650FA7392BEC1F7B4835B1D8BCEC
+- **SHA-256 do codigo:** {"js/backup.js": "0C9F7F91BBF99B05F3539D813AFFBDEB18B355CECA3DF3D2BC67AB9BCACE1998", "js/importacao-planilhas.js": "89FF263C09C4AC6CB08A54867200BBB6628E179185F8C883EDB49AECE2867C59", "js/sqlite-leitura.js": "5A241290CF6EDAC165BFCF192A61FA79EE53B0546EFD0A2CABC6D153BFF67071", "js/sqlite-principal-gravacao.js": "CEAC7DFD05B536D1CC722D5A0704AB959FDF1810AB46FEAE7A4A09C15ACA7DD4", "tests/e2e/test_sqlite_playwright.py": "2CF51916131DCD8EE726A539A4DE30CCF2AA692FDD8D2DA617E6D0CBB7AE27F8"}
+- **Backup previo (codigo e documentacao):** C:\Users\Will\Downloads\00_Arquivos_gerenciador_links_arquivos_19_10_2026\pre_encerramento_B27C_2026-10-25_16-15-43.zip
+- **SHA-256 do backup:** 73BAB3823580BAAFB88CC4A4F8757043BE22DB1369E701910494DAFD79AAF95A
+- **Situacao:** B2.7-C encerrada documentalmente. Nao houve novos testes nem acesso a banco SQLite neste encerramento.
