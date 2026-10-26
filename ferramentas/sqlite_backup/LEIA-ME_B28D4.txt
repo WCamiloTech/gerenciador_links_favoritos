@@ -1,0 +1,19 @@
+B2.8-D.4 - Consolidacao controlada dos utilitarios SQLite
+
+ESCOPO
+- Instala apenas arquivos novos em ferramentas/sqlite_backup/.
+- Nao altera index.html, JS, servidor/app.py ou qualquer banco.
+- Nao cria agendamento, nao ativa SQLite, nao registra conclusao AUD-01 automaticamente.
+- Instalador recusa sobrescrever arquivos preexistentes.
+- Testes integrados criam bancos apenas em diretorios temporarios.
+
+INSTALACAO
+1. Extraia este ZIP em Downloads (pasta separada B28D4_pacote).
+2. Abra PowerShell.
+3. Simule: powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\B28D4_pacote\INSTALAR_B28D4.ps1"
+4. Aplique: powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\B28D4_pacote\INSTALAR_B28D4.ps1" -Aplicar
+
+Depois de instalar, verifique o retorno B28D4_INSTALACAO_OK.
+Nao execute restauracao sobre banco de producao: a flag --servidor-parado e declaratoria e nao detecta todas as conexoes abertas.
+Agendamento diario das 20h continua PENDENTE ate identificar banco definitivo.
+Commit GitHub somente apos confirmar instalacao e testes no Windows.
