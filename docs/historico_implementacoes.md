@@ -383,3 +383,33 @@ Usar `docs/modelo_registro_implementacao.md` e `tools/registrar_implementacao.py
 - **Backup previo (codigo e documentacao):** C:\Users\Will\Downloads\00_Arquivos_gerenciador_links_arquivos_19_10_2026\pre_encerramento_B27C_2026-10-25_16-15-43.zip
 - **SHA-256 do backup:** 73BAB3823580BAAFB88CC4A4F8757043BE22DB1369E701910494DAFD79AAF95A
 - **Situacao:** B2.7-C encerrada documentalmente. Nao houve novos testes nem acesso a banco SQLite neste encerramento.
+
+## Etapa B2.8-A — Encerramento documental (regularizacao)
+- **Data/hora do encerramento:** 2026-10-26T01:08:26-03:00
+- **Escopo:** Preferencia cards/tabela SQLite entre navegadores
+- **Testes:** 2/2 automatizados e 5/5 manuais, informados pelo usuario
+- **Backup de referencia:** B28A_codigo_referencia_2026-10-26_01-08-26.zip
+- **SHA-256 do backup:** F5868DE66C5C4F5488C58BA8D1BBE539AB5DAF074CC73640280AEA8D95D43B32
+- **Relatorio:** B28A_encerramento_2026-10-26_01-08-26.txt
+- **SHA-256 do relatorio:** BAD019629EDE8301FC03272202DF4631B034A2299355EB0225E8253D8CEA2547
+- **Origem:** resultados informados pelo usuario; regularizacao documental sem novos testes nem acesso SQLite.
+
+## Etapa B2.8-B — Encerramento documental (regularizacao)
+- **Data/hora do encerramento:** 2026-10-26T01:50:55-03:00
+- **Escopo:** Auditoria de URLs duplicadas SQLite
+- **Testes:** Teste 01 e Teste 02 aprovados em execucoes distintas, informados pelo usuario
+- **Backup de referencia:** B28B_codigo_referencia_2026-10-26_01-50-55.zip
+- **SHA-256 do backup:** 5B44EDEC75223AF1ABC29FBF510932D414510772E4672BC0608AAC346288C1ED
+- **Relatorio:** B28B_encerramento_2026-10-26_01-50-55.txt
+- **SHA-256 do relatorio:** 2B0CF2158ADD16681B067C036887E9AC739F3202C5401EBCC1ECAEBA8DAE28B6
+- **Origem:** resultados informados pelo usuario; regularizacao documental sem novos testes nem acesso SQLite.
+
+## Etapa B2.8-C — Encerramento documental (regularizacao)
+- **Data/hora do encerramento:** 2026-10-26T02:13:08-03:00
+- **Escopo:** Exportacao JSON/CSV com leitura SQLite atualizada e reimportacao JSON
+- **Testes:** Exportacao dados/datas aprovada; exportacao stale corrigida e retestada 1/1; reimportacao JSON 2/2
+- **Backup de referencia:** B28C_codigo_referencia_2026-10-26_02-13-08.zip
+- **SHA-256 do backup:** B7E26C36F330528C7D246992B7BBB9F2BA3EB33CE007A1292685B3044739F056
+- **Relatorio:** B28C_encerramento_2026-10-26_02-13-08.txt
+- **SHA-256 do relatorio:** 9F5D7AC80F7AE5901739886AE0A017C9FC194F8207E99EDF62340DD29EB53FB7
+- **Origem:** resultados informados pelo usuario; regularizacao documental sem novos testes nem acesso SQLite.

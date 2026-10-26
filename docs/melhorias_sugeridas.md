@@ -171,3 +171,10 @@
 - **Data de aplicacao:** Nao aplicada
 - **Observacoes:** Distinguir HTTP 404/410, timeout, redirecionamento, 403/429 e bloqueios anti-bot; nunca excluir automaticamente.
 
+
+### Atualizacao de acompanhamento MEL-013 — 2026-10-26 (B2.8-A a B2.8-C)
+- **Situacao:** Em desenvolvimento; nucleo SQLite ampliado, nao concluido para producao.
+- **Etapas encerradas:** B2.8-A (preferencia cards/tabela), B2.8-B (auditoria de duplicados), B2.8-C (exportacao JSON/CSV e reimportacao JSON).
+- **MEL-014:** Pendente; backup automatico consistente e restauracao integral SQLite ainda nao implementados/validados.
+- **MEL-015:** Parcial; testes direcionados aprovados, suite geral de regressao pendente.
+- **Nota:** atualizacao documental retroativa com base em resultados informados pelo usuario.

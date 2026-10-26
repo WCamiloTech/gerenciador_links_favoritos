@@ -57,6 +57,8 @@ class SQLiteBrowserTests(unittest.TestCase):
         },ensure_ascii=False),encoding='utf-8')
         migration.import_backup(backup,self.db)
         self.server = ThreadingHTTPServer(('127.0.0.1',0),api.make_handler(self.db,True))
+        self.server.daemon_threads = False
+        self.server.block_on_close = True
         self.thread = threading.Thread(target=self.server.serve_forever,daemon=True)
         self.thread.start()
         self.url = f'http://127.0.0.1:{self.server.server_port}'

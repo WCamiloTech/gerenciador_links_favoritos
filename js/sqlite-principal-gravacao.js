@@ -10,14 +10,14 @@
  const blocked=()=>{alert('Operacao ainda indisponivel na integracao SQLite B2.2.');return false};
  // Bloqueia todas as rotas antigas de persistencia; CRUD usa apenas /api/state.
  saveFavorites=blocked;saveSettings=blocked;persistTags=blocked;
- const blockIds=['auditBtn','viewTable'];
- for(const id of blockIds){const e=document.getElementById(id);if(e){e.disabled=true;e.title='Indisponivel nesta fase SQLite'}}
+ // B2.8-B: auditoria disponivel apenas apos a leitura SQLite concluir.
  function status(msg){banner.textContent=msg}
  function lock(flag){busy=flag;const b=document.getElementById('saveBtn');if(b)b.disabled=flag||!ready}
  async function fetchState(){const response=await fetch('/api/state',{cache:'no-store'});if(!response.ok)throw Error('Falha na leitura: HTTP '+response.status);return response.json()}
  function apply(s){if(!Array.isArray(s.favorites)||!Array.isArray(s.categories)||!Array.isArray(s.tags)||!Number.isInteger(s.revision)||!s.favorites.every(validFavorite))throw Error('Resposta SQLite invalida');
  favorites=s.favorites.map(upgrade);categories=[...s.categories];managedTags=[...s.tags];settings={...s.settings};revision=s.revision;
- selectedIds.clear();undoState=null;document.getElementById('undoBtn').disabled=!undoSnapshot;renderCategories();render();ready=true;lock(false);
+ if(['cards','table'].includes(settings.view))view=settings.view;
+ selectedIds.clear();undoState=null;document.getElementById('undoBtn').disabled=!undoSnapshot;renderCategories();render();ready=true;lock(false);const auditBtn=document.getElementById('auditBtn');if(auditBtn){auditBtn.disabled=false;auditBtn.title='Auditar URLs duplicadas no SQLite';}
  status(`SQLite: ${favorites.length} favoritos, ${categories.length} categorias, ${managedTags.length} etiquetas · revisao ${revision}. Favoritos, categorias, etiquetas e operacoes em lote habilitados. Outras alteracoes bloqueadas.`)}
  async function refresh(){ready=false;lock(true);try{apply(await fetchState())}catch(e){ready=false;lock(true);status('SQLite indisponivel: '+e.message+'. Gravacao bloqueada.');throw e}}
  async function commit(next,operation,explicitCategories=null,explicitTags=null,recordUndo=true,explicitSettings=null){if(!ready||busy)return false;
@@ -34,6 +34,80 @@
   return true;
  }catch(e){status('Erro em '+operation+': '+e.message+'. Verifique os dados antes de tentar novamente.');alert('Nao foi possivel salvar no SQLite: '+e.message);return false}
  finally{lock(false)}}
+ // B2.8-C.2: exportacoes SQLite leem snapshot atualizado; falhas bloqueiam download.
+ // Captura antes dos listeners legados para evitar exportar dados em memoria desatualizados.
+ let exporting=false;
+ document.addEventListener('click',async event=>{
+  const button=event.target.closest('button');
+  if(!button||!['exportBtn','exportCsvBtn'].includes(button.id))return;
+  event.preventDefault();event.stopImmediatePropagation();
+  if(exporting)return;
+  exporting=true;
+  try{
+   const current=await fetchState();
+   if(!Array.isArray(current.favorites)||!Array.isArray(current.categories)||!Array.isArray(current.tags)||
+      !Number.isInteger(current.revision)||!current.favorites.every(validFavorite))throw Error('Resposta SQLite invalida');
+   const rows=current.favorites.map(upgrade);
+   const stamp=exportTimestamp();
+   if(button.id==='exportBtn'){
+    const data={app:'gerenciador-favoritos',version:3,exportedAt:new Date().toISOString(),
+     favorites:rows,categories:uniqueNames(current.categories,60),tags:uniqueNames(current.tags),
+     settings:{view:['cards','table'].includes(current.settings?.view)?current.settings.view:view,
+      theme:document.body.classList.contains('dark')?'dark':'light'}};
+    downloadText('favoritos-backup-completo-'+stamp+'.json',JSON.stringify(data,null,2),'application/json;charset=utf-8');
+   }else{
+    const lines=[csvHeaders,...rows.map(f=>[f.name,f.url,f.description,dateForInput(f.createdAt),f.notes,f.category,f.tags.join(', '),f.priority?'Sim':'Não'])];
+    downloadText('favoritos-'+stamp+'.csv','\uFEFF'+lines.map(r=>r.map(csvCell).join(';')).join('\r\n'),'text/csv;charset=utf-8');
+   }
+  }catch(error){alert('Exportacao cancelada: nao foi possivel consultar o SQLite atualizado. '+error.message)}
+  finally{exporting=false}
+ },true);
+ // B2.8-B: auditoria SQLite; nao utiliza commitWithUndo/localStorage.
+ function sqliteAuditDuplicates(){
+  if(!ready||busy)return;
+  const groups=new Map();
+  for(const f of favorites){const key=urlKey(f.url);if(!key)continue;if(!groups.has(key))groups.set(key,[]);groups.get(key).push(f)}
+  const list=document.getElementById('auditList');list.replaceChildren();let total=0;
+  for(const [key,group] of groups){if(group.length<2)continue;total++;
+   const section=el('div','notice');section.append(el('strong','',key));
+   for(const f of group){const line=el('div','audit-item');const info=el('span','small',f.name+' · '+f.url+' · '+localDate(f.createdAt));
+    const button=action('Excluir este registro','danger',async()=>{
+     if(!ready||busy)return;
+     if(!confirm('Excluir somente “'+f.name+'”? Os outros registros permanecerao.'))return;
+     const ok=await commit(favorites.filter(x=>x.id!==f.id),'Remover duplicado SQLite');
+     if(ok){if(editingId===f.id)resetForm();sqliteAuditDuplicates()}
+    });line.append(info,button);section.append(line)}list.append(section)
+  }
+  if(!total)list.append(el('p','preview-ok','Nenhuma URL duplicada encontrada.'));
+  document.getElementById('auditModal').classList.remove('hidden');
+ }
+ // Captura antes do listener legado, preservando-o fora do modo SQLite.
+ document.addEventListener('click',function(e){
+  const button=e.target.closest('button');if(!button||button.id!=='auditBtn')return;
+  e.preventDefault();e.stopImmediatePropagation();sqliteAuditDuplicates();
+ },true);
+ // B2.8-A: preferencias de visualizacao persistidas no SQLite.
+ // Intercepta os botoes antes dos handlers legados de saveSettings.
+ async function changeView(nextView){
+  if(!ready||busy||view===nextView)return;
+  lock(true);
+  try{
+   const response=await fetch('/api/state',{
+    method:'PUT',headers:{'Content-Type':'application/json','If-Match':String(revision)},
+    body:JSON.stringify({favorites,categories,tags:managedTags,settings:{...settings,view:nextView}})
+   });
+   if(response.status===409){await refresh();alert('Outro navegador alterou os dados. Estado atualizado; tente novamente.');return}
+   if(!response.ok)throw Error('HTTP '+response.status);
+   await refresh();
+  }catch(e){status('Erro ao alterar visualizacao: '+e.message);alert('Nao foi possivel salvar a visualizacao no SQLite: '+e.message)}
+  finally{lock(false)}
+ }
+ document.addEventListener('click',function(e){
+  const button=e.target.closest('button');
+  if(!button||!['viewCards','viewTable'].includes(button.id))return;
+  e.preventDefault();e.stopImmediatePropagation();
+  void changeView(button.id==='viewTable'?'table':'cards');
+ },true);
  // Desfazer e uma nova transacao SQLite, protegida por If-Match/revisao.
  window.sqliteUndoBridge={
   async undo(){
