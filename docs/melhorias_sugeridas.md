@@ -129,6 +129,7 @@
 - **Observacoes:** Nao marcar como aplicada antes de validacao funcional no Windows.
 
 ### MEL-014 - Backups e recuperacao do SQLite
+- **AUD-01 2026-10-29T02:44:07-03:00:** em andamento (B2.8-D.4, evento EC992786A6D3C8F4EC93D00F).
 
 - **Data da sugestao:** 2026-10-22
 - **Descricao:** Implementar backup consistente do banco SQLite, restauracao testada, controle de conflitos e verificacao de integridade.

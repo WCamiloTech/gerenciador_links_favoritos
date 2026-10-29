@@ -413,3 +413,10 @@ Usar `docs/modelo_registro_implementacao.md` e `tools/registrar_implementacao.py
 - **Relatorio:** B28C_encerramento_2026-10-26_02-13-08.txt
 - **SHA-256 do relatorio:** 9F5D7AC80F7AE5901739886AE0A017C9FC194F8207E99EDF62340DD29EB53FB7
 - **Origem:** resultados informados pelo usuario; regularizacao documental sem novos testes nem acesso SQLite.
+
+
+## AUD-01 — B2.8-D.4 — concluida
+- **Data e hora:** 2026-10-29T02:44:07-03:00
+- **Descricao:** Mecanismos SQLite de backup, retencao e restauracao incorporados ao projeto; cinco testes integrados aprovados no Windows; agendamento e banco definitivo pendentes.
+- **ID auditoria:** `EC992786A6D3C8F4EC93D00F`
+- **Evidencia:** `C:\Users\Will\gerenciador_links_favoritos\ferramentas\sqlite_backup\TESTAR_INTEGRACAO_B28D4.py` — SHA-256 `3B5FDEA814114E7E8C2B86AB29CB51DCA93BA761705D5706E0C60C13D92C3665`
